@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 token = open("token.txt", "r").read()
-prefix = "sb!"
+prefix = "s!"
 bot = commands.Bot(command_prefix=prefix,
                    description="Description yet to be added...")
 
