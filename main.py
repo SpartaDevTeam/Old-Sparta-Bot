@@ -67,8 +67,7 @@ async def addmodrole(ctx):
 
 
 @bot.command(name="warn")
-async def warn(ctx, user: discord.User):
-    reason = ctx.message.split(", ")[1]
+async def warn(ctx, user: discord.User, *, reason):
     print(f"Warning user {user.name} for {reason}...")
     mod_roles = open("modlist.txt", "r")
     for role_id in mod_roles.readlines():
