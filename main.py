@@ -61,7 +61,7 @@ async def addmodrole(ctx):
         mod_roles = open("modlist.txt", "a")
         mod_roles.writelines(str(role.id) + "\n")
         mod_roles.close()
-        await ctx.send(f"Role {role} has been added to Moderator Roles list.")
+        await ctx.send(f"Role {role.mention} has been added to Moderator Roles list.")
     else:
         await ctx.send("You are not allowed to use this command!")
 
