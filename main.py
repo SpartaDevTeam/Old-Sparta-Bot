@@ -21,11 +21,11 @@ async def on_member_join(member):
 
     # Channel Links
     for channel in channels:
-        if str(channel).find("rules") != -1:
-            rules_server = guild.get_channel(int(channel.id))
+        if "rules" in str(channel):
+            rules_server = channel
             print("rules channel found")
-        elif str(channel).find("self-roles") != -1:
-            self_roles_channel = guild.get_channel(int(channel.id))
+        elif "self-role" in str(channel):
+            self_roles_channel = channel
             print("self-roles channel found")
 
     # Welcome Message
