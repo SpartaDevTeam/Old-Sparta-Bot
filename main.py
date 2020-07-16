@@ -24,7 +24,7 @@ async def on_member_join(member):
         if "rules" in str(channel):
             rules_server = channel
             print("rules channel found")
-        elif "self-role" in str(channel):
+        if "self-role" in str(channel):
             self_roles_channel = channel
             print("self-roles channel found")
 
