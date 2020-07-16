@@ -49,7 +49,8 @@ async def hello(ctx):
 
 @bot.command(name="ping")
 async def ping(ctx):
-    await ctx.send(f"Ping(ms): {bot.latency}")
+    latency_ms = bot.latency * 1000
+    await ctx.send(f"Ping(ms): {latency_ms}")
 
 
 bot.run(token)
