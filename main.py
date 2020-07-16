@@ -14,12 +14,31 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    channels = member.guild.channels
+    guild = member.guild
+    channels = guild.channels
+    rules_server = None
+    self_roles_server = None
 
     for channel in channels:
+        # Channel Links
+        if str(channel).find("rules") != -1:
+            rules_server = guild.get_channel(int(channel.id))
+            print("rules channel found")
+        elif str(channel).find("self-roles") != -1:
+            self_roles_channel = guild.get_channel(int(channel.id))
+            print("self-roles channel found")
+
+        # Welcome message
         if "welcome" in str(channel):
             print(f"{member} has joined the server...")
-            await channel.send(f"Welcome, {member.mention}, to the Official Sparta々Gaming Server")
+
+            msg = f"Welcome, {member.mention}, to the Official {guild.name} Server\n"
+            if rules_server != None:
+                msg += f"Please check the rules at {rules_server.mention}\n"
+            if self_roles_server != None:
+                msg += f"Get your self-role at {self_roles_channel.mention}.\n"
+
+            await channel.send(msg)
 
 
 @bot.command(name="hello")
