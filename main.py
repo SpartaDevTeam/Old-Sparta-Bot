@@ -47,4 +47,9 @@ async def hello(ctx):
     await ctx.send("Hi, I am Sparta Bot!")
 
 
+@bot.command(name="ping")
+async def ping(ctx):
+    await ctx.send(f"Ping(ms): {bot.latency}")
+
+
 bot.run(token)
