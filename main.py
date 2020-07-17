@@ -7,7 +7,7 @@ bot = commands.Bot(command_prefix=prefix,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
 
-
+global mod_list
 mod_roles = open("modlist.txt", "r+")
 mod_list = [int(role_id.replace("\n", ""))
             for role_id in mod_roles.readlines()]
@@ -95,6 +95,11 @@ async def addmodrole(ctx):
         if ctx.author.guild_permissions.administrator:
             mod_roles.writelines(str(role.id) + "\n")
             mod_roles.flush()
+
+            global mod_list
+            mod_list = [int(role_id.replace("\n", ""))
+                        for role_id in mod_roles.readlines()]
+
             await ctx.send(f"Role {role.mention} has been added to Moderator Roles list.")
         else:
             await ctx.send("You are not allowed to use this command!")
