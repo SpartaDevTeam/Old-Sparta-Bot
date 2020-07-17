@@ -4,7 +4,8 @@ from discord.ext import commands
 token = open("token.txt", "r").read()
 prefix = "s!"
 bot = commands.Bot(command_prefix=prefix,
-                   description="Description yet to be added...")
+                   description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
+                   help_command=None)
 
 warn_count = {}
 
@@ -44,6 +45,20 @@ async def on_member_join(member):
                 msg += f"Get your self-role at {self_roles_channel.mention}.\n"
 
             await channel.send(msg)
+
+
+@bot.command(name="help")
+async def _help(ctx):
+    await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
+
+    embed = discord.Embed(title="Help")
+    embed.add_field(name=f"{prefix}help", value="Displays command help")
+    embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
+    embed.add_field(name=f"{prefix}ping", value="Get the bot's latency in milliseconds")
+    embed.add_field(name=f"{prefix}addmodrole", value="Give a role the permission to use Moderation commands")
+    embed.add_field(name=f"{prefix}warn", value="Warn a user for doing something")
+
+    await ctx.author.send("Here is the command help:", embed=embed)
 
 
 @bot.command(name="hello")
