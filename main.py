@@ -127,6 +127,9 @@ async def warn(ctx, user: discord.User, *, reason):
 
 @bot.command(name="warncount")
 async def warncount(ctx, user: discord.User):
+    if str(user) not in warn_count:
+        warn_count[str(user)] = 0
+
     count = warn_count[str(user)]
     await ctx.send(f"{user.mention} has been warned {count} time(s)")
 
