@@ -163,6 +163,7 @@ async def getmodlist(ctx):
 async def on_message(message):
     await bot.process_commands(message)
 
+    print(mod_list)
     author = message.author
     channel = message.channel
 
