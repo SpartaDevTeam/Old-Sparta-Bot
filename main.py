@@ -79,8 +79,8 @@ async def ping(ctx):
 
 @bot.command(name="addmodrole")
 async def addmodrole(ctx):
-    role = ctx.message.role_mentions[0]
-    if role != None:
+    try:
+        role = ctx.message.role_mentions[0]
         if ctx.author.guild_permissions.administrator:
             mod_roles = open("modlist.txt", "a")
             mod_roles.writelines(str(role.id) + "\n")
@@ -88,32 +88,36 @@ async def addmodrole(ctx):
             await ctx.send(f"Role {role.mention} has been added to Moderator Roles list.")
         else:
             await ctx.send("You are not allowed to use this command!")
-    else:
-        await ctx.send("Please mention a role with the command.")
+    except IndexError:
+        await ctx.send("Role not provided")
 
 
 @bot.command(name="warn")
 async def warn(ctx, user: discord.User, *, reason):
-    try:
-        print(f"Warning user {user.name} for {reason}...")
-        mod_roles = open("modlist.txt", "r")
-        for role_id in mod_roles.readlines():
-            role_id = role_id.replace("\n", "")
-            if ctx.guild.get_role(int(role_id)) in ctx.author.roles:
-                if str(user) not in warn_count:
-                    warn_count[str(user)] = 1
-                else:
-                    warn_count[str(user)] += 1
-                embed = discord.Embed(title=f"{user.name} has been warned")
-                embed.add_field(name="Reason", value=reason)
-                embed.add_field(name="This user has been warned",
-                                value=f"{warn_count[str(user)]} time(s)")
+    print(f"Warning user {user.name} for {reason}...")
+    mod_roles = open("modlist.txt", "r")
+    for role_id in mod_roles.readlines():
+        role_id = role_id.replace("\n", "")
+        if ctx.guild.get_role(int(role_id)) in ctx.author.roles:
+            if str(user) not in warn_count:
+                warn_count[str(user)] = 1
+            else:
+                warn_count[str(user)] += 1
+            embed = discord.Embed(title=f"{user.name} has been warned")
+            embed.add_field(name="Reason", value=reason)
+            embed.add_field(name="This user has been warned",
+                            value=f"{warn_count[str(user)]} time(s)")
 
-                await ctx.send(content=None, embed=embed)
-                break
-        mod_roles.close()
-    except discord.ext.commands.errors.MissingRequiredArgument as error:
-        await ctx.send(error)
+            await ctx.send(content=None, embed=embed)
+            break
+    mod_roles.close()
+
+
+# DON'T INCLUDE IN HELP
+@bot.command(name="getmodlist")
+async def getmodlist(ctx):
+    file = discord.File(open("modlist.txt", "r"))
+    await ctx.send(content=None, file=file)
 
 
 bot.run(token)
