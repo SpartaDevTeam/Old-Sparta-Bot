@@ -11,7 +11,9 @@ bot = commands.Bot(command_prefix=prefix,
 mod_roles = open("modlist.txt", "r+")
 mod_list = [int(role_id.replace("\n", ""))
             for role_id in mod_roles.readlines()]
+
 warn_count = {}
+muted_users = []
 
 
 @bot.event
@@ -19,10 +21,8 @@ async def on_ready():
     server_count = len(bot.guilds)
     activity = discord.Activity(
         type=discord.ActivityType.watching, name=f"{server_count} servers || {prefix}help")
+
     await bot.change_presence(activity=activity)
-
-    print(mod_list)
-
     print("Bot is ready...")
 
 
@@ -69,6 +69,10 @@ async def _help(ctx):
                     value="Give a role the permission to use Moderation commands")
     embed.add_field(name=f"{prefix}warn",
                     value="Warn a user for doing something")
+    embed.add_field(name=f"{prefix}warncount",
+                    value="Displays how many times a user has been warned")
+    embed.add_field(name=f"{prefix}mute", value="Mutes a user")
+    embed.add_field(name=f"{prefix}unmute", value="Unmutes a user")
 
     await ctx.author.send("Here is the command help:", embed=embed)
 
@@ -116,12 +120,49 @@ async def warn(ctx, user: discord.User, *, reason):
     await ctx.send(content=None, embed=embed)
 
 
+@bot.command(name="warncount")
+async def warncount(ctx, user: discord.User):
+    count = warn_count[str(user)]
+    await ctx.send(f"{user.mention} has been warned {count} time(s)")
+
+
+@bot.command(name="mute")
+@commands.has_any_role(*mod_list)
+async def mute(ctx, user: discord.User):
+    if str(user) in muted_users:
+        await ctx.send("This user has already been muted.")
+    else:
+        muted_users.append(str(user))
+        await ctx.send(f"User {user.mention} has been muted! They cannot speak anymore.")
+
+
+@bot.command(name="unmute")
+@commands.has_any_role(*mod_list)
+async def unmute(ctx, user: discord.User):
+    if str(user) in muted_users:
+        muted_users.remove(str(user))
+        await ctx.send(f"User {user.mention} has been unmuted! They can now speak.")
+    else:
+        await ctx.send("This user was never muted.")
+
+
 # DON'T INCLUDE IN HELP
 @bot.command(name="getmodlist")
 async def getmodlist(ctx):
     file = discord.File(open("modlist.txt", "r"))
     await ctx.send(content=None, file=file)
     file.fp.close()
+
+
+@bot.event
+async def on_message(message):
+    await bot.process_commands(message)
+
+    author = message.author
+    channel = message.channel
+
+    if str(author) in muted_users:
+        await channel.purge(limit=1)
 
 
 bot.run(token)
