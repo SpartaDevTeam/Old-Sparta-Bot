@@ -118,6 +118,7 @@ async def warn(ctx, user: discord.User, *, reason):
 async def getmodlist(ctx):
     file = discord.File(open("modlist.txt", "r"))
     await ctx.send(content=None, file=file)
+    file.fp.close()
 
 
 bot.run(token)
