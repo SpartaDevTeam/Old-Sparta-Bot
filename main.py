@@ -10,6 +10,9 @@ warn_count = {}
 
 @bot.event
 async def on_ready():
+    server_count = len(bot.guilds)
+    activity = discord.Activity(type=discord.ActivityType.watching, name=f"{server_count} servers")
+    await bot.change_presence(activity=activity)
     print("Bot is ready...")
 
 
