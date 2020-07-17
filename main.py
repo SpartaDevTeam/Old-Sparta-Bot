@@ -1,16 +1,20 @@
 import discord
 from discord.ext import commands
 
-token = open("token.txt", "r").read()
+with open("token.txt", "r") as file:
+    token = file.read()
 prefix = "s!"
 bot = commands.Bot(command_prefix=prefix,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
 
-global mod_list
 mod_roles = open("modlist.txt", "a+")
-mod_list = [int(role_id.replace("\n", ""))
-            for role_id in mod_roles.readlines()]
+
+
+def get_mod_list():
+    mod_roles.seek(0)
+    return [int(role_id.replace("\n", "")) for role_id in mod_roles.readlines()]
+
 
 warn_count = {}
 muted_users = []
@@ -96,10 +100,6 @@ async def addmodrole(ctx):
             mod_roles.writelines(str(role.id) + "\n")
             mod_roles.flush()
 
-            global mod_list
-            mod_list = [int(role_id.replace("\n", ""))
-                        for role_id in mod_roles.readlines()]
-
             await ctx.send(f"Role {role.mention} has been added to Moderator Roles list.")
         else:
             await ctx.send("You are not allowed to use this command!")
@@ -108,7 +108,7 @@ async def addmodrole(ctx):
 
 
 @bot.command(name="warn")
-@commands.has_any_role(*mod_list)
+@commands.has_any_role(*get_mod_list())
 async def warn(ctx, user: discord.User, *, reason):
     print(f"Warning user {user.name} for {reason}...")
 
@@ -132,7 +132,7 @@ async def warncount(ctx, user: discord.User):
 
 
 @bot.command(name="mute")
-@commands.has_any_role(*mod_list)
+@commands.has_any_role(*get_mod_list())
 async def mute(ctx, user: discord.User):
     if str(user) in muted_users:
         await ctx.send("This user has already been muted.")
@@ -142,7 +142,7 @@ async def mute(ctx, user: discord.User):
 
 
 @bot.command(name="unmute")
-@commands.has_any_role(*mod_list)
+@commands.has_any_role(*get_mod_list())
 async def unmute(ctx, user: discord.User):
     if str(user) in muted_users:
         muted_users.remove(str(user))
@@ -163,7 +163,7 @@ async def getmodlist(ctx):
 async def on_message(message):
     await bot.process_commands(message)
 
-    print(mod_list)
+    print(get_mod_list())
     author = message.author
     channel = message.channel
 
