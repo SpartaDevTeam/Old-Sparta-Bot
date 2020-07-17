@@ -8,7 +8,7 @@ bot = commands.Bot(command_prefix=prefix,
                    help_command=None)
 
 global mod_list
-mod_roles = open("modlist.txt", "r+")
+mod_roles = open("modlist.txt", "a+")
 mod_list = [int(role_id.replace("\n", ""))
             for role_id in mod_roles.readlines()]
 
