@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 
@@ -16,17 +17,22 @@ def get_mod_list():
     return [int(role_id.replace("\n", "")) for role_id in mod_roles.readlines()]
 
 
+async def update_presence():
+    while True:
+        server_count = len(bot.guilds)
+        activity = discord.Activity(
+            type=discord.ActivityType.watching, name=f"{server_count} servers || {prefix}help")
+        await bot.change_presence(activity=activity)
+        await asyncio.sleep(10)
+
+
 warn_count = {}
 muted_users = []
 
 
 @bot.event
 async def on_ready():
-    server_count = len(bot.guilds)
-    activity = discord.Activity(
-        type=discord.ActivityType.watching, name=f"{server_count} servers || {prefix}help")
-
-    await bot.change_presence(activity=activity)
+    bot.loop.create_task(update_presence())
     print("Bot is ready...")
 
 
