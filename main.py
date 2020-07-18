@@ -70,7 +70,7 @@ async def on_member_join(member):
 async def _help(ctx):
     await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
 
-    embed = discord.Embed(title="Help")
+    embed = discord.Embed(title="Help", color=discord.Color.blurple)
     embed.add_field(name=f"{prefix}help", value="Displays command help")
     embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
     embed.add_field(name=f"{prefix}ping",
@@ -83,6 +83,7 @@ async def _help(ctx):
                     value="Displays how many times a user has been warned")
     embed.add_field(name=f"{prefix}mute", value="Mutes a user")
     embed.add_field(name=f"{prefix}unmute", value="Unmutes a user")
+    embed.add_field(name=f"{prefix}ban", value="Bans a user from the server")
 
     await ctx.author.send("Here is the command help:", embed=embed)
 
@@ -115,20 +116,23 @@ async def addmodrole(ctx):
 
 @bot.command(name="warn")
 @commands.has_any_role(*get_mod_list())
-async def warn(ctx, user: discord.User, *, reason):
-    print(f"Warning user {user.name} for {reason}...")
-
-    if str(user) not in warn_count:
-        warn_count[str(user)] = 1
+async def warn(ctx, user: discord.User = None, *, reason=None):
+    if user == None or reason == None:
+        await ctx.send("Insufficient arguments.")
     else:
-        warn_count[str(user)] += 1
+        print(f"Warning user {user.name} for {reason}...")
 
-    embed = discord.Embed(title=f"{user.name} has been warned")
-    embed.add_field(name="Reason", value=reason)
-    embed.add_field(name="This user has been warned",
-                    value=f"{warn_count[str(user)]} time(s)")
+        if str(user) not in warn_count:
+            warn_count[str(user)] = 1
+        else:
+            warn_count[str(user)] += 1
 
-    await ctx.send(content=None, embed=embed)
+        embed = discord.Embed(title=f"{user.name} has been warned")
+        embed.add_field(name="Reason", value=reason)
+        embed.add_field(name="This user has been warned",
+                        value=f"{warn_count[str(user)]} time(s)")
+
+        await ctx.send(content=None, embed=embed)
 
 
 @bot.command(name="warncount")
@@ -158,6 +162,16 @@ async def unmute(ctx, user: discord.User):
         await ctx.send(f"User {user.mention} has been unmuted! They can now speak.")
     else:
         await ctx.send("This user was never muted.")
+
+
+@bot.command(name="ban")
+@commands.has_any_role(*get_mod_list())
+async def ban(ctx, user: discord.User = None, *, reason=None):
+    if user == None or reason == None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.guild.ban(user, reason=reason)
+        await ctx.send(f"User {user.mention} has been banned for reason: **{reason}**.")
 
 
 # DON'T INCLUDE IN HELP
