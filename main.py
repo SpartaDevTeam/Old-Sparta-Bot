@@ -70,7 +70,8 @@ async def on_member_join(member):
 async def _help(ctx):
     await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
 
-    embed = discord.Embed(title="Help", color=discord.Colour.blurple)
+    embed = discord.Embed(title="Help", color=discord.Colour.blurple())
+
     embed.add_field(name=f"{prefix}help", value="Displays command help")
     embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
     embed.add_field(name=f"{prefix}ping",
