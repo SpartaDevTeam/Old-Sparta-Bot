@@ -170,14 +170,13 @@ async def getmodlist(ctx):
 
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
-
-    print(get_mod_list())
     author = message.author
     channel = message.channel
 
     if str(author) in muted_users:
         await channel.purge(limit=1)
+
+    await bot.process_commands(message)
 
 
 bot.run(token)
