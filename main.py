@@ -79,7 +79,7 @@ async def _help(ctx):
     await ctx.author.send("Here is the command help:", embed=embed)
 
 
-@_help.command(name="misc")
+@_help.command(name="misc", invoke_without_command=True)
 async def misc_help(ctx):
     embed = discord.Embed(title="Misc. Help", color=theme_color)
 
