@@ -67,7 +67,7 @@ async def on_member_join(member):
             await channel.send(msg)
 
 
-@bot.group(name="help")
+@bot.group(name="help", invoke_without_command=True)
 async def _help(ctx):
     await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
 
@@ -79,7 +79,7 @@ async def _help(ctx):
     await ctx.author.send("Here is the command help:", embed=embed)
 
 
-@_help.command(name="misc", invoke_without_command=True)
+@_help.command(name="misc")
 async def misc_help(ctx):
     embed = discord.Embed(title="Misc. Help", color=theme_color)
 
