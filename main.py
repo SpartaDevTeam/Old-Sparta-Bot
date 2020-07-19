@@ -28,6 +28,7 @@ async def update_presence():
 
 warn_count = {}
 muted_users = []
+theme_color = discord.Colour.purple()
 
 
 @bot.event
@@ -66,16 +67,34 @@ async def on_member_join(member):
             await channel.send(msg)
 
 
-@bot.command(name="help")
+@bot.group(name="help")
 async def _help(ctx):
     await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
 
-    embed = discord.Embed(title="Help", color=discord.Colour.blurple())
+    embed = discord.Embed(title="Help", color=theme_color)
+
+    embed.add_field(name="misc", value="Miscellaneous Commands")
+    embed.add_field(name="mod", value="Moderator Commands")
+
+    await ctx.author.send("Here is the command help:", embed=embed)
+
+
+@_help.command(name="misc")
+async def misc_help(ctx):
+    embed = discord.Embed(title="Misc. Help", color=theme_color)
 
     embed.add_field(name=f"{prefix}help", value="Displays command help")
     embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
     embed.add_field(name=f"{prefix}ping",
                     value="Get the bot's latency in milliseconds")
+
+    await ctx.author.send("Here is Miscellaneous command help:", embed=embed)
+
+
+@_help.command(name="mod")
+async def mod_help(ctx):
+    embed = discord.Embed(title="Moderator Help", color=theme_color)
+
     embed.add_field(name=f"{prefix}addmodrole",
                     value="Give a role the permission to use Moderation commands")
     embed.add_field(name=f"{prefix}warn",
@@ -86,7 +105,7 @@ async def _help(ctx):
     embed.add_field(name=f"{prefix}unmute", value="Unmutes a user")
     embed.add_field(name=f"{prefix}ban", value="Bans a user from the server")
 
-    await ctx.author.send("Here is the command help:", embed=embed)
+    await ctx.author.send("Here is Moderator command help:", embed=embed)
 
 
 @bot.command(name="hello")
