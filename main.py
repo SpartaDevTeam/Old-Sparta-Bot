@@ -219,10 +219,10 @@ async def on_message(message):
     author = message.author
     channel = message.channel
 
+    await bot.process_commands(message)
+
     if str(author) in muted_users:
         await channel.purge(limit=1)
-
-    await bot.process_commands(message)
 
 
 bot.run(token)
