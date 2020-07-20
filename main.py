@@ -104,6 +104,7 @@ async def mod_help(ctx):
     embed.add_field(name=f"{prefix}mute", value="Mutes a user")
     embed.add_field(name=f"{prefix}unmute", value="Unmutes a user")
     embed.add_field(name=f"{prefix}ban", value="Bans a user from the server")
+    embed.add_field(name=f"{prefix}kick", value="Kicks a user from the server")
 
     await ctx.author.send("Here is Moderator command help:", embed=embed)
 
@@ -192,6 +193,17 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
     else:
         await ctx.guild.ban(user, reason=reason)
         await ctx.send(f"User {user.mention} has been banned for reason: **{reason}**.")
+
+
+@bot.command(name="kick")
+@commands.has_any_role(*get_mod_list())
+async def kick(ctx, user: discord.User = None, *, reason=None):
+    print("bruh")
+    if user == None or reason == None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.guild.kick(user, reason=reason)
+        await ctx.send(f"User {user.mention} has been kick for reason: **{reason}**.")
 
 
 # DON'T INCLUDE IN HELP
