@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import discord
 from discord.ext import commands
 
@@ -79,8 +80,8 @@ async def misc_help(ctx):
 
     embed.add_field(name=f"{prefix}help", value="Displays command help")
     embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
-    embed.add_field(name=f"{prefix}ping",
-                    value="Get the bot's latency in milliseconds")
+    embed.add_field(name=f"{prefix}info",
+                    value="Displays the bot's information")
     embed.add_field(
         name=f"{prefix}invite", value="Get the link to invite Sparta Bot to your server")
 
@@ -109,10 +110,21 @@ async def hello(ctx):
     await ctx.send("Hi, I am Sparta Bot!")
 
 
-@bot.command(name="ping")
-async def ping(ctx):
-    latency_ms = round(bot.latency * 1000)
-    await ctx.send(f"Ping: {latency_ms}ms")
+@bot.command(name="info")
+async def info(ctx):
+    embed = discord.Embed(title="Bot Information", color=theme_color)
+    ping = round(bot.latency * 1000)
+    guild_count = len(bot.guilds)
+    member_count = 0
+
+    for guild in bot.guilds:
+        member_count += len(guild.members)
+
+    embed.add_field(name="Ping", value=f"{ping}ms")
+    embed.add_field(name="Servers", value=guild_count)
+    embed.add_field(name="Users", value=member_count)
+
+    await ctx.send(content=None, embed=embed)
 
 
 @bot.command(name="invite")
