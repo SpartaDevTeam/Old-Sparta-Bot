@@ -9,13 +9,6 @@ bot = commands.Bot(command_prefix=prefix,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
 
-mod_roles = open("modlist.txt", "a+")
-
-
-def get_mod_list():
-    mod_roles.seek(0)
-    return [int(role_id.replace("\n", "")) for role_id in mod_roles.readlines()]
-
 
 async def update_presence():
     while True:
@@ -49,7 +42,7 @@ async def on_member_join(member):
         if "rules" in str(channel):
             rules_server = channel
             print("rules channel found")
-        if "self-roles" in str(channel):
+        if "self" in str(channel) and "role" in str(channel):
             self_roles_channel = channel
             print("self-roles channel found")
 
@@ -81,22 +74,24 @@ async def _help(ctx):
 
 @_help.command(name="misc")
 async def misc_help(ctx):
+    await ctx.send(f"A DM for Miscellaneous command help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Misc. Help", color=theme_color)
 
     embed.add_field(name=f"{prefix}help", value="Displays command help")
     embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
     embed.add_field(name=f"{prefix}ping",
                     value="Get the bot's latency in milliseconds")
+    embed.add_field(
+        name=f"{prefix}invite", value="Get the link to invite Sparta Bot to your server")
 
     await ctx.author.send("Here is Miscellaneous command help:", embed=embed)
 
 
 @_help.command(name="mod")
 async def mod_help(ctx):
+    await ctx.send(f"A DM for Moderator command help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Moderator Help", color=theme_color)
 
-    embed.add_field(name=f"{prefix}addmodrole",
-                    value="Give a role the permission to use Moderation commands")
     embed.add_field(name=f"{prefix}warn",
                     value="Warn a user for doing something")
     embed.add_field(name=f"{prefix}warncount",
@@ -120,23 +115,16 @@ async def ping(ctx):
     await ctx.send(f"Ping: {latency_ms}ms")
 
 
-@bot.command(name="addmodrole")
-async def addmodrole(ctx):
-    try:
-        role = ctx.message.role_mentions[0]
-        if ctx.author.guild_permissions.administrator:
-            mod_roles.writelines(str(role.id) + "\n")
-            mod_roles.flush()
-
-            await ctx.send(f"Role {role.mention} has been added to Moderator Roles list.")
-        else:
-            await ctx.send("You are not allowed to use this command!")
-    except IndexError:
-        await ctx.send("Role not provided")
+@bot.command(name="invite")
+async def invite(ctx):
+    invite_url = "https://discord.com/oauth2/authorize?client_id=731763013417435247&permissions=8&scope=bot"
+    embed = discord.Embed(
+        title="Click here to invite Sparta Bot!", url=invite_url)
+    await ctx.send(content=None, embed=embed)
 
 
 @bot.command(name="warn")
-@commands.has_any_role(*get_mod_list())
+@commands.has_guild_permissions(administrator=True)
 async def warn(ctx, user: discord.User = None, *, reason=None):
     if user == None or reason == None:
         await ctx.send("Insufficient arguments.")
@@ -166,7 +154,7 @@ async def warncount(ctx, user: discord.User):
 
 
 @bot.command(name="mute")
-@commands.has_any_role(*get_mod_list())
+@commands.has_guild_permissions(administrator=True)
 async def mute(ctx, user: discord.User):
     if str(user) in muted_users:
         await ctx.send("This user has already been muted.")
@@ -176,7 +164,7 @@ async def mute(ctx, user: discord.User):
 
 
 @bot.command(name="unmute")
-@commands.has_any_role(*get_mod_list())
+@commands.has_guild_permissions(administrator=True)
 async def unmute(ctx, user: discord.User):
     if str(user) in muted_users:
         muted_users.remove(str(user))
@@ -186,7 +174,7 @@ async def unmute(ctx, user: discord.User):
 
 
 @bot.command(name="ban")
-@commands.has_any_role(*get_mod_list())
+@commands.has_guild_permissions(ban_members=True)
 async def ban(ctx, user: discord.User = None, *, reason=None):
     if user == None or reason == None:
         await ctx.send("Insufficient arguments.")
@@ -196,22 +184,13 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
 
 
 @bot.command(name="kick")
-@commands.has_any_role(*get_mod_list())
+@commands.has_guild_permissions(kick_members=True)
 async def kick(ctx, user: discord.User = None, *, reason=None):
-    print("bruh")
     if user == None or reason == None:
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.kick(user, reason=reason)
         await ctx.send(f"User {user.mention} has been kick for reason: **{reason}**.")
-
-
-# DON'T INCLUDE IN HELP
-@bot.command(name="getmodlist")
-async def getmodlist(ctx):
-    file = discord.File(open("modlist.txt", "r"))
-    await ctx.send(content=None, file=file)
-    file.fp.close()
 
 
 @bot.event
