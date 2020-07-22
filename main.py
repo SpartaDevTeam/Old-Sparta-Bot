@@ -61,6 +61,19 @@ async def on_member_join(member):
             await channel.send(msg)
 
 
+@bot.event
+async def on_member_leave(member):
+    guild = member.guild
+    channels = guild.channels
+
+    # Leave Message
+    for channel in channels:
+        if "bye" in str(channel) or "leave" in str(channel):
+            print(f"{member} has left the server...")
+            msg = f"Goodbye, {member.mention}, thank you for staying at **{guild.name}** Server\n"
+            await channel.send(msg)
+
+
 @bot.group(name="help", invoke_without_command=True)
 async def _help(ctx):
     await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
