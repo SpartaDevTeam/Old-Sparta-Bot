@@ -70,7 +70,7 @@ async def on_member_remove(member):
     # Leave Message
     for channel in channels:
         if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
-            msg = f"Goodbye, {member.mention}, thank you for staying at **{guild.name}** Server\n"
+            msg = f"Goodbye, {str(member}, thank you for staying at **{guild.name}** Server\n"
 
             await channel.send(msg)
             break
