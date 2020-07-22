@@ -37,21 +37,20 @@ async def on_member_join(member):
     channels = guild.channels
     rules_server = None
     self_roles_server = None
+    print(f"{member} has joined the server...")
 
     # Channel Links
     for channel in channels:
-        if "rules" in str(channel):
+        if str(channel).find("rules") != -1:
             rules_server = channel
             print("rules channel found")
-        if "self" in str(channel) and "role" in str(channel):
+        if str(channel).find("self-roles") != -1:
             self_roles_channel = channel
             print("self-roles channel found")
 
     # Welcome Message
     for channel in channels:
-        if "welcome" in str(channel):
-            print(f"{member} has joined the server...")
-
+        if str(channel).find("welcome") != -1:
             msg = f"Welcome, {member.mention}, to the Official **{guild.name}** Server\n"
             if rules_server != None:
                 msg += f"Please check the rules at {rules_server.mention}\n"
@@ -59,19 +58,22 @@ async def on_member_join(member):
                 msg += f"Get your self-role at {self_roles_channel.mention}.\n"
 
             await channel.send(msg)
+            break
 
 
 @bot.event
-async def on_member_leave(member):
+async def on_member_remove(member):
     guild = member.guild
     channels = guild.channels
+    print(f"{member} has left the server...")
 
     # Leave Message
     for channel in channels:
-        if "bye" in str(channel) or "leave" in str(channel):
-            print(f"{member} has left the server...")
+        if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
             msg = f"Goodbye, {member.mention}, thank you for staying at **{guild.name}** Server\n"
+
             await channel.send(msg)
+            break
 
 
 @bot.group(name="help", invoke_without_command=True)
