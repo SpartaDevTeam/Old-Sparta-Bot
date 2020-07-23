@@ -1,5 +1,4 @@
 import asyncio
-import datetime
 import discord
 from discord.ext import commands
 
@@ -22,6 +21,7 @@ async def update_presence():
 
 warn_count = {}
 muted_users = []
+automod_whitelist = []
 theme_color = discord.Colour.purple()
 
 
@@ -84,6 +84,7 @@ async def _help(ctx):
 
     embed.add_field(name="misc", value="Miscellaneous Commands")
     embed.add_field(name="mod", value="Moderator Commands")
+    embed.add_field(name="automod", value="Auto Moderator Settings")
 
     await ctx.author.send("Here is the command help:", embed=embed)
 
@@ -118,6 +119,17 @@ async def mod_help(ctx):
     embed.add_field(name=f"{prefix}kick", value="Kicks a user from the server")
 
     await ctx.author.send("Here is Moderator command help:", embed=embed)
+
+
+@_help.command(name="automod")
+async def automod_help(ctx):
+    await ctx.send(f"A DM for Auto Moderator settings help has been sent to {ctx.author.mention}.")
+    embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
+
+    embed.add_field(name=f"{prefix}whitelistuser",
+                    value="Make a user immune to Auto Mod.")
+
+    await ctx.author.send("Here is Auto Moderator settings help:", embed=embed)
 
 
 @bot.command(name="hello")
@@ -220,6 +232,15 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
         await ctx.send(f"User {user.mention} has been kick for reason: **{reason}**.")
 
 
+@bot.command(name="whitelistuser")
+@commands.has_guild_permissions(administrator=True)
+async def whitelistuser(ctx, user: discord.User = None):
+    if user == None:
+        ctx.send(f"Insufficient Arguments")
+        automod_whitelist.append(user)
+        await ctx.send(f"Added {user.mention} to AutoMod whitelist.")
+
+
 @bot.event
 async def on_message(message):
     author = message.author
@@ -227,11 +248,14 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+    perms = author.permissions_in(channel)
+
     if str(author) in muted_users:
         await channel.purge(limit=1)
-    elif "http://" in message.content or "https://" in message.content:
-        await channel.purge(limit=1)
-        await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+    elif author not in automod_whitelist and not perms.administrator:
+        if "http://" in message.content or "https://" in message.content:
+            await channel.purge(limit=1)
+            await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
 
 
 bot.run(token)
