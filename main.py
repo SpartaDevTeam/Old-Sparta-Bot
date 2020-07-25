@@ -252,10 +252,10 @@ async def on_message(message):
 
     if str(author) in muted_users:
         await channel.purge(limit=1)
-    elif author not in automod_whitelist and not perms.administrator:
-        if "http://" in message.content or "https://" in message.content:
-            await channel.purge(limit=1)
-            await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+    # elif author not in automod_whitelist and not perms.administrator:
+    #     if "http://" in message.content or "https://" in message.content:
+    #         await channel.purge(limit=1)
+    #         await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
 
 
 bot.run(token)
