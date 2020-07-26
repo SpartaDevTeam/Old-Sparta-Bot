@@ -21,7 +21,8 @@ async def update_presence():
 
 warn_count = {}
 muted_users = []
-automod_whitelist = []
+automod_user_whitelist = []
+automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
 theme_color = discord.Colour.purple()
 
 
@@ -94,9 +95,10 @@ async def misc_help(ctx):
     await ctx.send(f"A DM for Miscellaneous command help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Misc. Help", color=theme_color)
 
-    embed.add_field(name=f"{prefix}help", value="Displays command help")
-    embed.add_field(name=f"{prefix}hello", value="Say hello to the bot")
-    embed.add_field(name=f"{prefix}info",
+    embed.add_field(name=f"`{prefix}help <category>`",
+                    value="Displays command help")
+    embed.add_field(name=f"`{prefix}hello`", value="Say hello to the bot")
+    embed.add_field(name=f"`{prefix}info`",
                     value="Displays the bot's information")
     embed.add_field(
         name=f"{prefix}invite", value="Get the link to invite Sparta Bot to your server")
@@ -109,14 +111,16 @@ async def mod_help(ctx):
     await ctx.send(f"A DM for Moderator command help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Moderator Help", color=theme_color)
 
-    embed.add_field(name=f"{prefix}warn",
+    embed.add_field(name=f"`{prefix}warn <user>`",
                     value="Warn a user for doing something")
-    embed.add_field(name=f"{prefix}warncount",
+    embed.add_field(name=f"`{prefix}warncount <user>`",
                     value="Displays how many times a user has been warned")
-    embed.add_field(name=f"{prefix}mute", value="Mutes a user")
-    embed.add_field(name=f"{prefix}unmute", value="Unmutes a user")
-    embed.add_field(name=f"{prefix}ban", value="Bans a user from the server")
-    embed.add_field(name=f"{prefix}kick", value="Kicks a user from the server")
+    embed.add_field(name=f"`{prefix}mute <user>`", value="Mutes a user")
+    embed.add_field(name=f"`{prefix}unmute <user>`", value="Unmutes a user")
+    embed.add_field(name=f"`{prefix}ban <user>`",
+                    value="Bans a user from the server")
+    embed.add_field(name=f"`{prefix}kick <user>`",
+                    value="Kicks a user from the server")
 
     await ctx.author.send("Here is Moderator command help:", embed=embed)
 
@@ -126,8 +130,11 @@ async def automod_help(ctx):
     await ctx.send(f"A DM for Auto Moderator settings help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
 
-    embed.add_field(name=f"{prefix}whitelistuser",
+    embed.add_field(name=f"`{prefix}whitelistuser <user>`",
                     value="Make a user immune to Auto Mod.")
+
+    embed.add_field(name=f"`{prefix}whitelisturl <url>`",
+                    value="Allow a specific url to bypass the Auto Mod")
 
     await ctx.author.send("Here is Auto Moderator settings help:", embed=embed)
 
@@ -237,8 +244,19 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
 async def whitelistuser(ctx, user: discord.User = None):
     if user == None:
         ctx.send(f"Insufficient Arguments")
-        automod_whitelist.append(user)
-        await ctx.send(f"Added {user.mention} to AutoMod whitelist.")
+    else:
+        automod_user_whitelist.append(user)
+        await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
+
+
+@bot.command(name="whitelisturl")
+@commands.has_guild_permissions(administrator=True)
+async def whitelisturl(ctx, url: str):
+    if url == None:
+        ctx.send(f"Insufficient Arguments")
+    else:
+        automod_url_whitelist.append(url)
+        await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
 
 
 @bot.event
@@ -248,14 +266,20 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-    perms = author.permissions_in(channel)
+    perms = author.guild_permissions
 
     if str(author) in muted_users:
         await channel.purge(limit=1)
-    # elif author not in automod_whitelist and not perms.administrator:
-    #     if "http://" in message.content or "https://" in message.content:
-    #         await channel.purge(limit=1)
-    #         await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+
+    elif author not in automod_user_whitelist and not perms.administrator:
+        if "http://" in message.content or "https://" in message.content:
+            for url in automod_url_whitelist:
+                if not url in message.content:
+                    await channel.purge(limit=1)
+                    await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+
+        elif len(message.attachments) > 0:
+            await channel.purge(limit=1)
 
 
 bot.run(token)
