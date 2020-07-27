@@ -263,6 +263,7 @@ async def whitelisturl(ctx, url: str):
 async def on_message(message):
     author = message.author
     channel = message.channel
+    print(str(author), ": ", message.content)
 
     await bot.process_commands(message)
 
