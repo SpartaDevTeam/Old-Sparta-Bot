@@ -21,6 +21,7 @@ async def update_presence():
 
 warn_count = {}
 muted_users = []
+automod_active = False
 automod_user_whitelist = []
 automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
 theme_color = discord.Colour.purple()
@@ -101,7 +102,7 @@ async def misc_help(ctx):
     embed.add_field(name=f"`{prefix}info`",
                     value="Displays the bot's information")
     embed.add_field(
-        name=f"{prefix}invite", value="Get the link to invite Sparta Bot to your server")
+        name=f"`{prefix}invite`", value="Get the link to invite Sparta Bot to your server")
 
     await ctx.author.send("Here is Miscellaneous command help:", embed=embed)
 
@@ -111,15 +112,15 @@ async def mod_help(ctx):
     await ctx.send(f"A DM for Moderator command help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Moderator Help", color=theme_color)
 
-    embed.add_field(name=f"`{prefix}warn <user>`",
+    embed.add_field(name=f"`{prefix}warn <user> <reason>`",
                     value="Warn a user for doing something")
     embed.add_field(name=f"`{prefix}warncount <user>`",
                     value="Displays how many times a user has been warned")
     embed.add_field(name=f"`{prefix}mute <user>`", value="Mutes a user")
     embed.add_field(name=f"`{prefix}unmute <user>`", value="Unmutes a user")
-    embed.add_field(name=f"`{prefix}ban <user>`",
+    embed.add_field(name=f"`{prefix}ban <user> <reason>`",
                     value="Bans a user from the server")
-    embed.add_field(name=f"`{prefix}kick <user>`",
+    embed.add_field(name=f"`{prefix}kick <user> <reason>`",
                     value="Kicks a user from the server")
 
     await ctx.author.send("Here is Moderator command help:", embed=embed)
@@ -130,8 +131,11 @@ async def automod_help(ctx):
     await ctx.send(f"A DM for Auto Moderator settings help has been sent to {ctx.author.mention}.")
     embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
 
+    embed.add_field(name=f"`{prefix}activateautomod`",
+                    value="Turns on Automod in your server")
+
     embed.add_field(name=f"`{prefix}whitelistuser <user>`",
-                    value="Make a user immune to Auto Mod.")
+                    value="Make a user immune to Auto Mod (Administrators are already immune)")
 
     embed.add_field(name=f"`{prefix}whitelisturl <url>`",
                     value="Allow a specific url to bypass the Auto Mod")
@@ -239,6 +243,13 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
         await ctx.send(f"User {user.mention} has been kick for reason: **{reason}**.")
 
 
+@bot.command(name="activateautomod")
+@commands.has_guild_permissions(administrator=True)
+async def whitelistuser(ctx):
+    automod_active = True
+    ctx.send("Automod is now active in your server")
+
+
 @bot.command(name="whitelistuser")
 @commands.has_guild_permissions(administrator=True)
 async def whitelistuser(ctx, user: discord.User = None):
@@ -272,7 +283,7 @@ async def on_message(message):
     if str(author) in muted_users:
         await channel.purge(limit=1)
 
-    elif author not in automod_user_whitelist and not perms.administrator:
+    elif author not in automod_user_whitelist and not perms.administrator and automod_active:
         if "http://" in message.content or "https://" in message.content:
             for url in automod_url_whitelist:
                 if not url in message.content:
