@@ -194,6 +194,18 @@ async def warn(ctx, user: discord.User = None, *, reason=None):
         await ctx.send(content=None, embed=embed)
 
 
+@bot.command(name="clearwarn")
+@commands.has_guild_permissions(administrator=True)
+async def clearwarn(ctx, user: discord.User = None):
+    global warn_count
+    if user == None:
+        warn_count = {}
+        await ctx.send("Clearing all warns.")
+    else:
+        warn_count[str(user)] = 0
+        await ctx.send(f"Clearing warns for {user.mention}.")
+
+
 @bot.command(name="warncount")
 async def warncount(ctx, user: discord.User):
     if str(user) not in warn_count:
