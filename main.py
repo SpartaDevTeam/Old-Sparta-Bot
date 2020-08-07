@@ -114,6 +114,8 @@ async def mod_help(ctx):
 
     embed.add_field(name=f"`{prefix}warn <user> <reason>`",
                     value="Warn a user for doing something")
+    embed.add_field(name=f"`{prefix}clearwarn <user>`",
+                    value="Clear a user's warns")
     embed.add_field(name=f"`{prefix}warncount <user>`",
                     value="Displays how many times a user has been warned")
     embed.add_field(name=f"`{prefix}mute <user>`", value="Mutes a user")
@@ -133,6 +135,9 @@ async def automod_help(ctx):
 
     embed.add_field(name=f"`{prefix}activateautomod`",
                     value="Turns on Automod in your server")
+
+    embed.add_field(name=f"`{prefix}stopautomod`",
+    				value="Turns off Automod in your server")
 
     embed.add_field(name=f"`{prefix}whitelistuser <user>`",
                     value="Make a user immune to Auto Mod (Administrators are already immune)")
