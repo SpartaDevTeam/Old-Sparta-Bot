@@ -265,7 +265,7 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
 async def activateautomod(ctx):
     global automod_active
     automod_active = True
-    ctx.send("Automod is now active in your server...")
+    await ctx.send("Automod is now active in your server...")
 
 
 @bot.command(name="stopautomod")
@@ -273,7 +273,7 @@ async def activateautomod(ctx):
 async def stopautomod(ctx):
     global automod_active
     automod_active - False
-    ctx.send("Automod is now unactive in your server...")
+    await ctx.send("Automod is now inactive in your server...")
 
 
 @bot.command(name="whitelistuser")
