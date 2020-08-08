@@ -260,6 +260,16 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
         await ctx.send(f"User {user.mention} has been kick for reason: **{reason}**.")
 
 
+@bot.command(name="clear")
+@commands.has_guild_permissions(manage_messages=True)
+async def clear(ctx, count: int = None):
+    if count == None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.channel.purge(limit=count+1)
+        await ctx.send(f"Cleared the last {count} message(s)!")
+
+
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
