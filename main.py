@@ -101,6 +101,7 @@ async def misc_help(ctx):
     embed.add_field(name=f"`{prefix}hello`", value="Say hello to the bot")
     embed.add_field(name=f"`{prefix}info`",
                     value="Displays the bot's information")
+    embed.add_field(name=f"`{prefix}clear <count>`", value="Deletes messages")
     embed.add_field(
         name=f"`{prefix}invite`", value="Get the link to invite Sparta Bot to your server")
 
@@ -137,7 +138,7 @@ async def automod_help(ctx):
                     value="Turns on Automod in your server")
 
     embed.add_field(name=f"`{prefix}stopautomod`",
-    				value="Turns off Automod in your server")
+                    value="Turns off Automod in your server")
 
     embed.add_field(name=f"`{prefix}whitelistuser <user>`",
                     value="Make a user immune to Auto Mod (Administrators are already immune)")
@@ -268,6 +269,8 @@ async def clear(ctx, count: int = None):
     else:
         await ctx.channel.purge(limit=count+1)
         await ctx.send(f"Cleared the last {count} message(s)!")
+        await asyncio.sleep(3)
+        await ctx.channel.purge(limit=1)
 
 
 @bot.command(name="activateautomod")
