@@ -159,14 +159,20 @@ async def info(ctx):
     embed = discord.Embed(title="Bot Information", color=theme_color)
     ping = round(bot.latency * 1000)
     guild_count = len(bot.guilds)
-    member_count = 0
+    members = []
+    unique_members = []
 
     for guild in bot.guilds:
-        member_count += len(guild.members)
+        members.extend(guild.members)
+
+    for member in members:
+        if member not in unique_members:
+            unique_members.append(member)
 
     embed.add_field(name="Ping", value=f"{ping}ms")
     embed.add_field(name="Servers", value=guild_count)
-    embed.add_field(name="Users", value=member_count)
+    embed.add_field(name="Users", value=len(members))
+    embed.add_field(name="Unique Users", value=len(unique_members))
 
     await ctx.send(content=None, embed=embed)
 
