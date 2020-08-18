@@ -128,8 +128,12 @@ async def mod_help(ctx):
                     value="Clear a user's warns")
     embed.add_field(name=f"`{prefix}warncount <user>`",
                     value="Displays how many times a user has been warned")
-    embed.add_field(name=f"`{prefix}mute <user>`", value="Mutes a user")
-    embed.add_field(name=f"`{prefix}unmute <user>`", value="Unmutes a user")
+    embed.add_field(name=f"`{prefix}mute <user>`",
+                    value="Mutes a user")
+    embed.add_field(name=f"`{prefix}unmute <user>`",
+                    value="Unmutes a user")
+    embed.add_field(name=f"`{prefix}tempmute <user> <time in seconds>`",
+                    value="Temporarily mutes a user")
     embed.add_field(name=f"`{prefix}ban <user> <reason>`",
                     value="Bans a user from the server")
     embed.add_field(name=f"`{prefix}kick <user> <reason>`",
@@ -277,6 +281,26 @@ async def unmute(ctx, user: discord.Member):
 
     else:
         await ctx.send("This user was never muted.")
+
+@bot.command(name="tempmute")
+@commands.has_guild_permissions(administrator=True)
+async def tempmute(ctx, user: discord.Member, time: int):
+    guild = ctx.guild
+    mute_role = None
+
+    for role in guild.roles:
+        if role.name.lower() == "muted":
+            mute_role = role
+            break
+
+    if not mute_role:
+        mute_role = await create_mute_role(guild)
+
+    await user.add_roles(mute_role)
+    await ctx.send(f"User {user.mention} has been muted for {time} seconds!")
+    await asyncio.sleep(time)
+    await user.remove_roles(mute_role)
+    await ctx.send(f"User {user.mention} has been unmuted after {time} seconds of TempMute! They can now speak.")
 
 
 @bot.command(name="ban")
