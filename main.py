@@ -19,8 +19,17 @@ async def update_presence():
         await asyncio.sleep(10)
 
 
+async def create_mute_role(guild):
+    perms = discord.Permissions(send_messages=False)
+    mute_role = await guild.create_role(name="Muted", colour=discord.Color.dark_gray(), permissions=perms)
+
+    for channel in guild.channels:
+        await channel.set_permissions(mute_role, send_messages=False)
+
+    return mute_role
+
+
 warn_count = {}
-muted_users = []
 automod_active = False
 automod_user_whitelist = []
 automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
@@ -228,20 +237,44 @@ async def warncount(ctx, user: discord.User):
 
 @bot.command(name="mute")
 @commands.has_guild_permissions(administrator=True)
-async def mute(ctx, user: discord.User):
-    if str(user) in muted_users:
-        await ctx.send("This user has already been muted.")
+async def mute(ctx, user: discord.Member):
+    guild = ctx.guild
+    mute_role = None
+
+    for role in guild.roles:
+        if role.name.lower() == "muted":
+            mute_role = role
+            break
+
+    if mute_role in user.roles:
+        await ctx.send("This user is already muted.")
+
     else:
-        muted_users.append(str(user))
-        await ctx.send(f"User {user.mention} has been muted! They cannot speak anymore.")
+        if not mute_role:
+            mute_role = await create_mute_role(guild)
+
+        await user.add_roles(mute_role)
+        await ctx.send(f"User {user.mention} has been muted! They cannot speak.")
 
 
 @bot.command(name="unmute")
 @commands.has_guild_permissions(administrator=True)
-async def unmute(ctx, user: discord.User):
-    if str(user) in muted_users:
-        muted_users.remove(str(user))
+async def unmute(ctx, user: discord.Member):
+    guild = ctx.guild
+    mute_role = None
+
+    for role in guild.roles:
+        if role.name.lower() == "muted":
+            mute_role = role
+            break
+
+    if mute_role in user.roles:
+        if not mute_role:
+            mute_role = await create_mute_role(guild)
+
+        await user.remove_roles(mute_role)
         await ctx.send(f"User {user.mention} has been unmuted! They can now speak.")
+
     else:
         await ctx.send("This user was never muted.")
 
@@ -324,10 +357,7 @@ async def on_message(message):
 
     perms = author.guild_permissions
 
-    if str(author) in muted_users:
-        await channel.purge(limit=1)
-
-    elif author not in automod_user_whitelist and not perms.administrator and automod_active:
+    if author not in automod_user_whitelist and not perms.administrator and automod_active:
         if "http://" in message.content or "https://" in message.content:
             for url in automod_url_whitelist:
                 if not url in message.content:
