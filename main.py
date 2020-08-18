@@ -8,6 +8,7 @@ prefix = "s!"
 bot = commands.Bot(command_prefix=prefix,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
+theme_color = discord.Colour.purple()
 
 
 async def update_presence():
@@ -29,11 +30,41 @@ async def create_mute_role(guild):
     return mute_role
 
 
+misc_embed = discord.Embed(title="Misc. Help", color=theme_color)
+misc_embed.add_field(name=f"`{prefix}help <category>`", value="Displays command help")
+misc_embed.add_field(name=f"`{prefix}hello`", value="Say hello to the bot")
+misc_embed.add_field(name=f"`{prefix}info`", value="Displays the bot's information")
+misc_embed.add_field(name=f"`{prefix}clear <count>`", value="Deletes messages")
+misc_embed.add_field(name=f"`{prefix}invite`", value="Get the link to invite Sparta Bot to your server")
+
+
+mod_embed = discord.Embed(title="Moderator Help", color=theme_color)
+mod_embed.add_field(name=f"`{prefix}warn <user> <reason>`", value="Warn a user for doing something")
+mod_embed.add_field(name=f"`{prefix}clearwarn <user>`", value="Clear a user's warns")
+mod_embed.add_field(name=f"`{prefix}warncount <user>`", value="Displays how many times a user has been warned")
+mod_embed.add_field(name=f"`{prefix}mute <user>`", value="Mutes a user")
+mod_embed.add_field(name=f"`{prefix}unmute <user>`", value="Unmutes a user")
+mod_embed.add_field(name=f"`{prefix}tempmute <user> <time in seconds>`", value="Temporarily mutes a user")
+mod_embed.add_field(name=f"`{prefix}ban <user> <reason>`", value="Bans a user from the server")
+mod_embed.add_field(name=f"`{prefix}kick <user> <reason>`", value="Kicks a user from the server")
+
+
+auto_embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
+auto_embed.add_field(name=f"`{prefix}activateautomod`", value="Turns on Automod in your server")
+auto_embed.add_field(name=f"`{prefix}stopautomod`", value="Turns off Automod in your server")
+auto_embed.add_field(name=f"`{prefix}whitelistuser <user>`", value="Make a user immune to Auto Mod (Administrators are already immune)")
+auto_embed.add_field(name=f"`{prefix}whitelisturl <url>`", value="Allow a specific url to bypass the Auto Mod")
+
+
+all_help_embeds = [misc_embed, mod_embed, auto_embed]
 warn_count = {}
 automod_active = False
 automod_user_whitelist = []
 automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
-theme_color = discord.Colour.purple()
+current_help_msg = None
+current_help_user = None
+help_index = 0
+help_control_emojis = ["⬅️", "➡️"]
 
 
 @bot.event
@@ -82,84 +113,44 @@ async def on_member_remove(member):
     for channel in channels:
         if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
             msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server\n"
-
             await channel.send(msg)
             break
 
 
-@bot.group(name="help", invoke_without_command=True)
+@bot.event
+async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
+    global help_index
+
+    if reaction.message.id == current_help_msg and user.id != 731763013417435247:
+        if user.id == current_help_user:
+            channel: discord.TextChannel = reaction.message.channel
+
+            if reaction.emoji == help_control_emojis[0]:
+                help_index -= 1
+
+            if reaction.emoji == help_control_emojis[1]:
+                help_index += 1
+
+            if help_index < 0:
+                help_index = len(all_help_embeds) - 1
+            elif help_index >= len(all_help_embeds):
+                help_index = 0
+
+            message: discord.Message = await channel.fetch_message(current_help_msg)
+            await message.edit(embed=all_help_embeds[help_index])
+            await message.remove_reaction(reaction.emoji, user)
+
+
+@bot.group(name="help")
 async def _help(ctx):
-    await ctx.send(f"A DM for command help has been sent to {ctx.author.mention}.")
+    msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[help_index])
 
-    embed = discord.Embed(title="Help", color=theme_color)
+    for emoji in help_control_emojis:
+        await msg.add_reaction(emoji)
 
-    embed.add_field(name="misc", value="Miscellaneous Commands")
-    embed.add_field(name="mod", value="Moderator Commands")
-    embed.add_field(name="automod", value="Auto Moderator Settings")
-
-    await ctx.author.send("Here is the command help:", embed=embed)
-
-
-@_help.command(name="misc")
-async def misc_help(ctx):
-    await ctx.send(f"A DM for Miscellaneous command help has been sent to {ctx.author.mention}.")
-    embed = discord.Embed(title="Misc. Help", color=theme_color)
-
-    embed.add_field(name=f"`{prefix}help <category>`",
-                    value="Displays command help")
-    embed.add_field(name=f"`{prefix}hello`", value="Say hello to the bot")
-    embed.add_field(name=f"`{prefix}info`",
-                    value="Displays the bot's information")
-    embed.add_field(name=f"`{prefix}clear <count>`", value="Deletes messages")
-    embed.add_field(
-        name=f"`{prefix}invite`", value="Get the link to invite Sparta Bot to your server")
-
-    await ctx.author.send("Here is Miscellaneous command help:", embed=embed)
-
-
-@_help.command(name="mod")
-async def mod_help(ctx):
-    await ctx.send(f"A DM for Moderator command help has been sent to {ctx.author.mention}.")
-    embed = discord.Embed(title="Moderator Help", color=theme_color)
-
-    embed.add_field(name=f"`{prefix}warn <user> <reason>`",
-                    value="Warn a user for doing something")
-    embed.add_field(name=f"`{prefix}clearwarn <user>`",
-                    value="Clear a user's warns")
-    embed.add_field(name=f"`{prefix}warncount <user>`",
-                    value="Displays how many times a user has been warned")
-    embed.add_field(name=f"`{prefix}mute <user>`",
-                    value="Mutes a user")
-    embed.add_field(name=f"`{prefix}unmute <user>`",
-                    value="Unmutes a user")
-    embed.add_field(name=f"`{prefix}tempmute <user> <time in seconds>`",
-                    value="Temporarily mutes a user")
-    embed.add_field(name=f"`{prefix}ban <user> <reason>`",
-                    value="Bans a user from the server")
-    embed.add_field(name=f"`{prefix}kick <user> <reason>`",
-                    value="Kicks a user from the server")
-
-    await ctx.author.send("Here is Moderator command help:", embed=embed)
-
-
-@_help.command(name="automod")
-async def automod_help(ctx):
-    await ctx.send(f"A DM for Auto Moderator settings help has been sent to {ctx.author.mention}.")
-    embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
-
-    embed.add_field(name=f"`{prefix}activateautomod`",
-                    value="Turns on Automod in your server")
-
-    embed.add_field(name=f"`{prefix}stopautomod`",
-                    value="Turns off Automod in your server")
-
-    embed.add_field(name=f"`{prefix}whitelistuser <user>`",
-                    value="Make a user immune to Auto Mod (Administrators are already immune)")
-
-    embed.add_field(name=f"`{prefix}whitelisturl <url>`",
-                    value="Allow a specific url to bypass the Auto Mod")
-
-    await ctx.author.send("Here is Auto Moderator settings help:", embed=embed)
+    global current_help_msg, current_help_user
+    current_help_msg = msg.id
+    current_help_user = ctx.author.id
 
 
 @bot.command(name="hello")
@@ -372,24 +363,24 @@ async def whitelisturl(ctx, url: str):
 
 
 @bot.event
-async def on_message(message):
-    author = message.author
+async def on_message(message: discord.Message):
+    author: discord.Member = message.author
     channel = message.channel
     # print(str(author), ": ", message.content)
 
     await bot.process_commands(message)
 
-    perms = author.guild_permissions
+    if automod_active and author not in automod_user_whitelist:
+        perms = author.guild_permissions
+        if not perms.administrator:
+            if "http://" in message.content or "https://" in message.content:
+                for url in automod_url_whitelist:
+                    if not url in message.content:
+                        await channel.purge(limit=1)
+                        await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
 
-    if author not in automod_user_whitelist and not perms.administrator and automod_active:
-        if "http://" in message.content or "https://" in message.content:
-            for url in automod_url_whitelist:
-                if not url in message.content:
-                    await channel.purge(limit=1)
-                    await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
-
-        elif len(message.attachments) > 0:
-            await channel.purge(limit=1)
+            elif len(message.attachments) > 0:
+                await channel.purge(limit=1)
 
 
 bot.run(token)
