@@ -71,7 +71,7 @@ auto_embed.add_field(name=f"`{PREFIX}whitelisturl <url>`",
 
 all_help_embeds = [misc_embed, mod_embed, auto_embed]
 warn_count = {}
-AUTOMOD_ACTIVE = False
+AUTOMOD_ACTIVE = True
 automod_user_whitelist = []
 automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
 CURRENT_HELP_MSG = None
@@ -394,7 +394,7 @@ async def on_message(message: discord.Message):
     await bot.process_commands(message)
 
     if AUTOMOD_ACTIVE and author not in automod_user_whitelist:
-        perms = author.guild_permissions
+        perms = author.permissions_in(channel)
         if not perms.administrator:
             if "http://" in message.content or "https://" in message.content:
                 for url in automod_url_whitelist:
