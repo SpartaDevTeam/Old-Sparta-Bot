@@ -4,8 +4,8 @@ from discord.ext import commands
 
 with open("token.txt", "r") as file:
     token = file.read()
-prefix = "s!"
-bot = commands.Bot(command_prefix=prefix,
+PREFIX = "s!"
+bot = commands.Bot(command_prefix=PREFIX,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
 theme_color = discord.Colour.purple()
@@ -15,7 +15,7 @@ async def update_presence():
     while True:
         server_count = len(bot.guilds)
         activity = discord.Activity(
-            type=discord.ActivityType.watching, name=f"{server_count} servers || {prefix}help")
+            type=discord.ActivityType.watching, name=f"{server_count} servers || {PREFIX}help")
         await bot.change_presence(activity=activity)
         await asyncio.sleep(10)
 
@@ -31,39 +31,52 @@ async def create_mute_role(guild):
 
 
 misc_embed = discord.Embed(title="Misc. Help", color=theme_color)
-misc_embed.add_field(name=f"`{prefix}help <category>`", value="Displays command help")
-misc_embed.add_field(name=f"`{prefix}hello`", value="Say hello to the bot")
-misc_embed.add_field(name=f"`{prefix}info`", value="Displays the bot's information")
-misc_embed.add_field(name=f"`{prefix}clear <count>`", value="Deletes messages")
-misc_embed.add_field(name=f"`{prefix}invite`", value="Get the link to invite Sparta Bot to your server")
+misc_embed.add_field(
+    name=f"`{PREFIX}help <category>`", value="Displays command help")
+misc_embed.add_field(name=f"`{PREFIX}hello`", value="Say hello to the bot")
+misc_embed.add_field(name=f"`{PREFIX}info`",
+                     value="Displays the bot's information")
+misc_embed.add_field(name=f"`{PREFIX}clear <count>`", value="Deletes messages")
+misc_embed.add_field(
+    name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=theme_color)
-mod_embed.add_field(name=f"`{prefix}warn <user> <reason>`", value="Warn a user for doing something")
-mod_embed.add_field(name=f"`{prefix}clearwarn <user>`", value="Clear a user's warns")
-mod_embed.add_field(name=f"`{prefix}warncount <user>`", value="Displays how many times a user has been warned")
-mod_embed.add_field(name=f"`{prefix}mute <user>`", value="Mutes a user")
-mod_embed.add_field(name=f"`{prefix}unmute <user>`", value="Unmutes a user")
-mod_embed.add_field(name=f"`{prefix}tempmute <user> <time in seconds>`", value="Temporarily mutes a user")
-mod_embed.add_field(name=f"`{prefix}ban <user> <reason>`", value="Bans a user from the server")
-mod_embed.add_field(name=f"`{prefix}kick <user> <reason>`", value="Kicks a user from the server")
+mod_embed.add_field(name=f"`{PREFIX}warn <user> <reason>`",
+                    value="Warn a user for doing something")
+mod_embed.add_field(name=f"`{PREFIX}clearwarn <user>`",
+                    value="Clear a user's warns")
+mod_embed.add_field(name=f"`{PREFIX}warncount <user>`",
+                    value="Displays how many times a user has been warned")
+mod_embed.add_field(name=f"`{PREFIX}mute <user>`", value="Mutes a user")
+mod_embed.add_field(name=f"`{PREFIX}unmute <user>`", value="Unmutes a user")
+mod_embed.add_field(
+    name=f"`{PREFIX}tempmute <user> <time in seconds>`", value="Temporarily mutes a user")
+mod_embed.add_field(name=f"`{PREFIX}ban <user> <reason>`",
+                    value="Bans a user from the server")
+mod_embed.add_field(name=f"`{PREFIX}kick <user> <reason>`",
+                    value="Kicks a user from the server")
 
 
 auto_embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
-auto_embed.add_field(name=f"`{prefix}activateautomod`", value="Turns on Automod in your server")
-auto_embed.add_field(name=f"`{prefix}stopautomod`", value="Turns off Automod in your server")
-auto_embed.add_field(name=f"`{prefix}whitelistuser <user>`", value="Make a user immune to Auto Mod (Administrators are already immune)")
-auto_embed.add_field(name=f"`{prefix}whitelisturl <url>`", value="Allow a specific url to bypass the Auto Mod")
+auto_embed.add_field(name=f"`{PREFIX}activateautomod`",
+                     value="Turns on Automod in your server")
+auto_embed.add_field(name=f"`{PREFIX}stopautomod`",
+                     value="Turns off Automod in your server")
+auto_embed.add_field(name=f"`{PREFIX}whitelistuser <user>`",
+                     value="Make a user immune to Auto Mod (Administrators are already immune)")
+auto_embed.add_field(name=f"`{PREFIX}whitelisturl <url>`",
+                     value="Allow a specific url to bypass the Auto Mod")
 
 
 all_help_embeds = [misc_embed, mod_embed, auto_embed]
 warn_count = {}
-automod_active = False
+AUTOMOD_ACTIVE = False
 automod_user_whitelist = []
 automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
-current_help_msg = None
-current_help_user = None
-help_index = 0
+CURRENT_HELP_MSG = None
+CURRENT_HELP_USER = None
+HELP_INDEX = 0
 help_control_emojis = ["⬅️", "➡️"]
 
 
@@ -94,9 +107,9 @@ async def on_member_join(member):
     for channel in channels:
         if str(channel).find("welcome") != -1:
             msg = f"Welcome, {member.mention}, to the Official **{guild.name}** Server\n"
-            if rules_server != None:
+            if rules_server:
                 msg += f"Please check the rules at {rules_server.mention}\n"
-            if self_roles_server != None:
+            if self_roles_server:
                 msg += f"Get your self-role at {self_roles_channel.mention}.\n"
 
             await channel.send(msg)
@@ -119,38 +132,38 @@ async def on_member_remove(member):
 
 @bot.event
 async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
-    global help_index
+    global HELP_INDEX
 
-    if reaction.message.id == current_help_msg and user.id != 731763013417435247:
-        if user.id == current_help_user:
+    if reaction.message.id == CURRENT_HELP_MSG and user.id != 731763013417435247:
+        if user.id == CURRENT_HELP_USER:
             channel: discord.TextChannel = reaction.message.channel
 
             if reaction.emoji == help_control_emojis[0]:
-                help_index -= 1
+                HELP_INDEX -= 1
 
             if reaction.emoji == help_control_emojis[1]:
-                help_index += 1
+                HELP_INDEX += 1
 
-            if help_index < 0:
-                help_index = len(all_help_embeds) - 1
-            elif help_index >= len(all_help_embeds):
-                help_index = 0
+            if HELP_INDEX < 0:
+                HELP_INDEX = len(all_help_embeds) - 1
+            elif HELP_INDEX >= len(all_help_embeds):
+                HELP_INDEX = 0
 
-            message: discord.Message = await channel.fetch_message(current_help_msg)
-            await message.edit(embed=all_help_embeds[help_index])
+            message: discord.Message = await channel.fetch_message(CURRENT_HELP_MSG)
+            await message.edit(embed=all_help_embeds[HELP_INDEX])
             await message.remove_reaction(reaction.emoji, user)
 
 
 @bot.group(name="help")
 async def _help(ctx):
-    msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[help_index])
+    msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[HELP_INDEX])
 
     for emoji in help_control_emojis:
         await msg.add_reaction(emoji)
 
-    global current_help_msg, current_help_user
-    current_help_msg = msg.id
-    current_help_user = ctx.author.id
+    global CURRENT_HELP_MSG, CURRENT_HELP_USER
+    CURRENT_HELP_MSG = msg.id
+    CURRENT_HELP_USER = ctx.author.id
 
 
 @bot.command(name="hello")
@@ -191,7 +204,7 @@ async def invite(ctx):
 @bot.command(name="warn")
 @commands.has_guild_permissions(administrator=True)
 async def warn(ctx, user: discord.User = None, *, reason=None):
-    if user == None or reason == None:
+    if user is None or reason is None:
         await ctx.send("Insufficient arguments.")
     else:
         print(f"Warning user {user.name} for {reason}...")
@@ -201,7 +214,7 @@ async def warn(ctx, user: discord.User = None, *, reason=None):
         else:
             warn_count[str(user)] += 1
 
-        embed = discord.Embed(title=f"{user.name} has been warned")
+        embed = discord.Embed(title=f"{user.name} has been warned", color=theme_color)
         embed.add_field(name="Reason", value=reason)
         embed.add_field(name="This user has been warned",
                         value=f"{warn_count[str(user)]} time(s)")
@@ -213,7 +226,7 @@ async def warn(ctx, user: discord.User = None, *, reason=None):
 @commands.has_guild_permissions(administrator=True)
 async def clearwarn(ctx, user: discord.User = None):
     global warn_count
-    if user == None:
+    if user is None:
         warn_count = {}
         await ctx.send("Clearing all warns.")
     else:
@@ -232,72 +245,82 @@ async def warncount(ctx, user: discord.User):
 
 @bot.command(name="mute")
 @commands.has_guild_permissions(administrator=True)
-async def mute(ctx, user: discord.Member):
-    guild = ctx.guild
-    mute_role = None
-
-    for role in guild.roles:
-        if role.name.lower() == "muted":
-            mute_role = role
-            break
-
-    if mute_role in user.roles:
-        await ctx.send("This user is already muted.")
-
+async def mute(ctx, user: discord.Member = None):
+    if user is None:
+        await ctx.send("Insufficient arguments.")
     else:
-        if not mute_role:
-            mute_role = await create_mute_role(guild)
+        guild = ctx.guild
+        mute_role = None
 
-        await user.add_roles(mute_role)
-        await ctx.send(f"User {user.mention} has been muted! They cannot speak.")
+        for role in guild.roles:
+            if role.name.lower() == "muted":
+                mute_role = role
+                break
+
+        if mute_role in user.roles:
+            await ctx.send("This user is already muted.")
+
+        else:
+            if not mute_role:
+                mute_role = await create_mute_role(guild)
+
+            await user.add_roles(mute_role)
+            await ctx.send(f"User {user.mention} has been muted! They cannot speak.")
 
 
 @bot.command(name="unmute")
 @commands.has_guild_permissions(administrator=True)
-async def unmute(ctx, user: discord.Member):
-    guild = ctx.guild
-    mute_role = None
-
-    for role in guild.roles:
-        if role.name.lower() == "muted":
-            mute_role = role
-            break
-
-    if mute_role in user.roles:
-        if not mute_role:
-            mute_role = await create_mute_role(guild)
-
-        await user.remove_roles(mute_role)
-        await ctx.send(f"User {user.mention} has been unmuted! They can now speak.")
-
+async def unmute(ctx, user: discord.Member = None):
+    if user is None:
+        await ctx.send("Insufficient arguments.")
     else:
-        await ctx.send("This user was never muted.")
+        guild = ctx.guild
+        mute_role = None
+
+        for role in guild.roles:
+            if role.name.lower() == "muted":
+                mute_role = role
+                break
+
+        if mute_role in user.roles:
+            if not mute_role:
+                mute_role = await create_mute_role(guild)
+
+            await user.remove_roles(mute_role)
+            await ctx.send(f"User {user.mention} has been unmuted! They can now speak.")
+
+        else:
+            await ctx.send("This user was never muted.")
+
 
 @bot.command(name="tempmute")
 @commands.has_guild_permissions(administrator=True)
-async def tempmute(ctx, user: discord.Member, time: int):
-    guild = ctx.guild
-    mute_role = None
+async def tempmute(ctx, user: discord.Member = None, time: int = None):
+    if user is None or time is None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        guild = ctx.guild
+        mute_role = None
 
-    for role in guild.roles:
-        if role.name.lower() == "muted":
-            mute_role = role
-            break
+        for role in guild.roles:
+            if role.name.lower() == "muted":
+                mute_role = role
+                break
 
-    if not mute_role:
-        mute_role = await create_mute_role(guild)
+        if not mute_role:
+            mute_role = await create_mute_role(guild)
 
-    await user.add_roles(mute_role)
-    await ctx.send(f"User {user.mention} has been muted for {time} seconds!")
-    await asyncio.sleep(time)
-    await user.remove_roles(mute_role)
-    await ctx.send(f"User {user.mention} has been unmuted after {time} seconds of TempMute! They can now speak.")
+        await user.add_roles(mute_role)
+        await ctx.send(f"User {user.mention} has been muted for {time} seconds!")
+        await asyncio.sleep(time)
+        await user.remove_roles(mute_role)
+        await ctx.send(f"User {user.mention} has been unmuted after {time} seconds of TempMute! They can now speak.")
 
 
 @bot.command(name="ban")
 @commands.has_guild_permissions(ban_members=True)
 async def ban(ctx, user: discord.User = None, *, reason=None):
-    if user == None or reason == None:
+    if user is None or reason is None:
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.ban(user, reason=reason)
@@ -307,7 +330,7 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
 @bot.command(name="kick")
 @commands.has_guild_permissions(kick_members=True)
 async def kick(ctx, user: discord.User = None, *, reason=None):
-    if user == None or reason == None:
+    if user is None or reason is None:
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.kick(user, reason=reason)
@@ -317,7 +340,7 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
 @bot.command(name="clear")
 @commands.has_guild_permissions(manage_messages=True)
 async def clear(ctx, count: int = None):
-    if count == None:
+    if count is None:
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.channel.purge(limit=count+1)
@@ -329,24 +352,24 @@ async def clear(ctx, count: int = None):
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
-    global automod_active
-    automod_active = True
+    global AUTOMOD_ACTIVE
+    AUTOMOD_ACTIVE = True
     await ctx.send("Automod is now active in your server...")
 
 
 @bot.command(name="stopautomod")
 @commands.has_guild_permissions(administrator=True)
 async def stopautomod(ctx):
-    global automod_active
-    automod_active = False
+    global AUTOMOD_ACTIVE
+    AUTOMOD_ACTIVE = False
     await ctx.send("Automod is now inactive in your server...")
 
 
 @bot.command(name="whitelistuser")
 @commands.has_guild_permissions(administrator=True)
 async def whitelistuser(ctx, user: discord.User = None):
-    if user == None:
-        ctx.send(f"Insufficient Arguments")
+    if user is None:
+        ctx.send("Insufficient Arguments")
     else:
         automod_user_whitelist.append(user)
         await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
@@ -355,8 +378,8 @@ async def whitelistuser(ctx, user: discord.User = None):
 @bot.command(name="whitelisturl")
 @commands.has_guild_permissions(administrator=True)
 async def whitelisturl(ctx, url: str):
-    if url == None:
-        ctx.send(f"Insufficient Arguments")
+    if url:
+        ctx.send("Insufficient Arguments")
     else:
         automod_url_whitelist.append(url)
         await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
@@ -370,7 +393,7 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
-    if automod_active and author not in automod_user_whitelist:
+    if AUTOMOD_ACTIVE and author not in automod_user_whitelist:
         perms = author.guild_permissions
         if not perms.administrator:
             if "http://" in message.content or "https://" in message.content:
