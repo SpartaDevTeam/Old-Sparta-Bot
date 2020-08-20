@@ -326,4 +326,61 @@ async def clear(ctx, count: int = None):
         await ctx.channel.purge(limit=1)
 
 
+@bot.command(name="activateautomod")
+@commands.has_guild_permissions(administrator=True)
+async def activateautomod(ctx):
+    global automod_active
+    automod_active = True
+    await ctx.send("Automod is now active in your server...")
+
+
+@bot.command(name="stopautomod")
+@commands.has_guild_permissions(administrator=True)
+async def stopautomod(ctx):
+    global automod_active
+    automod_active = False
+    await ctx.send("Automod is now inactive in your server...")
+
+
+@bot.command(name="whitelistuser")
+@commands.has_guild_permissions(administrator=True)
+async def whitelistuser(ctx, user: discord.User = None):
+    if user == None:
+        ctx.send(f"Insufficient Arguments")
+    else:
+        automod_user_whitelist.append(user)
+        await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
+
+
+@bot.command(name="whitelisturl")
+@commands.has_guild_permissions(administrator=True)
+async def whitelisturl(ctx, url: str):
+    if url == None:
+        ctx.send(f"Insufficient Arguments")
+    else:
+        automod_url_whitelist.append(url)
+        await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
+
+
+@bot.event
+async def on_message(message: discord.Message):
+    author: discord.Member = message.author
+    channel = message.channel
+    # print(str(author), ": ", message.content)
+
+    await bot.process_commands(message)
+
+    if automod_active and author not in automod_user_whitelist:
+        perms = author.guild_permissions
+        if not perms.administrator:
+            if "http://" in message.content or "https://" in message.content:
+                for url in automod_url_whitelist:
+                    if not url in message.content:
+                        await channel.purge(limit=1)
+                        await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+
+            elif len(message.attachments) > 0:
+                await channel.purge(limit=1)
+
+
 bot.run(token)
