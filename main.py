@@ -2,6 +2,8 @@ import asyncio
 import discord
 from discord.ext import commands
 
+from helpers import create_mute_role, create_new_whitelist
+
 with open("token.txt", "r") as file:
     token = file.read()
 PREFIX = "s!"
@@ -18,26 +20,6 @@ async def update_presence():
             type=discord.ActivityType.watching, name=f"{server_count} servers || {PREFIX}help")
         await bot.change_presence(activity=activity)
         await asyncio.sleep(10)
-
-
-async def create_mute_role(guild):
-    perms = discord.Permissions(send_messages=False)
-    mute_role = await guild.create_role(name="Muted", colour=discord.Color.dark_gray(), permissions=perms)
-
-    for channel in guild.channels:
-        await channel.set_permissions(mute_role, send_messages=False)
-
-    return mute_role
-
-
-def create_new_whitelist():
-    whitelist_entry = {
-        "active": False,
-        "users": [],
-        "urls": [],
-        "channels": []
-    }
-    return whitelist_entry
 
 
 misc_embed = discord.Embed(title="Misc. Help", color=theme_color)
