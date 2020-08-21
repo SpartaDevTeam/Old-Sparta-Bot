@@ -324,7 +324,8 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.ban(user, reason=reason)
-        await ctx.send(f"User {user.mention} has been banned for reason: **{reason}**.")
+        await ctx.send(f"User **{user}** has been banned for reason: **{reason}**.")
+        await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
 @bot.command(name="kick")
@@ -334,7 +335,8 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.kick(user, reason=reason)
-        await ctx.send(f"User {user.mention} has been kick for reason: **{reason}**.")
+        await ctx.send(f"User **{user}** has been kicked for reason: **{reason}**.")
+        await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
 @bot.command(name="clear")
