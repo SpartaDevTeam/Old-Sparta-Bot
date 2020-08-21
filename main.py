@@ -30,6 +30,16 @@ async def create_mute_role(guild):
     return mute_role
 
 
+def create_new_whitelist():
+    whitelist_entry = {
+        "active": False,
+        "users": [],
+        "urls": [],
+        "channels": []
+    }
+    return whitelist_entry
+
+
 misc_embed = discord.Embed(title="Misc. Help", color=theme_color)
 misc_embed.add_field(
     name=f"`{PREFIX}help <category>`", value="Displays command help")
@@ -67,16 +77,16 @@ auto_embed.add_field(name=f"`{PREFIX}whitelistuser <user>`",
                      value="Make a user immune to Auto Mod (Administrators are already immune)")
 auto_embed.add_field(name=f"`{PREFIX}whitelisturl <url>`",
                      value="Allow a specific url to bypass the Auto Mod")
+auto_embed.add_field(name=f"`{PREFIX}whitelistchannel <channel>`",
+                     value="Allow a specific channel to bypass the Auto Mod")
 
 
 all_help_embeds = [misc_embed, mod_embed, auto_embed]
 warn_count = {}
-AUTOMOD_ACTIVE = True
-automod_user_whitelist = []
-automod_url_whitelist = ["https://discord.com", "https://discord.gg"]
-CURRENT_HELP_MSG = None
-CURRENT_HELP_USER = None
-HELP_INDEX = 0
+automod_whitelist = {}
+current_help_msg = None
+current_help_user = None
+help_index = 0
 help_control_emojis = ["⬅️", "➡️"]
 
 
@@ -132,38 +142,38 @@ async def on_member_remove(member):
 
 @bot.event
 async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
-    global HELP_INDEX
+    global help_index
 
-    if reaction.message.id == CURRENT_HELP_MSG and user.id != 731763013417435247:
-        if user.id == CURRENT_HELP_USER:
+    if reaction.message.id == current_help_msg and user.id != 731763013417435247:
+        if user.id == current_help_user:
             channel: discord.TextChannel = reaction.message.channel
 
             if reaction.emoji == help_control_emojis[0]:
-                HELP_INDEX -= 1
+                help_index -= 1
 
             if reaction.emoji == help_control_emojis[1]:
-                HELP_INDEX += 1
+                help_index += 1
 
-            if HELP_INDEX < 0:
-                HELP_INDEX = len(all_help_embeds) - 1
-            elif HELP_INDEX >= len(all_help_embeds):
-                HELP_INDEX = 0
+            if help_index < 0:
+                help_index = len(all_help_embeds) - 1
+            elif help_index >= len(all_help_embeds):
+                help_index = 0
 
-            message: discord.Message = await channel.fetch_message(CURRENT_HELP_MSG)
-            await message.edit(embed=all_help_embeds[HELP_INDEX])
+            message: discord.Message = await channel.fetch_message(current_help_msg)
+            await message.edit(embed=all_help_embeds[help_index])
             await message.remove_reaction(reaction.emoji, user)
 
 
 @bot.group(name="help")
 async def _help(ctx):
-    msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[HELP_INDEX])
+    msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[help_index])
 
     for emoji in help_control_emojis:
         await msg.add_reaction(emoji)
 
-    global CURRENT_HELP_MSG, CURRENT_HELP_USER
-    CURRENT_HELP_MSG = msg.id
-    CURRENT_HELP_USER = ctx.author.id
+    global current_help_msg, current_help_user
+    current_help_msg = msg.id
+    current_help_user = ctx.author.id
 
 
 @bot.command(name="hello")
@@ -354,16 +364,22 @@ async def clear(ctx, count: int = None):
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
-    global AUTOMOD_ACTIVE
-    AUTOMOD_ACTIVE = True
+    global automod_whitelist
+    if ctx.guild.id not in automod_whitelist:
+        automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+
+    automod_whitelist[str(ctx.guild.id)]["active"] = True
+    print(automod_whitelist)
     await ctx.send("Automod is now active in your server...")
 
 
 @bot.command(name="stopautomod")
 @commands.has_guild_permissions(administrator=True)
 async def stopautomod(ctx):
-    global AUTOMOD_ACTIVE
-    AUTOMOD_ACTIVE = False
+    global automod_whitelist
+    if ctx.guild.id not in automod_whitelist:
+        automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+    automod_whitelist[str(ctx.guild.id)]["active"] = False
     await ctx.send("Automod is now inactive in your server...")
 
 
@@ -373,39 +389,73 @@ async def whitelistuser(ctx, user: discord.User = None):
     if user is None:
         ctx.send("Insufficient Arguments")
     else:
-        automod_user_whitelist.append(user)
+        global automod_whitelist
+        if ctx.guild.id not in automod_whitelist:
+            automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+
+        automod_whitelist[str(ctx.guild)]["users"].append(user.id)
         await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
 
 
 @bot.command(name="whitelisturl")
 @commands.has_guild_permissions(administrator=True)
 async def whitelisturl(ctx, url: str):
-    if url:
+    if url is None:
         ctx.send("Insufficient Arguments")
     else:
-        automod_url_whitelist.append(url)
+        global automod_whitelist
+        if ctx.guild.id not in automod_whitelist:
+            automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+
+        automod_whitelist[str(ctx.guild)]["urls"].append(url)
         await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
+
+@bot.command(name="whitelistchannel")
+@commands.has_guild_permissions(administrator=True)
+async def whitelistchannel(ctx, channel: discord.TextChannel):
+    if channel is None:
+        ctx.send("Insufficient Arguments")
+    else:
+        global automod_whitelist
+        if ctx.guild.id not in automod_whitelist:
+            automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+
+        automod_whitelist[str(ctx.guild)]["users"].append(channel.id)
+        await ctx.send(f"Added {channel.mention} to AutoMod Channel whitelist.")
+
+@bot.command(name="automodstatus")
+async def automodstatus(ctx):
+    status = automod_whitelist[str(ctx.guild.id)]["active"]
+    await ctx.send(f"AutoMod Active: **{status}**")
 
 
 @bot.event
 async def on_message(message: discord.Message):
+    global automod_whitelist
     author: discord.Member = message.author
-    channel = message.channel
+    channel: discord.TextChannel = message.channel
+    guild: discord.Guild = message.guild
     # print(str(author), ": ", message.content)
 
     await bot.process_commands(message)
 
-    if AUTOMOD_ACTIVE and author not in automod_user_whitelist:
+    if guild.id not in automod_whitelist:
+        automod_whitelist[str(guild.id)] = create_new_whitelist()
+
+    whitelist = automod_whitelist[str(guild.id)]
+
+    if whitelist["active"] and author not in whitelist["users"]:
         perms = author.permissions_in(channel)
-        if not perms.administrator:
+        if not perms.administrator or not channel in whitelist["channels"]:
             if "http://" in message.content or "https://" in message.content:
-                for url in automod_url_whitelist:
+                for url in whitelist["urls"]:
                     if not url in message.content:
                         await channel.purge(limit=1)
                         await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
 
             elif len(message.attachments) > 0:
                 await channel.purge(limit=1)
+                await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
 
 
 bot.run(token)
