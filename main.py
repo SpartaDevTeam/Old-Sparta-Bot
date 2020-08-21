@@ -421,23 +421,24 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
-    if guild.id not in automod_whitelist:
-        automod_whitelist[str(guild.id)] = create_new_whitelist()
+    # FIXME: fix auto mod
+    # if guild.id not in automod_whitelist:
+    #     automod_whitelist[str(guild.id)] = create_new_whitelist()
 
-    whitelist = automod_whitelist[str(guild.id)]
+    # whitelist = automod_whitelist[str(guild.id)]
 
-    if whitelist["active"] and author not in whitelist["users"]:
-        perms = author.permissions_in(channel)
-        if not perms.administrator or not channel in whitelist["channels"]:
-            if "http://" in message.content or "https://" in message.content:
-                for url in whitelist["urls"]:
-                    if not url in message.content:
-                        await channel.purge(limit=1)
-                        await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+    # if whitelist["active"] and author not in whitelist["users"]:
+    #     perms = author.permissions_in(channel)
+    #     if not perms.administrator or not channel in whitelist["channels"]:
+    #         if "http://" in message.content or "https://" in message.content:
+    #             for url in whitelist["urls"]:
+    #                 if not url in message.content:
+    #                     await channel.purge(limit=1)
+    #                     await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
 
-            elif len(message.attachments) > 0:
-                await channel.purge(limit=1)
-                await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
+    #         elif len(message.attachments) > 0:
+    #             await channel.purge(limit=1)
+    #             await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
 
 
 bot.run(token)
