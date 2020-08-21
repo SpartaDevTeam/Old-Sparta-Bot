@@ -61,6 +61,8 @@ auto_embed.add_field(name=f"`{PREFIX}whitelisturl <url>`",
                      value="Allow a specific url to bypass the Auto Mod")
 auto_embed.add_field(name=f"`{PREFIX}whitelistchannel <channel>`",
                      value="Allow a specific channel to bypass the Auto Mod")
+auto_embed.add_field(name=f"`{PREFIX}automodstatus`",
+                     value="Displays the status of AutoMod in your server")
 
 
 all_help_embeds = [misc_embed, mod_embed, auto_embed]
@@ -347,11 +349,10 @@ async def clear(ctx, count: int = None):
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
     global automod_whitelist
-    if ctx.guild.id not in automod_whitelist:
+    if str(ctx.guild.id) not in automod_whitelist:
         automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
 
     automod_whitelist[str(ctx.guild.id)]["active"] = True
-    print(automod_whitelist)
     await ctx.send("Automod is now active in your server...")
 
 
@@ -359,8 +360,9 @@ async def activateautomod(ctx):
 @commands.has_guild_permissions(administrator=True)
 async def stopautomod(ctx):
     global automod_whitelist
-    if ctx.guild.id not in automod_whitelist:
+    if str(ctx.guild.id) not in automod_whitelist:
         automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+
     automod_whitelist[str(ctx.guild.id)]["active"] = False
     await ctx.send("Automod is now inactive in your server...")
 
@@ -372,37 +374,37 @@ async def whitelistuser(ctx, user: discord.User = None):
         ctx.send("Insufficient Arguments")
     else:
         global automod_whitelist
-        if ctx.guild.id not in automod_whitelist:
+        if str(ctx.guild.id) not in automod_whitelist:
             automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
 
-        automod_whitelist[str(ctx.guild)]["users"].append(user.id)
+        automod_whitelist[str(ctx.guild.id)]["users"].append(str(user.id))
         await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
 
 
 @bot.command(name="whitelisturl")
 @commands.has_guild_permissions(administrator=True)
-async def whitelisturl(ctx, url: str):
+async def whitelisturl(ctx, url: str = None):
     if url is None:
         ctx.send("Insufficient Arguments")
     else:
         global automod_whitelist
-        if ctx.guild.id not in automod_whitelist:
+        if str(ctx.guild.id) not in automod_whitelist:
             automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
 
-        automod_whitelist[str(ctx.guild)]["urls"].append(url)
+        automod_whitelist[str(ctx.guild.id)]["urls"].append(url)
         await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
 
 @bot.command(name="whitelistchannel")
 @commands.has_guild_permissions(administrator=True)
-async def whitelistchannel(ctx, channel: discord.TextChannel):
+async def whitelistchannel(ctx, channel: discord.TextChannel = None):
     if channel is None:
         ctx.send("Insufficient Arguments")
     else:
         global automod_whitelist
-        if ctx.guild.id not in automod_whitelist:
+        if str(ctx.guild.id) not in automod_whitelist:
             automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
 
-        automod_whitelist[str(ctx.guild)]["users"].append(channel.id)
+        automod_whitelist[str(ctx.guild.id)]["channels"].append(str(channel.id))
         await ctx.send(f"Added {channel.mention} to AutoMod Channel whitelist.")
 
 @bot.command(name="automodstatus")
@@ -421,24 +423,28 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
-    # FIXME: fix auto mod
-    # if guild.id not in automod_whitelist:
-    #     automod_whitelist[str(guild.id)] = create_new_whitelist()
+    if str(guild.id) not in automod_whitelist:
+        automod_whitelist[str(guild.id)] = create_new_whitelist()
 
-    # whitelist = automod_whitelist[str(guild.id)]
+    whitelist = automod_whitelist[str(guild.id)]
 
-    # if whitelist["active"] and author not in whitelist["users"]:
-    #     perms = author.permissions_in(channel)
-    #     if not perms.administrator or not channel in whitelist["channels"]:
-    #         if "http://" in message.content or "https://" in message.content:
-    #             for url in whitelist["urls"]:
-    #                 if not url in message.content:
-    #                     await channel.purge(limit=1)
-    #                     await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+    if whitelist["active"] and str(author.id) not in whitelist["users"]:
+        if not str(channel.id) in whitelist["channels"]:
+            perms = author.permissions_in(channel)
+            if not perms.administrator :
+                if "http://" in message.content or "https://" in message.content:
+                    if len(whitelist["urls"]) > 0:
+                        for url in whitelist["urls"]:
+                            if not url in message.content:
+                                await channel.purge(limit=1)
+                                await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+                    else:
+                        await channel.purge(limit=1)
+                        await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
 
-    #         elif len(message.attachments) > 0:
-    #             await channel.purge(limit=1)
-    #             await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
+                elif len(message.attachments) > 0:
+                    await channel.purge(limit=1)
+                    await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
 
 
 bot.run(token)
