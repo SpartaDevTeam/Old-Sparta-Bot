@@ -314,22 +314,28 @@ async def tempmute(ctx, user: discord.Member = None, time: int = None):
 @bot.command(name="ban")
 @commands.has_guild_permissions(ban_members=True)
 async def ban(ctx, user: discord.User = None, *, reason=None):
-    if user is None or reason is None:
+    if user is None:
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.ban(user, reason=reason)
-        await ctx.send(f"User **{user}** has been banned for reason: **{reason}**.")
+        if reason:
+            await ctx.send(f"User **{user}** has been banned for reason: **{reason}**.")
+        else:
+            await ctx.send(f"User **{user}** has been banned.")
         await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
 @bot.command(name="kick")
 @commands.has_guild_permissions(kick_members=True)
 async def kick(ctx, user: discord.User = None, *, reason=None):
-    if user is None or reason is None:
+    if user is None:
         await ctx.send("Insufficient arguments.")
     else:
         await ctx.guild.kick(user, reason=reason)
-        await ctx.send(f"User **{user}** has been kicked for reason: **{reason}**.")
+        if reason:
+            await ctx.send(f"User **{user}** has been kicked for reason: **{reason}**.")
+        else:
+            await ctx.send(f"User **{user}** has been kicked.")
         await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
