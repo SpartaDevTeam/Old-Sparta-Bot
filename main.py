@@ -437,7 +437,7 @@ async def on_message(message: discord.Message):
     if whitelist["active"] and str(author.id) not in whitelist["users"]:
         if not str(channel.id) in whitelist["channels"]:
             perms = author.permissions_in(channel)
-            if not perms.administrator :
+            if not perms.administrator:
                 if "http://" in message.content or "https://" in message.content:
                     if len(whitelist["urls"]) > 0:
                         for url in whitelist["urls"]:
