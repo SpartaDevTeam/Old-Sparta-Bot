@@ -392,7 +392,7 @@ async def unlockchannel(ctx, channel: discord.TextChannel = None):
 
     await channel.set_permissions(ctx.guild.roles[0], read_messages=True, send_messages=True)
 
-    await ctx.send(f"The channel {channel.mention} is now locked. Only the server administrators can access it.")
+    await ctx.send(f"The channel {channel.mention} is now unlocked. Everyone can access it now.")
 
 
 # LABEL: AutoMod Commands
