@@ -29,6 +29,7 @@ misc_embed.add_field(name=f"`{PREFIX}hello`", value="Say hello to the bot")
 misc_embed.add_field(name=f"`{PREFIX}info`",
                      value="Displays the bot's information")
 misc_embed.add_field(name=f"`{PREFIX}clear <count>`", value="Deletes messages")
+misc_embed.add_field(name=f"`{PREFIX}nuke`", value="Deletes all messages in a channel")
 misc_embed.add_field(
     name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
 
@@ -349,6 +350,15 @@ async def clear(ctx, count: int = None):
         await ctx.send(f"Cleared the last {count} message(s)!")
         await asyncio.sleep(3)
         await ctx.channel.purge(limit=1)
+
+
+@bot.command(name="nuke")
+@commands.has_guild_permissions(manage_messages=True)
+async def nuke(ctx):
+    await ctx.channel.purge()
+    await ctx.send("Nuked this channel!")
+    await asyncio.sleep(3)
+    await ctx.channel.purge()
 
 
 @bot.command(name="activateautomod")
