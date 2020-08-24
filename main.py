@@ -149,6 +149,7 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
             await message.remove_reaction(reaction.emoji, user)
 
 
+# LABEL: Misc Commands
 @bot.group(name="help")
 async def _help(ctx):
     msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[help_index])
@@ -196,6 +197,28 @@ async def invite(ctx):
     await ctx.send(content=None, embed=embed)
 
 
+@bot.command(name="clear")
+@commands.has_guild_permissions(manage_messages=True)
+async def clear(ctx, count: int = None):
+    if count is None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.channel.purge(limit=count+1)
+        await ctx.send(f"Cleared the last {count} message(s)!")
+        await asyncio.sleep(3)
+        await ctx.channel.purge(limit=1)
+
+
+@bot.command(name="nuke")
+@commands.has_guild_permissions(manage_messages=True)
+async def nuke(ctx):
+    await ctx.channel.purge()
+    await ctx.send("Nuked this channel!")
+    await asyncio.sleep(3)
+    await ctx.channel.purge()
+
+
+# LABEL: Moderator Commands
 @bot.command(name="warn")
 @commands.has_guild_permissions(administrator=True)
 async def warn(ctx, user: discord.User = None, *, reason=None):
@@ -340,27 +363,7 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
         await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
-@bot.command(name="clear")
-@commands.has_guild_permissions(manage_messages=True)
-async def clear(ctx, count: int = None):
-    if count is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        await ctx.channel.purge(limit=count+1)
-        await ctx.send(f"Cleared the last {count} message(s)!")
-        await asyncio.sleep(3)
-        await ctx.channel.purge(limit=1)
-
-
-@bot.command(name="nuke")
-@commands.has_guild_permissions(manage_messages=True)
-async def nuke(ctx):
-    await ctx.channel.purge()
-    await ctx.send("Nuked this channel!")
-    await asyncio.sleep(3)
-    await ctx.channel.purge()
-
-
+# LABEL: AutoMod Commands
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
