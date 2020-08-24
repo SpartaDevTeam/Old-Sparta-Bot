@@ -29,7 +29,8 @@ misc_embed.add_field(name=f"`{PREFIX}hello`", value="Say hello to the bot")
 misc_embed.add_field(name=f"`{PREFIX}info`",
                      value="Displays the bot's information")
 misc_embed.add_field(name=f"`{PREFIX}clear <count>`", value="Deletes messages")
-misc_embed.add_field(name=f"`{PREFIX}nuke`", value="Deletes all messages in a channel")
+misc_embed.add_field(name=f"`{PREFIX}nuke`",
+                     value="Deletes all messages in a channel")
 misc_embed.add_field(
     name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
 
@@ -232,7 +233,8 @@ async def warn(ctx, user: discord.User = None, *, reason=None):
         else:
             warn_count[str(user)] += 1
 
-        embed = discord.Embed(title=f"{user.name} has been warned", color=theme_color)
+        embed = discord.Embed(
+            title=f"{user.name} has been warned", color=theme_color)
         embed.add_field(name="Reason", value=reason)
         embed.add_field(name="This user has been warned",
                         value=f"{warn_count[str(user)]} time(s)")
@@ -363,6 +365,32 @@ async def kick(ctx, user: discord.User = None, *, reason=None):
         await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
+@bot.command(name="lockchannel")
+@commands.has_guild_permissions(administrator=True)
+async def lockchannel(ctx, channel: discord.TextChannel = None):
+    if channel is None:
+        channel = ctx.channel
+
+    for role in ctx.guild.roles:
+        if role.permissions.administrator:
+            await channel.set_permissions(role, read_messages=True, send_messages=True)
+        elif role.name == "@everyone":
+            await channel.set_permissions(role, read_messages=False, send_messages=False)
+
+    await ctx.send(f"The channel {channel.mention} is now locked. Only the server administrators can access it.")
+
+
+@bot.command(name="unlockchannel")
+@commands.has_guild_permissions(administrator=True)
+async def unlockchannel(ctx, channel: discord.TextChannel = None):
+    if channel is None:
+        channel = ctx.channel
+
+    await channel.set_permissions(ctx.guild.roles[0], read_messages=True, send_messages=True)
+
+    await ctx.send(f"The channel {channel.mention} is now locked. Only the server administrators can access it.")
+
+
 # LABEL: AutoMod Commands
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
@@ -413,6 +441,7 @@ async def whitelisturl(ctx, url: str = None):
         automod_whitelist[str(ctx.guild.id)]["urls"].append(url)
         await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
 
+
 @bot.command(name="whitelistchannel")
 @commands.has_guild_permissions(administrator=True)
 async def whitelistchannel(ctx, channel: discord.TextChannel = None):
@@ -423,8 +452,10 @@ async def whitelistchannel(ctx, channel: discord.TextChannel = None):
         if str(ctx.guild.id) not in automod_whitelist:
             automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
 
-        automod_whitelist[str(ctx.guild.id)]["channels"].append(str(channel.id))
+        automod_whitelist[str(ctx.guild.id)]["channels"].append(
+            str(channel.id))
         await ctx.send(f"Added {channel.mention} to AutoMod Channel whitelist.")
+
 
 @bot.command(name="automodstatus")
 async def automodstatus(ctx):
