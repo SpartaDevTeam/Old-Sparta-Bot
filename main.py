@@ -50,6 +50,10 @@ mod_embed.add_field(name=f"`{PREFIX}ban <user> <reason>`",
                     value="Bans a user from the server")
 mod_embed.add_field(name=f"`{PREFIX}kick <user> <reason>`",
                     value="Kicks a user from the server")
+mod_embed.add_field(name=f"`{PREFIX}lockchannel <channel>`",
+                    value="Locks a channel so only Administrators can use it")
+mod_embed.add_field(name=f"`{PREFIX}unlockchannel <channel>`",
+                    value="Unlocks a channel so every server member can use it")
 
 
 auto_embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
