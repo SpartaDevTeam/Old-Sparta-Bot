@@ -381,7 +381,7 @@ async def lockchannel(ctx, channel: discord.TextChannel = None):
         elif role.name == "@everyone":
             await channel.set_permissions(role, send_messages=False)
 
-    await ctx.send(f"🔒The channel {channel.mention} has beed locked")
+    await ctx.send(f"🔒The channel {channel.mention} has been locked")
 
 
 @bot.command(name="unlockchannel")
