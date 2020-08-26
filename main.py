@@ -379,7 +379,7 @@ async def lockchannel(ctx, channel: discord.TextChannel = None):
         if role.permissions.administrator:
             await channel.set_permissions(role, read_messages=True, send_messages=True)
         elif role.name == "@everyone":
-            await channel.set_permissions(role, read_messages=True, send_messages=False)
+            await channel.set_permissions(role, read_messages=False, send_messages=False)
 
     await ctx.send(f"The channel {channel.mention} is now locked. Only the server administrators can access it.")
 
