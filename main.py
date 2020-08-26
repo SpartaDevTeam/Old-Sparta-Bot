@@ -377,9 +377,9 @@ async def lockchannel(ctx, channel: discord.TextChannel = None):
 
     for role in ctx.guild.roles:
         if role.permissions.administrator:
-            await channel.set_permissions(role, read_messages=True, send_messages=True)
+            await channel.set_permissions(role, send_messages=True)
         elif role.name == "@everyone":
-            await channel.set_permissions(role, read_messages=True, send_messages=False)
+            await channel.set_permissions(role, send_messages=False)
 
     await ctx.send(f"🔒The channel {channel.mention} has beed locked")
 
@@ -390,7 +390,7 @@ async def unlockchannel(ctx, channel: discord.TextChannel = None):
     if channel is None:
         channel = ctx.channel
 
-    await channel.set_permissions(ctx.guild.roles[0], read_messages=True, send_messages=True)
+    await channel.set_permissions(ctx.guild.roles[0], send_messages=True)
 
     await ctx.send(f"🔓The channel {channel.mention} has been unlocked")
 
