@@ -377,7 +377,7 @@ async def lockchannel(ctx, channel: discord.TextChannel = None):
 
     for role in ctx.guild.roles:
         if role.permissions.administrator:
-            await channel.set_permissions(role, send_messages=True)
+            await channel.set_permissions(role, send_messages=True, read_messages=True)
         elif role.name == "@everyone":
             await channel.set_permissions(role, send_messages=False)
 
