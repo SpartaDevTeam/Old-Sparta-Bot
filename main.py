@@ -48,6 +48,8 @@ mod_embed.add_field(
     name=f"`{PREFIX}tempmute <user> <time in seconds>`", value="Temporarily mutes a user")
 mod_embed.add_field(name=f"`{PREFIX}ban <user> <reason>`",
                     value="Bans a user from the server")
+mod_embed.add_field(name=f"`{PREFIX}unban <user> <reason>`",
+                    value="Unbans a user from the server")
 mod_embed.add_field(name=f"`{PREFIX}kick <user> <reason>`",
                     value="Kicks a user from the server")
 mod_embed.add_field(name=f"`{PREFIX}lockchannel <channel>`",
@@ -353,6 +355,20 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
         else:
             await ctx.send(f"User **{user}** has been banned.")
         await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+
+
+@bot.command(name="unban")
+@commands.has_guild_permissions(ban_members=True)
+async def unban(ctx, user: discord.User = None, *, reason = None):
+    if user is None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.guild.unban(user, reason)
+        if reason:
+            await ctx.send(f"User **{user}** has been unbanned for reason: **{reason}**.")
+        else:
+            await ctx.send(f"User **{user}** has been unbanned.")
+        await user.send(f"You have been **unbanned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
 
 @bot.command(name="kick")
