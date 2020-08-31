@@ -200,7 +200,7 @@ async def info(ctx):
 async def invite(ctx):
     invite_url = "https://discord.com/oauth2/authorize?client_id=731763013417435247&permissions=8&scope=bot"
     embed = discord.Embed(
-        title="Click here to invite Sparta Bot!", url=invite_url)
+        title="Click here to invite Sparta Bot!", url=invite_url, color=theme_color)
     await ctx.send(content=None, embed=embed)
 
 
