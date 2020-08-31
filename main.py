@@ -73,8 +73,10 @@ auto_embed.add_field(name=f"`{PREFIX}automodstatus`",
                      value="Displays the status of AutoMod in your server")
 
 
-programming_embed = discord.Embed(title="Programming Commands Help", color=theme_color)
-programming_embed.add_field(name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
+programming_embed = discord.Embed(
+    title="Programming Commands Help", color=theme_color)
+programming_embed.add_field(
+    name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
 
 
 all_help_embeds = [misc_embed, mod_embed, auto_embed, programming_embed]
@@ -363,7 +365,7 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
 
 @bot.command(name="unban")
 @commands.has_guild_permissions(ban_members=True)
-async def unban(ctx, username: str = None, *, reason = None):
+async def unban(ctx, username: str = None, *, reason=None):
     if username is None:
         await ctx.send("Insufficient arguments.")
     else:
