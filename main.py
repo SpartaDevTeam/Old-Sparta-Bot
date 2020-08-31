@@ -73,7 +73,11 @@ auto_embed.add_field(name=f"`{PREFIX}automodstatus`",
                      value="Displays the status of AutoMod in your server")
 
 
-all_help_embeds = [misc_embed, mod_embed, auto_embed]
+programming_embed = discord.Embed(title="Programming Commands Help", color=theme_color)
+programming_embed.add_field(name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
+
+
+all_help_embeds = [misc_embed, mod_embed, auto_embed, programming_embed]
 warn_count = {}
 automod_whitelist = {}
 current_help_msg = None
