@@ -6,8 +6,7 @@ from discord.ext import commands
 
 from helpers import create_mute_role, create_new_whitelist
 
-with open("token.txt", "r") as file:
-    token = file.read()
+TOKEN = os.getenv('SPARTA_TOKEN')
 
 PREFIX = "s!"
 bot = commands.Bot(command_prefix=PREFIX,
@@ -568,4 +567,4 @@ async def on_message(message: discord.Message):
                     await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
 
 
-bot.run(token)
+bot.run(TOKEN)
