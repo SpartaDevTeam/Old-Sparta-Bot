@@ -503,7 +503,8 @@ async def automodstatus(ctx):
 # LABEL: Programming Commands
 @bot.command(name="eval")
 async def eval_code(ctx, *, code):
-    if bot.is_owner(ctx.author):
+    is_owner = await bot.is_owner(ctx.author)
+    if is_owner:
         # Some formatting before executing code
         print(code)
         code = code.strip("```")
