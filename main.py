@@ -1,3 +1,5 @@
+import os
+import subprocess
 import asyncio
 import discord
 from discord.ext import commands
@@ -6,6 +8,7 @@ from helpers import create_mute_role, create_new_whitelist
 
 with open("token.txt", "r") as file:
     token = file.read()
+
 PREFIX = "s!"
 bot = commands.Bot(command_prefix=PREFIX,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
@@ -495,6 +498,39 @@ async def whitelistchannel(ctx, channel: discord.TextChannel = None):
 async def automodstatus(ctx):
     status = automod_whitelist[str(ctx.guild.id)]["active"]
     await ctx.send(f"AutoMod Active: **{status}**")
+
+
+# LABEL: Programming Commands
+@bot.command(name="eval")
+async def eval_code(ctx, *, code):
+    if bot.is_owner(ctx.author):
+        # Some formatting before executing code
+        print(code)
+        code = code.strip("```")
+        code = code.strip("py")
+        code = code.strip("python")
+        print(code)
+
+        code_file = open("run.py", "w")
+        code_file.write(code)
+        code_file.close()
+
+        cmd = subprocess.run(["python3", "run.py"], capture_output=True)
+        output = cmd.stdout.decode()  # bytes => str
+
+        os.remove("run.py")
+
+        if len(output) == 0:
+            output = "```There was an error in your code...```"
+        else:
+            output = f"```{output}```"
+
+        output_embed = discord.Embed(title="Code Output", color=theme_color)
+        output_embed.add_field(name=f"Code run by {ctx.author}:", value=output)
+
+        await ctx.send(embed=output_embed)
+    else:
+        await ctx.send("You are not authorized to run this command.")
 
 
 @bot.event
