@@ -12,7 +12,7 @@ PREFIX = "s!"
 bot = commands.Bot(command_prefix=PREFIX,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
-theme_color = discord.Colour.purple()
+THEME_COLOR = discord.Colour.blue()
 
 
 async def update_presence():
@@ -24,7 +24,7 @@ async def update_presence():
         await asyncio.sleep(10)
 
 
-misc_embed = discord.Embed(title="Misc. Help", color=theme_color)
+misc_embed = discord.Embed(title="Misc. Help", color=THEME_COLOR)
 misc_embed.add_field(
     name=f"`{PREFIX}help <category>`", value="Displays command help")
 misc_embed.add_field(name=f"`{PREFIX}hello`", value="Say hello to the bot")
@@ -39,7 +39,7 @@ misc_embed.add_field(
     name=f"`{PREFIX}github`", value="Get the link to the GitHub Repository")
 
 
-mod_embed = discord.Embed(title="Moderator Help", color=theme_color)
+mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
 mod_embed.add_field(name=f"`{PREFIX}warn <user> <reason>`",
                     value="Warn a user for doing something")
 mod_embed.add_field(name=f"`{PREFIX}clearwarn <user>`",
@@ -62,7 +62,7 @@ mod_embed.add_field(name=f"`{PREFIX}unlockchannel <channel>`",
                     value="Unlocks a channel so every server member can use it")
 
 
-auto_embed = discord.Embed(title="Auto Moderator Help", color=theme_color)
+auto_embed = discord.Embed(title="Auto Moderator Help", color=THEME_COLOR)
 auto_embed.add_field(name=f"`{PREFIX}activateautomod`",
                      value="Turns on Automod in your server")
 auto_embed.add_field(name=f"`{PREFIX}stopautomod`",
@@ -78,7 +78,7 @@ auto_embed.add_field(name=f"`{PREFIX}automodstatus`",
 
 
 programming_embed = discord.Embed(
-    title="Programming Commands Help", color=theme_color)
+    title="Programming Commands Help", color=THEME_COLOR)
 programming_embed.add_field(
     name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
 
@@ -186,7 +186,7 @@ async def hello(ctx):
 
 @bot.command(name="info")
 async def info(ctx):
-    embed = discord.Embed(title="Bot Information", color=theme_color)
+    embed = discord.Embed(title="Bot Information", color=THEME_COLOR)
     ping = round(bot.latency * 1000)
     guild_count = len(bot.guilds)
     members = []
@@ -210,7 +210,7 @@ async def info(ctx):
 async def invite(ctx):
     invite_url = "https://discord.com/oauth2/authorize?client_id=731763013417435247&permissions=8&scope=bot"
     embed = discord.Embed(
-        title="Click here to invite Sparta Bot!", url=invite_url, color=theme_color)
+        title="Click here to invite Sparta Bot!", url=invite_url, color=THEME_COLOR)
     await ctx.send(content=None, embed=embed)
 
 
@@ -218,7 +218,7 @@ async def invite(ctx):
 async def github(ctx):
     repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
     embed = discord.Embed(
-        title="Click here to go to the GitHub Repository!", url=repo_url, color=theme_color)
+        title="Click here to go to the GitHub Repository!", url=repo_url, color=THEME_COLOR)
     await ctx.send(content=None, embed=embed)
 
 
@@ -258,7 +258,7 @@ async def warn(ctx, user: discord.User = None, *, reason=None):
             warn_count[str(user)] += 1
 
         embed = discord.Embed(
-            title=f"{user.name} has been warned", color=theme_color)
+            title=f"{user.name} has been warned", color=THEME_COLOR)
         embed.add_field(name="Reason", value=reason)
         embed.add_field(name="This user has been warned",
                         value=f"{warn_count[str(user)]} time(s)")
@@ -535,7 +535,7 @@ async def eval_code(ctx, *, code):
         else:
             output = f"```{output}```"
 
-        output_embed = discord.Embed(title="Code Output", color=theme_color)
+        output_embed = discord.Embed(title="Code Output", color=THEME_COLOR)
         output_embed.add_field(name=f"Code run by {ctx.author}:", value=output)
 
         await ctx.send(embed=output_embed)
