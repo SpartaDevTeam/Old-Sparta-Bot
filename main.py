@@ -35,6 +35,8 @@ misc_embed.add_field(name=f"`{PREFIX}nuke`",
                      value="Deletes all messages in a channel")
 misc_embed.add_field(
     name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
+misc_embed.add_field(
+    name=f"`{PREFIX}github`", value="Get the link to the GitHub Repository")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=theme_color)
@@ -209,6 +211,14 @@ async def invite(ctx):
     invite_url = "https://discord.com/oauth2/authorize?client_id=731763013417435247&permissions=8&scope=bot"
     embed = discord.Embed(
         title="Click here to invite Sparta Bot!", url=invite_url, color=theme_color)
+    await ctx.send(content=None, embed=embed)
+
+
+@bot.command(name="github")
+async def github(ctx):
+    repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
+    embed = discord.Embed(
+        title="Click here to go to the GitHub Repository!", url=repo_url, color=theme_color)
     await ctx.send(content=None, embed=embed)
 
 
