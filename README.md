@@ -2,9 +2,9 @@
 It is made by Rehatbir Singh and Jay Surana. You can type s!help to get the command help menu.
 
 ## Features
-> Auto Moderation features (mute, temp-mute, kick, ban, etc.)
-> Music (Coming Soon)
-> Small minigames (Coming Soon)
+1. Auto Moderation features (mute, temp-mute, kick, ban, etc.)
+2. Music (Coming Soon)
+3. Small minigames (Coming Soon)
 
 ## About the authors
 Jay Surana(Real々Sparta#1282): Expert Gamer and Programs in Python and JavaScript. 
