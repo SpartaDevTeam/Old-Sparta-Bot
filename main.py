@@ -257,14 +257,13 @@ async def clear(ctx, count: int = None):
 @bot.command(name="nuke")
 @commands.has_guild_permissions(manage_messages=True)
 async def nuke(ctx):
-    await ctx.channel.purge()
+    temp_channel = await ctx.channel.clone()
+    await temp_channel.edit(position=ctx.channel.position)
+    await ctx.channel.delete(reason="Nuke")
     await ctx.send("Nuked this channel!")
-    await asyncio.sleep(3)
-    await ctx.channel.purge()
+
 
 # LABEL: Server Settings
-
-
 @bot.command(name="welcomemessage")
 @commands.has_guild_permissions(administrator=True)
 async def welcome_message(ctx, *, msg: str):
