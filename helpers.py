@@ -11,11 +11,12 @@ async def create_mute_role(guild):
     return mute_role
 
 
-def create_new_whitelist():
+def create_new_data():
     whitelist_entry = {
         "active": False,
         "users": [],
         "urls": [],
-        "channels": []
+        "channels": [],
+        "welcome_msg": None,
     }
     return whitelist_entry

@@ -4,7 +4,7 @@ import asyncio
 import discord
 from discord.ext import commands
 
-from helpers import create_mute_role, create_new_whitelist
+from helpers import create_mute_role, create_new_data
 
 TOKEN = os.getenv('SPARTA_TOKEN')
 
@@ -37,6 +37,12 @@ misc_embed.add_field(
     name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
 misc_embed.add_field(
     name=f"`{PREFIX}github`", value="Get the link to the GitHub Repository")
+
+
+server_settings_embed = discord.Embed(
+    title="Server Settings Commands Help", color=THEME_COLOR)
+server_settings_embed.add_field(
+    name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, `[rules]` to mention the rules channel, and `[self-roles]` for self-roles channel in your message.")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
@@ -83,9 +89,9 @@ programming_embed.add_field(
     name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
 
 
-all_help_embeds = [misc_embed, mod_embed, auto_embed, programming_embed]
+all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed]
 warn_count = {}
-automod_whitelist = {}
+server_data = {}
 current_help_msg = None
 current_help_user = None
 help_index = 0
@@ -100,31 +106,45 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
+    global server_data
+
     guild = member.guild
     channels = guild.channels
-    rules_server = None
-    self_roles_server = None
-    print(f"{member} has joined the server...")
+    rules_channel = None
+    self_roles_channel = None
+
+    if str(guild.id) not in server_data:
+        server_data[str(guild.id)] = create_new_data()
+    data = server_data[str(guild.id)]
+
+    print(f"{member} has joined {guild} server...")
 
     # Channel Links
     for channel in channels:
         if str(channel).find("rules") != -1:
-            rules_server = channel
+            rules_channel = channel
             print("rules channel found")
         if str(channel).find("self-roles") != -1:
             self_roles_channel = channel
             print("self-roles channel found")
 
     # Welcome Message
+    if data["welcome_msg"] is None:
+        server_wlcm_msg = f"Welcome, {member.mention}, to the Official **{guild.name}** Server"
+    else:
+        server_wlcm_msg = data["welcome_msg"]
+        server_wlcm_msg = server_wlcm_msg.replace(
+            "[mention]", f"{member.mention}")
+        if rules_channel:
+            server_wlcm_msg = server_wlcm_msg.replace(
+                "[rules]", f"{rules_channel.mention}")
+        if self_roles_channel:
+            server_wlcm_msg = server_wlcm_msg.replace(
+                "[self-roles]", f"{self_roles_channel.mention}")
+
     for channel in channels:
         if str(channel).find("welcome") != -1:
-            msg = f"Welcome, {member.mention}, to the Official **{guild.name}** Server\n"
-            if rules_server:
-                msg += f"Please check the rules at {rules_server.mention}\n"
-            if self_roles_server:
-                msg += f"Get your self-role at {self_roles_channel.mention}.\n"
-
-            await channel.send(msg)
+            await channel.send(server_wlcm_msg)
             break
 
 
@@ -241,6 +261,19 @@ async def nuke(ctx):
     await ctx.send("Nuked this channel!")
     await asyncio.sleep(3)
     await ctx.channel.purge()
+
+# LABEL: Server Settings
+
+
+@bot.command(name="welcomemessage")
+@commands.has_guild_permissions(administrator=True)
+async def welcome_message(ctx, *, msg: str):
+    global server_data
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
+
+    server_data[str(ctx.guild.id)]["welcome_msg"] = msg
+    await ctx.send(f"This server's welcome message has been set to **{msg}**")
 
 
 # LABEL: Moderator Commands
@@ -441,22 +474,22 @@ async def unlockchannel(ctx, channel: discord.TextChannel = None):
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
-    global automod_whitelist
-    if str(ctx.guild.id) not in automod_whitelist:
-        automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+    global server_data
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
 
-    automod_whitelist[str(ctx.guild.id)]["active"] = True
+    server_data[str(ctx.guild.id)]["active"] = True
     await ctx.send("Automod is now active in your server...")
 
 
 @bot.command(name="stopautomod")
 @commands.has_guild_permissions(administrator=True)
 async def stopautomod(ctx):
-    global automod_whitelist
-    if str(ctx.guild.id) not in automod_whitelist:
-        automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+    global server_data
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
 
-    automod_whitelist[str(ctx.guild.id)]["active"] = False
+    server_data[str(ctx.guild.id)]["active"] = False
     await ctx.send("Automod is now inactive in your server...")
 
 
@@ -466,11 +499,11 @@ async def whitelistuser(ctx, user: discord.User = None):
     if user is None:
         ctx.send("Insufficient Arguments")
     else:
-        global automod_whitelist
-        if str(ctx.guild.id) not in automod_whitelist:
-            automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+        global server_data
+        if str(ctx.guild.id) not in server_data:
+            server_data[str(ctx.guild.id)] = create_new_data()
 
-        automod_whitelist[str(ctx.guild.id)]["users"].append(str(user.id))
+        server_data[str(ctx.guild.id)]["users"].append(str(user.id))
         await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
 
 
@@ -480,11 +513,11 @@ async def whitelisturl(ctx, url: str = None):
     if url is None:
         ctx.send("Insufficient Arguments")
     else:
-        global automod_whitelist
-        if str(ctx.guild.id) not in automod_whitelist:
-            automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+        global server_data
+        if str(ctx.guild.id) not in server_data:
+            server_data[str(ctx.guild.id)] = create_new_data()
 
-        automod_whitelist[str(ctx.guild.id)]["urls"].append(url)
+        server_data[str(ctx.guild.id)]["urls"].append(url)
         await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
 
 
@@ -494,18 +527,18 @@ async def whitelistchannel(ctx, channel: discord.TextChannel = None):
     if channel is None:
         ctx.send("Insufficient Arguments")
     else:
-        global automod_whitelist
-        if str(ctx.guild.id) not in automod_whitelist:
-            automod_whitelist[str(ctx.guild.id)] = create_new_whitelist()
+        global server_data
+        if str(ctx.guild.id) not in server_data:
+            server_data[str(ctx.guild.id)] = create_new_data()
 
-        automod_whitelist[str(ctx.guild.id)]["channels"].append(
+        server_data[str(ctx.guild.id)]["channels"].append(
             str(channel.id))
         await ctx.send(f"Added {channel.mention} to AutoMod Channel whitelist.")
 
 
 @bot.command(name="automodstatus")
 async def automodstatus(ctx):
-    status = automod_whitelist[str(ctx.guild.id)]["active"]
+    status = server_data[str(ctx.guild.id)]["active"]
     await ctx.send(f"AutoMod Active: **{status}**")
 
 
@@ -545,7 +578,7 @@ async def eval_code(ctx, *, code):
 
 @bot.event
 async def on_message(message: discord.Message):
-    global automod_whitelist
+    global server_data
     author: discord.Member = message.author
     channel: discord.TextChannel = message.channel
     guild: discord.Guild = message.guild
@@ -553,10 +586,10 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
-    if str(guild.id) not in automod_whitelist:
-        automod_whitelist[str(guild.id)] = create_new_whitelist()
+    if str(guild.id) not in server_data:
+        server_data[str(guild.id)] = create_new_data()
 
-    whitelist = automod_whitelist[str(guild.id)]
+    whitelist = server_data[str(guild.id)]
 
     if whitelist["active"] and str(author.id) not in whitelist["users"]:
         if not str(channel.id) in whitelist["channels"]:
