@@ -42,7 +42,7 @@ misc_embed.add_field(
 server_settings_embed = discord.Embed(
     title="Server Settings Commands Help", color=THEME_COLOR)
 server_settings_embed.add_field(
-    name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, `[rules]` to mention the rules channel, and `[self-roles]` for self-roles channel in your message.")
+    name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message.")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
@@ -187,7 +187,7 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
 
 
 # LABEL: Misc Commands
-@bot.group(name="help")
+@bot.command(name="help")
 async def _help(ctx):
     msg: discord.Message = await ctx.send("Here is the command help:", embed=all_help_embeds[help_index])
 
@@ -423,11 +423,14 @@ async def unban(ctx, username: str = None, *, reason=None):
             if (user.name, user.discriminator) == (member_name, member_discriminator):
                 await ctx.guild.unban(user)
 
-        if reason:
-            await ctx.send(f"User **{user}** has been unbanned for reason: **{reason}**.")
-        else:
-            await ctx.send(f"User **{user}** has been unbanned.")
-        await user.send(f"You have been **unbanned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+        try:
+            if reason:
+                await ctx.send(f"User **{username}** has been unbanned for reason: **{reason}**.")
+            else:
+                await ctx.send(f"User **{username}** has been unbanned.")
+            await user.send(f"You have been **unbanned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+        except NameError:
+            await ctx.send(f"{username} is has not been banned in this server.")
 
 
 @bot.command(name="kick")
