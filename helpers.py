@@ -1,4 +1,22 @@
+import json
+import asyncio
 import discord
+
+
+async def update_data(data):
+    while True:
+        with open("data.json", "r+") as data_file:
+            json.dump(data, data_file)
+        await asyncio.sleep(30)
+
+
+async def update_presence(bot, prefix):
+    while True:
+        server_count = len(bot.guilds)
+        activity = discord.Activity(
+            type=discord.ActivityType.watching, name=f"{server_count} servers || {prefix}help")
+        await bot.change_presence(activity=activity)
+        await asyncio.sleep(10)
 
 
 async def create_mute_role(guild):

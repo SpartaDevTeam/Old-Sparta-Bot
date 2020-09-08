@@ -1,10 +1,11 @@
 import os
 import subprocess
 import asyncio
+import json
 import discord
 from discord.ext import commands
 
-from helpers import create_mute_role, create_new_data
+from helpers import create_mute_role, create_new_data, update_data, update_presence
 
 TOKEN = os.getenv('SPARTA_TOKEN')
 
@@ -13,15 +14,6 @@ bot = commands.Bot(command_prefix=PREFIX,
                    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
                    help_command=None)
 THEME_COLOR = discord.Colour.blue()
-
-
-async def update_presence():
-    while True:
-        server_count = len(bot.guilds)
-        activity = discord.Activity(
-            type=discord.ActivityType.watching, name=f"{server_count} servers || {PREFIX}help")
-        await bot.change_presence(activity=activity)
-        await asyncio.sleep(10)
 
 
 misc_embed = discord.Embed(title="Misc. Help", color=THEME_COLOR)
@@ -91,7 +83,10 @@ programming_embed.add_field(
 
 all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed]
 warn_count = {}
-server_data = {}
+
+with open("data.json", "r") as data_file:
+    server_data = json.load(data_file)
+
 current_help_msg = None
 current_help_user = None
 help_index = 0
@@ -100,7 +95,8 @@ help_control_emojis = ["⬅️", "➡️"]
 
 @bot.event
 async def on_ready():
-    bot.loop.create_task(update_presence())
+    bot.loop.create_task(update_data(server_data))
+    bot.loop.create_task(update_presence(bot, PREFIX))
     print("Bot is ready...")
 
 
@@ -576,6 +572,15 @@ async def eval_code(ctx, *, code):
         await ctx.send(embed=output_embed)
     else:
         await ctx.send("You are not authorized to run this command.")
+
+
+# LABEL: Debugging Commands
+@bot.command(name="data")
+async def data(ctx):
+    is_owner = await bot.is_owner(ctx.author)
+    if is_owner:
+        data_file = discord.File("data.json")
+        await ctx.send(file=data_file)
 
 
 @bot.event
