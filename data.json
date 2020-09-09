@@ -316,8 +316,8 @@
         "users": [],
         "urls": [],
         "channels": [],
-        "welcome_msg": null,
-        "join_role": null
+        "welcome_msg": "Hi [mention], Welcome the Sparta Bot Support server \n<a:pin:750619312989011990> Read <#733224797151952926> \n<a:pin:750619312989011990> You Can get Support in <#753121400364990464> \n<a:pin:750619312989011990> Suggestions are open so see <#745284251460698162> \nHope Your Like Our Bot \ud83d\ude04",
+        "join_role": 733253560640471040
     },
     "727887472100376648": {
         "active": false,
@@ -480,6 +480,22 @@
         "join_role": null
     },
     "724626410546921492": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "753183263433949243": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "745499376310550629": {
         "active": false,
         "users": [],
         "urls": [],

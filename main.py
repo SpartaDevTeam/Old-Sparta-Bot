@@ -118,7 +118,7 @@ async def on_member_join(member):
     print(f"{member} has joined {guild} server...")
 
     join_role = guild.get_role(data["join_role"])
-    member.add_roles(join_role)
+    await member.add_roles(join_role)
 
     # Channel Links
     for channel in channels:
