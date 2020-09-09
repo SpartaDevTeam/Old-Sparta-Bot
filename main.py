@@ -35,6 +35,8 @@ server_settings_embed = discord.Embed(
     title="Server Settings Commands Help", color=THEME_COLOR)
 server_settings_embed.add_field(
     name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message.")
+server_settings_embed.add_field(
+    name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server.")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
@@ -104,7 +106,7 @@ async def on_ready():
 async def on_member_join(member):
     global server_data
 
-    guild = member.guild
+    guild: discord.Guild = member.guild
     channels = guild.channels
     rules_channel = None
     self_roles_channel = None
@@ -114,6 +116,9 @@ async def on_member_join(member):
     data = server_data[str(guild.id)]
 
     print(f"{member} has joined {guild} server...")
+
+    join_role = guild.get_role(data["join_role"])
+    member.add_roles(join_role)
 
     # Channel Links
     for channel in channels:
@@ -268,7 +273,18 @@ async def welcome_message(ctx, *, msg: str):
         server_data[str(ctx.guild.id)] = create_new_data()
 
     server_data[str(ctx.guild.id)]["welcome_msg"] = msg
-    await ctx.send(f"This server's welcome message has been set to **{msg}**")
+    await ctx.send(f"This server's welcome message has been set to ```{msg}```")
+
+
+@bot.command(name="joinrole")
+@commands.has_guild_permissions(administrator=True)
+async def join_role(ctx, *, role: discord.Role):
+    global server_data
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
+
+    server_data[str(ctx.guild.id)]["join_role"] = role.id
+    await ctx.send(f"This server's join role has been set to **{role}**")
 
 
 # LABEL: Moderator Commands

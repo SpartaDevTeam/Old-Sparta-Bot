@@ -30,11 +30,12 @@ async def create_mute_role(guild):
 
 
 def create_new_data():
-    whitelist_entry = {
+    data_entry = {
         "active": False,
         "users": [],
         "urls": [],
         "channels": [],
         "welcome_msg": None,
+        "join_role": None
     }
-    return whitelist_entry
+    return data_entry
