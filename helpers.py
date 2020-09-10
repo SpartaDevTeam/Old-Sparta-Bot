@@ -5,7 +5,7 @@ import discord
 
 async def update_data(data):
     while True:
-        with open("data.json", "r+") as data_file:
+        with open("data.json", "w") as data_file:
             json.dump(data, data_file)
         await asyncio.sleep(30)
 

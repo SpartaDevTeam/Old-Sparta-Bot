@@ -244,7 +244,7 @@
         "users": [],
         "urls": [],
         "channels": [],
-        "welcome_msg": null,
+        "welcome_msg": "Welcome, [mention], to the Official Designers Shop\u2728 Server.\nPlease read the <#747788463880929340> and get special offers in <#747799471114682368> and <#747800171433426974>",
         "join_role": null
     },
     "744795599118794783": {
@@ -397,7 +397,7 @@
         "urls": [],
         "channels": [],
         "welcome_msg": "Hello Chilli Eater [mention]. Welcome to **Chilli Gang**, the Home of the Chilli Eaters.",
-        "join_role": null
+        "join_role": 749930806637494332
     },
     "744106324358463498": {
         "active": false,
@@ -502,5 +502,29 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null
+    },
+    "635051074809626657": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "705838652173058058": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "753493464435523644": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": "Hello [mention], welcome to **CodeBoi's** server to learn to code.\n\u2023 Please read the <#753496285276798986>\n\u2023 Talk in <#753493464435523650>\n\u2023 And most importantly, have fun while coding \ud83d\ude04",
+        "join_role": 753494288058417162
     }
 }
