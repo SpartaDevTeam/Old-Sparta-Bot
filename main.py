@@ -25,10 +25,12 @@ misc_embed.add_field(name=f"`{PREFIX}info`",
 misc_embed.add_field(name=f"`{PREFIX}clear <count>`", value="Deletes messages")
 misc_embed.add_field(name=f"`{PREFIX}nuke`",
                      value="Deletes all messages in a channel")
-misc_embed.add_field(
-    name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
-misc_embed.add_field(
-    name=f"`{PREFIX}github`", value="Get the link to the GitHub Repository")
+misc_embed.add_field(name=f"`{PREFIX}invite`",
+                     value="Get the link to invite Sparta Bot to your server")
+misc_embed.add_field(name=f"`{PREFIX}github`",
+                     value="Get the link to the GitHub Repository")
+misc_embed.add_field(name=f"`{PREFIX}support`",
+                     value="Get an invite to the Sparta Bot Support Server")
 
 
 server_settings_embed = discord.Embed(
@@ -83,7 +85,8 @@ programming_embed.add_field(
     name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
 
 
-all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed]
+all_help_embeds = [misc_embed, server_settings_embed,
+                   mod_embed, auto_embed, programming_embed]
 warn_count = {}
 
 with open("data.json", "r") as data_file:
@@ -241,6 +244,14 @@ async def github(ctx):
     repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
     embed = discord.Embed(
         title="Click here to go to the GitHub Repository!", url=repo_url, color=THEME_COLOR)
+    await ctx.send(content=None, embed=embed)
+
+
+@bot.command(name="support")
+async def support(ctx):
+    invite_url = "https://discord.gg/PDj7tZg"
+    embed = discord.Embed(
+        title="Click here to get an invite to the Sparta Bot Support Server!", url=invite_url, color=THEME_COLOR)
     await ctx.send(content=None, embed=embed)
 
 
