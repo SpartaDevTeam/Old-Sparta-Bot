@@ -362,6 +362,8 @@ async def mute(ctx, user: discord.Member = None):
 
         else:
             if not mute_role:
+                await ctx.send("This server does not have a `Muted` Role. Creating one right now.")
+                await ctx.send("This may take some time.")
                 mute_role = await create_mute_role(guild)
 
             await user.add_roles(mute_role)
@@ -429,6 +431,20 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
         else:
             await ctx.send(f"User **{user}** has been banned.")
         await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+
+
+@bot.command(name="tempban")
+@commands.has_guild_permissions(ban_members=True)
+async def tempban(ctx, user: discord.User = None, days: int = 1):
+    if user is None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.guild.ban(user)
+        await ctx.send(f"User **{user}** has been temporarily banned for **{days} day(s)**")
+        await user.send(f"You have been **temporarily banned** from **{ctx.guild}** server for **{days} day(s)**")
+        await asyncio.sleep(days * 86400)  # convert days to seconds
+        await ctx.guild.unban(user)
+        await ctx.send(f"**{user}** has been unbanned after a {days} day Temp Ban.")
 
 
 @bot.command(name="unban")
