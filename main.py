@@ -249,7 +249,7 @@ async def github(ctx):
 
 @bot.command(name="support")
 async def support(ctx):
-    invite_url = "https://discord.gg/PDj7tZg"
+    invite_url = "https://discord.gg/RrVY4bP"
     embed = discord.Embed(
         title="Click here to get an invite to the Sparta Bot Support Server!", url=invite_url, color=THEME_COLOR)
     await ctx.send(content=None, embed=embed)
