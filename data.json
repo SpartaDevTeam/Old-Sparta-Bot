@@ -526,5 +526,29 @@
         "channels": [],
         "welcome_msg": "Hello [mention], welcome to **CodeBoi's** server to learn to code.\n\u2023 Please read the <#753496285276798986>\n\u2023 Talk in <#753493464435523650>\n\u2023 And most importantly, have fun while coding \ud83d\ude04",
         "join_role": 753494288058417162
+    },
+    "725400887895523349": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "750972871475593277": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "752102194467176480": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
     }
 }
