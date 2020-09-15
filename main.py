@@ -279,13 +279,16 @@ async def nuke(ctx):
 # LABEL: Server Settings
 @bot.command(name="welcomemessage")
 @commands.has_guild_permissions(administrator=True)
-async def welcome_message(ctx, *, msg: str):
+async def welcome_message(ctx, *, msg: str = ""):
     global server_data
     if str(ctx.guild.id) not in server_data:
         server_data[str(ctx.guild.id)] = create_new_data()
 
     server_data[str(ctx.guild.id)]["welcome_msg"] = msg
-    await ctx.send(f"This server's welcome message has been set to ```{msg}```")
+    if len(msg.strip()) == 0:
+        await ctx.send("This server's welcome message has been disabled")
+    else:
+        await ctx.send(f"This server's welcome message has been set to ```{msg}```")
 
 
 @bot.command(name="joinrole")
