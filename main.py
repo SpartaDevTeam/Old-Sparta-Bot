@@ -3,6 +3,7 @@ import subprocess
 import asyncio
 import json
 import discord
+import random
 from discord.ext import commands
 
 from helpers import create_mute_role, create_new_data, update_data, update_presence
@@ -198,6 +199,18 @@ async def _help(ctx):
 @bot.command(name="hello")
 async def hello(ctx):
     await ctx.send("Hi, I am Sparta Bot!")
+
+@bot.command()
+async def coinflip(ctx):
+    choices = ["Heads", "Tails"]
+    rancoin = random.choice(choices)
+    await ctx.send(rancoin)
+
+@bot.command()
+async def roll(ctx):
+    choices = [1, 2, 3, 4, 5, 6]
+    ranroll = random.choice(choices)
+    await ctx.send(ranroll)
 
 
 @bot.command(name="info")
