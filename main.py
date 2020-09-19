@@ -26,16 +26,20 @@ misc_embed.add_field(name=f"`{PREFIX}info`",
 misc_embed.add_field(name=f"`{PREFIX}clear <count>`", value="Deletes messages")
 misc_embed.add_field(name=f"`{PREFIX}nuke`",
                      value="Deletes all messages in a channel")
-misc_embed.add_field(
-    name=f"`{PREFIX}invite`", value="Get the link to invite Sparta Bot to your server")
-misc_embed.add_field(
-    name=f"`{PREFIX}github`", value="Get the link to the GitHub Repository")
+misc_embed.add_field(name=f"`{PREFIX}invite`",
+                     value="Get the link to invite Sparta Bot to your server")
+misc_embed.add_field(name=f"`{PREFIX}github`",
+                     value="Get the link to the GitHub Repository")
+misc_embed.add_field(name=f"`{PREFIX}support`",
+                     value="Get an invite to the Sparta Bot Support Server")
 
 
 server_settings_embed = discord.Embed(
     title="Server Settings Commands Help", color=THEME_COLOR)
 server_settings_embed.add_field(
     name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message.")
+server_settings_embed.add_field(
+    name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server.")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
@@ -82,7 +86,8 @@ programming_embed.add_field(
     name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
 
 
-all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed]
+all_help_embeds = [misc_embed, server_settings_embed,
+                   mod_embed, auto_embed, programming_embed]
 warn_count = {}
 
 with open("data.json", "r") as data_file:
@@ -105,7 +110,7 @@ async def on_ready():
 async def on_member_join(member):
     global server_data
 
-    guild = member.guild
+    guild: discord.Guild = member.guild
     channels = guild.channels
     rules_channel = None
     self_roles_channel = None
@@ -115,6 +120,10 @@ async def on_member_join(member):
     data = server_data[str(guild.id)]
 
     print(f"{member} has joined {guild} server...")
+
+    join_role = guild.get_role(data["join_role"])
+    if join_role is not None:
+        await member.add_roles(join_role)
 
     # Channel Links
     for channel in channels:
@@ -251,6 +260,14 @@ async def github(ctx):
     await ctx.send(content=None, embed=embed)
 
 
+@bot.command(name="support")
+async def support(ctx):
+    invite_url = "https://discord.gg/RrVY4bP"
+    embed = discord.Embed(
+        title="Click here to get an invite to the Sparta Bot Support Server!", url=invite_url, color=THEME_COLOR)
+    await ctx.send(content=None, embed=embed)
+
+
 @bot.command(name="clear")
 @commands.has_guild_permissions(manage_messages=True)
 async def clear(ctx, count: int = None):
@@ -275,13 +292,27 @@ async def nuke(ctx):
 # LABEL: Server Settings
 @bot.command(name="welcomemessage")
 @commands.has_guild_permissions(administrator=True)
-async def welcome_message(ctx, *, msg: str):
+async def welcome_message(ctx, *, msg: str = ""):
     global server_data
     if str(ctx.guild.id) not in server_data:
         server_data[str(ctx.guild.id)] = create_new_data()
 
     server_data[str(ctx.guild.id)]["welcome_msg"] = msg
-    await ctx.send(f"This server's welcome message has been set to **{msg}**")
+    if len(msg.strip()) == 0:
+        await ctx.send("This server's welcome message has been disabled")
+    else:
+        await ctx.send(f"This server's welcome message has been set to ```{msg}```")
+
+
+@bot.command(name="joinrole")
+@commands.has_guild_permissions(administrator=True)
+async def join_role(ctx, *, role: discord.Role):
+    global server_data
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
+
+    server_data[str(ctx.guild.id)]["join_role"] = role.id
+    await ctx.send(f"This server's join role has been set to **{role}**")
 
 
 # LABEL: Moderator Commands
@@ -347,6 +378,8 @@ async def mute(ctx, user: discord.Member = None):
 
         else:
             if not mute_role:
+                await ctx.send("This server does not have a `Muted` Role. Creating one right now.")
+                await ctx.send("This may take some time.")
                 mute_role = await create_mute_role(guild)
 
             await user.add_roles(mute_role)
@@ -414,6 +447,20 @@ async def ban(ctx, user: discord.User = None, *, reason=None):
         else:
             await ctx.send(f"User **{user}** has been banned.")
         await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+
+
+@bot.command(name="tempban")
+@commands.has_guild_permissions(ban_members=True)
+async def tempban(ctx, user: discord.User = None, days: int = 1):
+    if user is None:
+        await ctx.send("Insufficient arguments.")
+    else:
+        await ctx.guild.ban(user)
+        await ctx.send(f"User **{user}** has been temporarily banned for **{days} day(s)**")
+        await user.send(f"You have been **temporarily banned** from **{ctx.guild}** server for **{days} day(s)**")
+        await asyncio.sleep(days * 86400)  # convert days to seconds
+        await ctx.guild.unban(user)
+        await ctx.send(f"**{user}** has been unbanned after a {days} day Temp Ban.")
 
 
 @bot.command(name="unban")
