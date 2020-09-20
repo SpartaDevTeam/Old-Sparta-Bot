@@ -89,6 +89,7 @@ programming_embed.add_field(
 fun_embed = discord.Embed(title="Fun Commands Help", color=THEME_COLOR)
 fun_embed.add_field(name=f"`{PREFIX}coinflip`", value="Flip a coin")
 fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
+fun_embed.add_field(name=f"`{PREFIX}avater <user>`", value="Display a users avatar")
 
 
 all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
@@ -639,6 +640,20 @@ async def roll(ctx):
     choices = [1, 2, 3, 4, 5, 6]
     ranroll = random.choice(choices)
     await ctx.send(ranroll)
+
+
+@bot.command(name="avatar")
+async def avatar(ctx, user: discord.Member = None):
+    if user is None:
+        user = ctx.author
+
+    aembed = discord.Embed(
+        color = THEME_COLOR,
+        title=f"{user}"
+    )
+
+    aembed.set_image(url=f"{user.avatar_url}")
+    await ctx.send(embed=aembed)
 
 
 
