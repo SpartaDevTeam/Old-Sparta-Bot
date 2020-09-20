@@ -60,7 +60,8 @@
         "users": [],
         "urls": [],
         "channels": [
-            "754624510778409011"
+            "754624510778409011",
+            "755440781233487922"
         ],
         "welcome_msg": null,
         "join_role": null
@@ -578,6 +579,14 @@
         "join_role": null
     },
     "722772676208492604": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null
+    },
+    "710814888607481877": {
         "active": false,
         "users": [],
         "urls": [],
