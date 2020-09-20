@@ -89,7 +89,7 @@ programming_embed.add_field(
 fun_embed = discord.Embed(title="Fun Commands Help", color=THEME_COLOR)
 fun_embed.add_field(name=f"`{PREFIX}coinflip`", value="Flip a coin")
 fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
-fun_embed.add_field(name=f"`{PREFIX}avater <user>`", value="Display a users avatar")
+fun_embed.add_field(name=f"`{PREFIX}avatar <user>`", value="Display a users avatar")
 
 
 all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
