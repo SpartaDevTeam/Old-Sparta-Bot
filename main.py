@@ -83,11 +83,15 @@ auto_embed.add_field(name=f"`{PREFIX}automodstatus`",
 programming_embed = discord.Embed(
     title="Programming Commands Help", color=THEME_COLOR)
 programming_embed.add_field(
-    name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord.")
+    name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord")
 
 
-all_help_embeds = [misc_embed, server_settings_embed,
-                   mod_embed, auto_embed, programming_embed]
+fun_embed = discord.Embed(title="Fun Commands Help", color=THEME_COLOR)
+fun_embed.add_field(name=f"`{PREFIX}coinflip`", value="Flip a coin")
+fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
+
+
+all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
 warn_count = {}
 
 with open("data.json", "r") as data_file:
@@ -209,36 +213,6 @@ async def _help(ctx):
 async def hello(ctx):
     await ctx.send("Hi, I am Sparta Bot!")
 
-@bot.command()
-async def coinflip(ctx):
-    choices = ["Heads", "Tails"]
-    rancoin = random.choice(choices)
-    await ctx.send(rancoin)
-
-@bot.command()
-async def roll(ctx):
-    choices = [1, 2, 3, 4, 5, 6]
-    ranroll = random.choice(choices)
-    await ctx.send(ranroll)
-
-@bot.command(name="avatar")
-async def avatar(ctx, user: discord.Member):
-    aembed = discord.Embed(
-        color = THEME_COLOR,
-        title=f"{user}"
-    )
-    aembed.set_image(url=f"{user.avatar_url}")
-    await ctx.send(embed=aembed)
-
-@avatar.error
-async def avatar(ctx, error):
-    if isinstance (error, commands.MissingRequiredArgument):
-        aembed = discord.Embed(
-            color = THEME_COLOR,
-            title=f"{ctx.author}\'s avatar"
-        )
-    aembed.set_image(url=f"{ctx.author.avatar_url}")
-    await ctx.send(embed=aembed)
 
 @bot.command(name="info")
 async def info(ctx):
@@ -650,6 +624,22 @@ async def eval_code(ctx, *, code):
         await ctx.send(embed=output_embed)
     else:
         await ctx.send("You are not authorized to run this command.")
+
+
+# LABEL: Fun Commands
+@bot.command(name="coinflip")
+async def coinflip(ctx):
+    choices = ["Heads", "Tails"]
+    rancoin = random.choice(choices)
+    await ctx.send(rancoin)
+
+
+@bot.command(name="roll")
+async def roll(ctx):
+    choices = [1, 2, 3, 4, 5, 6]
+    ranroll = random.choice(choices)
+    await ctx.send(ranroll)
+
 
 
 # LABEL: Debugging Commands
