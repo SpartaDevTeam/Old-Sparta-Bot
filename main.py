@@ -4,6 +4,10 @@ import asyncio
 import json
 import discord
 import random
+import datetime
+from datetime import datetime
+import typing
+from typing import Optional
 from discord.ext import commands
 
 from helpers import create_mute_role, create_new_data, update_data, update_presence
@@ -520,6 +524,28 @@ async def unlockchannel(ctx, channel: discord.TextChannel = None):
 
     await ctx.send(f"🔓The channel {channel.mention} has been unlocked")
 
+@bot.command()
+async def serverinfo(ctx):
+    name = str(ctx.guild.name)
+    description = str(ctx.guild.description)
+    owner = str(ctx.guild.owner)
+    id = str(ctx.guild.id)
+    region = str(ctx.guild.region)
+    memberCount = str(ctx.guild.member_count)
+    icon = str(ctx.guild.icon_url)
+
+    embed = discord.Embed(
+        title=name + " Server Information",
+        description=description,
+        color=THEME_COLOR
+    )
+    embed.set_thumbnail(url=icon)
+    embed.add_field(name="Owner", value=owner, inline=True)
+    embed.add_field(name="Server id", value=id, inline=True)
+    embed.add_field(name="Region", value=region, inline=True)
+    embed.add_field(name="Member", value=memberCount, inline=True)
+
+    await ctx.send(embed=embed)
 
 # LABEL: AutoMod Commands
 @bot.command(name="activateautomod")
