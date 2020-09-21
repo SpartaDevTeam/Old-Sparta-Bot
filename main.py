@@ -45,7 +45,7 @@ server_settings_embed.add_field(
 server_settings_embed.add_field(
     name=f"`{PREFIX}serverinfo`", value="Displays server information")
 server_settings_embed.add_field(
-    name=f"`{PREFIX}userinfo`", value="Displays user information")
+    name=f"`{PREFIX}userinfo <user>`", value="Displays user information")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
@@ -341,7 +341,10 @@ async def serverinfo(ctx):
 
 
 @bot.command(name="userinfo")
-async def userinfo(ctx, member: discord.Member):
+async def userinfo(ctx, member: discord.Member = None):
+    if member is None:
+        member = ctx.author
+
     embed = discord.Embed(
         color=THEME_COLOR,
         timestamp=ctx.message.created_at
