@@ -546,8 +546,9 @@ async def serverinfo(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
-async def userinfo(ctx, member: discord.Member):
+async def userinfo(ctx, member: discord.Member= None):
 
+    member = ctx.author if not member else member
     roles = [role for role in member.roles]
 
     embed = discord.Embed(
