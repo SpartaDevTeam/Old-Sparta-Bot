@@ -39,9 +39,13 @@ misc_embed.add_field(name=f"`{PREFIX}support`",
 server_settings_embed = discord.Embed(
     title="Server Settings Commands Help", color=THEME_COLOR)
 server_settings_embed.add_field(
-    name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message.")
+    name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
 server_settings_embed.add_field(
-    name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server.")
+    name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server")
+server_settings_embed.add_field(
+    name=f"`{PREFIX}serverinfo`", value="Displays server information")
+server_settings_embed.add_field(
+    name=f"`{PREFIX}userinfo`", value="Displays user information")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
@@ -91,10 +95,12 @@ programming_embed.add_field(
 fun_embed = discord.Embed(title="Fun Commands Help", color=THEME_COLOR)
 fun_embed.add_field(name=f"`{PREFIX}coinflip`", value="Flip a coin")
 fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
-fun_embed.add_field(name=f"`{PREFIX}avatar <user>`", value="Display a users avatar")
+fun_embed.add_field(name=f"`{PREFIX}avatar <user>`",
+                    value="Display a users avatar")
 
 
-all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
+all_help_embeds = [misc_embed, server_settings_embed,
+                   mod_embed, auto_embed, programming_embed, fun_embed]
 warn_count = {}
 
 with open("data.json", "r") as data_file:
@@ -310,6 +316,60 @@ async def join_role(ctx, *, role: discord.Role):
     await ctx.send(f"This server's join role has been set to **{role}**")
 
 
+@bot.command(name="serverinfo")
+async def serverinfo(ctx):
+    name = ctx.guild.name
+    description = ctx.guild.description
+    owner = ctx.guild.owner
+    guild_id = ctx.guild.id
+    region = ctx.guild.region
+    member_count = ctx.guild.member_count
+    icon = ctx.guild.icon_url
+
+    embed = discord.Embed(
+        title=f"{name} Server Information",
+        description=description,
+        color=THEME_COLOR
+    )
+    embed.set_thumbnail(url=icon)
+    embed.add_field(name="Owner", value=owner, inline=True)
+    embed.add_field(name="Server ID", value=guild_id, inline=True)
+    embed.add_field(name="Region", value=region, inline=True)
+    embed.add_field(name="Member Count", value=member_count, inline=True)
+
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="userinfo")
+async def userinfo(ctx, member: discord.Member):
+    embed = discord.Embed(
+        color=THEME_COLOR,
+        timestamp=ctx.message.created_at
+    )
+
+    embed.set_author(name=f"{member} Info")
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_footer(
+        text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
+
+    embed.add_field(name="ID:", value=member.id)
+    embed.add_field(
+        name="Joined Discord At:",
+        value=member.created_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC")
+    )
+    embed.add_field(
+        name="Joined Server At:",
+        value=member.joined_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC")
+    )
+    embed.add_field(
+        name=f"{len(member.roles)} Roles",
+        value=" ".join([role.mention for role in member.roles])
+    )
+    embed.add_field(name="Bot?", value=member.bot)
+
+    await ctx.send(embed=embed)
+
+
 # LABEL: Moderator Commands
 @bot.command(name="warn")
 @commands.has_guild_permissions(administrator=True)
@@ -522,54 +582,6 @@ async def unlockchannel(ctx, channel: discord.TextChannel = None):
 
     await ctx.send(f"🔓The channel {channel.mention} has been unlocked")
 
-@bot.command()
-async def serverinfo(ctx):
-    name = str(ctx.guild.name)
-    description = str(ctx.guild.description)
-    owner = str(ctx.guild.owner)
-    id = str(ctx.guild.id)
-    region = str(ctx.guild.region)
-    memberCount = str(ctx.guild.member_count)
-    icon = str(ctx.guild.icon_url)
-
-    embed = discord.Embed(
-        title=name + " Server Information",
-        description=description,
-        color=THEME_COLOR
-    )
-    embed.set_thumbnail(url=icon)
-    embed.add_field(name="Owner", value=owner, inline=True)
-    embed.add_field(name="Server id", value=id, inline=True)
-    embed.add_field(name="Region", value=region, inline=True)
-    embed.add_field(name="Member", value=memberCount, inline=True)
-
-    await ctx.send(embed=embed)
-
-@bot.command()
-async def userinfo(ctx, member: discord.Member):
-
-    roles = [role for role in member.roles]
-
-    embed = discord.Embed(
-        color=THEME_COLOR,
-        timestamp=ctx.message.created_at
-    )
-    embed.set_author(name=f"User Info - {member}")
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-    
-    embed.add_field(name="ID:", value=member.id)
-    embed.add_field(name="Guild ID:", value=member.display_name)
-
-    embed.add_field(name="Created At:", value=member.created_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC"))
-    embed.add_field(name="Joined At:", value=member.joined_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC"))
-
-    embed.add_field(name=f"Roles ({len(roles)})", value=" ".join([role.mention for role in roles]))
-    
-    embed.add_field(name="Bot?", value=member.bot)
-
-    await ctx.send(embed=embed)
-    
 
 # LABEL: AutoMod Commands
 @bot.command(name="activateautomod")
@@ -581,6 +593,7 @@ async def activateautomod(ctx):
 
     server_data[str(ctx.guild.id)]["active"] = True
     await ctx.send("Automod is now active in your server...")
+
 
 @bot.command(name="stopautomod")
 @commands.has_guild_permissions(administrator=True)
@@ -697,13 +710,12 @@ async def avatar(ctx, user: discord.Member = None):
         user = ctx.author
 
     aembed = discord.Embed(
-        color = THEME_COLOR,
+        color=THEME_COLOR,
         title=f"{user}"
     )
 
     aembed.set_image(url=f"{user.avatar_url}")
     await ctx.send(embed=aembed)
-
 
 
 # LABEL: Debugging Commands
