@@ -36,6 +36,7 @@ def create_new_data():
         "urls": [],
         "channels": [],
         "welcome_msg": None,
-        "join_role": None
+        "join_role": None,
+        "pay_respects": False
     }
     return data_entry

@@ -356,6 +356,28 @@ async def userinfo(ctx, member: discord.Member = None):
     await ctx.send(embed=embed)
 
 
+@bot.command(name="enablerespects")
+async def enablerespects(ctx):
+    global server_data
+
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
+
+    server_data[str(ctx.guild.id)]["pay_respects"] = True
+    await ctx.send("Respects have been enabled!")
+
+
+@bot.command(name="disablerespects")
+async def enablerespects(ctx):
+    global server_data
+
+    if str(ctx.guild.id) not in server_data:
+        server_data[str(ctx.guild.id)] = create_new_data()
+
+    server_data[str(ctx.guild.id)]["pay_respects"] = False
+    await ctx.send("Respects have been disabled!")
+
+
 # LABEL: Moderator Commands
 @bot.command(name="warn")
 @commands.has_guild_permissions(administrator=True)
@@ -721,23 +743,23 @@ async def on_message(message: discord.Message):
     guild: discord.Guild = message.guild
     # print(str(author), ": ", message.content)
 
-    if message.content.strip().lower() == "f":
-        await channel.send(f"**{author.display_name}** has paid their respects...")
-
     await bot.process_commands(message)
 
     if str(guild.id) not in server_data:
         server_data[str(guild.id)] = create_new_data()
 
-    whitelist = server_data[str(guild.id)]
+    data = server_data[str(guild.id)]
 
-    if whitelist["active"] and str(author.id) not in whitelist["users"]:
-        if not str(channel.id) in whitelist["channels"]:
+    if data["pay_respects"] and message.content.strip().lower() == "f":
+        await channel.send(f"**{author.display_name}** has paid their respects...")
+
+    if data["active"] and str(author.id) not in data["users"]:
+        if not str(channel.id) in data["channels"]:
             perms = author.permissions_in(channel)
             if not perms.administrator:
                 if "http://" in message.content or "https://" in message.content:
-                    if len(whitelist["urls"]) > 0:
-                        for url in whitelist["urls"]:
+                    if len(data["urls"]) > 0:
+                        for url in data["urls"]:
                             if not url in message.content:
                                 await channel.purge(limit=1)
                                 await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
