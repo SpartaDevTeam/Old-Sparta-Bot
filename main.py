@@ -722,7 +722,7 @@ async def on_message(message: discord.Message):
     # print(str(author), ": ", message.content)
 
     if message.content.strip().lower() == "f":
-        await channel.send(f"**{author.display_name}** has paid his respects...")
+        await channel.send(f"**{author.display_name}** has paid their respects...")
 
     await bot.process_commands(message)
 
