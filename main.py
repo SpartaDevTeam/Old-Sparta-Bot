@@ -361,6 +361,7 @@ async def userinfo(ctx, member: discord.Member = None):
 
 
 @bot.command(name="enablerespects")
+@commands.has_guild_permissions(administrator=True)
 async def enablerespects(ctx):
     global server_data
 
@@ -372,6 +373,7 @@ async def enablerespects(ctx):
 
 
 @bot.command(name="disablerespects")
+@commands.has_guild_permissions(administrator=True)
 async def enablerespects(ctx):
     global server_data
 
