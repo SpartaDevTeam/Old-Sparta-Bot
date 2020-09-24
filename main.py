@@ -46,6 +46,10 @@ server_settings_embed.add_field(
     name=f"`{PREFIX}serverinfo`", value="Displays server information")
 server_settings_embed.add_field(
     name=f"`{PREFIX}userinfo <user>`", value="Displays user information")
+server_settings_embed.add_field(
+    name=f"`{PREFIX}enablerespects`", value="Enables Respects (press f)")
+server_settings_embed.add_field(
+    name=f"`{PREFIX}disablerespects`", value="Disables Respects")
 
 
 mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
