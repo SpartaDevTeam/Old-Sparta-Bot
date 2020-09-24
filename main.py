@@ -125,8 +125,6 @@ async def on_member_join(member):
 
     guild: discord.Guild = member.guild
     channels = guild.channels
-    rules_channel = None
-    self_roles_channel = None
 
     if str(guild.id) not in server_data:
         server_data[str(guild.id)] = create_new_data()
@@ -138,15 +136,6 @@ async def on_member_join(member):
     if join_role is not None:
         await member.add_roles(join_role)
 
-    # Channel Links
-    for channel in channels:
-        if str(channel).find("rules") != -1:
-            rules_channel = channel
-            print("rules channel found")
-        if str(channel).find("self-roles") != -1:
-            self_roles_channel = channel
-            print("self-roles channel found")
-
     # Welcome Message
     if data["welcome_msg"] is None:
         server_wlcm_msg = f"Welcome, {member.mention}, to the Official **{guild.name}** Server"
@@ -154,12 +143,6 @@ async def on_member_join(member):
         server_wlcm_msg = data["welcome_msg"]
         server_wlcm_msg = server_wlcm_msg.replace(
             "[mention]", f"{member.mention}")
-        if rules_channel:
-            server_wlcm_msg = server_wlcm_msg.replace(
-                "[rules]", f"{rules_channel.mention}")
-        if self_roles_channel:
-            server_wlcm_msg = server_wlcm_msg.replace(
-                "[self-roles]", f"{self_roles_channel.mention}")
 
     for channel in channels:
         if str(channel).find("welcome") != -1:
@@ -737,6 +720,9 @@ async def on_message(message: discord.Message):
     channel: discord.TextChannel = message.channel
     guild: discord.Guild = message.guild
     # print(str(author), ": ", message.content)
+
+    if message.content.strip().lower() == "f":
+        await channel.send(f"**{author.display_name}** has paid his respects...")
 
     await bot.process_commands(message)
 
