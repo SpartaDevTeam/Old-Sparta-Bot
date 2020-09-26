@@ -374,7 +374,7 @@ async def enablerespects(ctx):
 
 @bot.command(name="disablerespects")
 @commands.has_guild_permissions(administrator=True)
-async def enablerespects(ctx):
+async def disablerespects(ctx):
     global server_data
 
     if str(ctx.guild.id) not in server_data:
