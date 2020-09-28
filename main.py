@@ -361,7 +361,7 @@ async def userinfo(ctx, member: discord.Member = None):
 
 
 @bot.command(name="enablerespects")
-@commands.has_guild_permissions(manage_server=True)
+@commands.has_guild_permissions(manage_messages=True)
 async def enablerespects(ctx):
     global server_data
 
@@ -373,7 +373,7 @@ async def enablerespects(ctx):
 
 
 @bot.command(name="disablerespects")
-@commands.has_guild_permissions(manage_server=True)
+@commands.has_guild_permissions(manage_messages=True)
 async def disablerespects(ctx):
     global server_data
 
@@ -430,7 +430,7 @@ async def warncount(ctx, user: discord.User):
 
 @bot.command(name="mute")
 @commands.has_guild_permissions(kick_members=True)
-async def mute(ctx, user: discord.Member = None):
+async def mute(ctx, user: discord.Member = None, time: str = None):
     if user is None:
         await ctx.send("Insufficient arguments.")
     else:
@@ -444,15 +444,44 @@ async def mute(ctx, user: discord.Member = None):
 
         if mute_role in user.roles:
             await ctx.send("This user is already muted.")
-
         else:
             if not mute_role:
                 await ctx.send("This server does not have a `Muted` Role. Creating one right now.")
                 await ctx.send("This may take some time.")
                 mute_role = await create_mute_role(guild)
 
-            await user.add_roles(mute_role)
-            await ctx.send(f"User {user.mention} has been muted! They cannot speak.")
+            if time is None:
+                await user.add_roles(mute_role)
+                await ctx.send(f"User {user.mention} has been muted! They cannot speak.")
+            else:
+                time_unit = None
+                parsed_time = None
+
+                if "s" in time:
+                    time_unit = "seconds"
+                    parsed_time = time[0:(len(time) - 1)]
+                elif "m" in time:
+                    time_unit = "minutes"
+                    parsed_time = time[0:(len(time) - 1)]
+                elif "h" in time:
+                    time_unit = "hours"
+                    parsed_time = time[0:(len(time) - 1)]
+                else:
+                    time_unit = "minutes"  # default to minutes if user doesn't provide a time unit
+                    parsed_time = time[0:len(time)]
+
+                await user.add_roles(mute_role)
+                await ctx.send(f"User {user.mention} has been muted for {parsed_time} {time_unit}! They cannot speak.")
+
+                if time_unit == "seconds":
+                    await asyncio.sleep(int(parsed_time))
+                elif time_unit == "minutes":
+                    await asyncio.sleep(int(parsed_time) * 60)
+                elif time_unit == "hours":
+                    await asyncio.sleep(int(parsed_time) * 3600)
+
+                await user.remove_roles(mute_role)
+                await ctx.send(f"User {user.mention} has been unmuted after {parsed_time} {time_unit}! They can speak now.")
 
 
 @bot.command(name="unmute")
@@ -478,30 +507,6 @@ async def unmute(ctx, user: discord.Member = None):
 
         else:
             await ctx.send("This user was never muted.")
-
-
-@bot.command(name="tempmute")
-@commands.has_guild_permissions(kick_members=True)
-async def tempmute(ctx, user: discord.Member = None, time: int = None):
-    if user is None or time is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        guild = ctx.guild
-        mute_role = None
-
-        for role in guild.roles:
-            if role.name.lower() == "muted":
-                mute_role = role
-                break
-
-        if not mute_role:
-            mute_role = await create_mute_role(guild)
-
-        await user.add_roles(mute_role)
-        await ctx.send(f"User {user.mention} has been muted for {time} seconds!")
-        await asyncio.sleep(time)
-        await user.remove_roles(mute_role)
-        await ctx.send(f"User {user.mention} has been unmuted after {time} seconds of TempMute! They can now speak.")
 
 
 @bot.command(name="ban")
