@@ -361,7 +361,7 @@ async def userinfo(ctx, member: discord.Member = None):
 
 
 @bot.command(name="enablerespects")
-@commands.has_guild_permissions(administrator=True)
+@commands.has_guild_permissions(manage_server=True)
 async def enablerespects(ctx):
     global server_data
 
@@ -373,7 +373,7 @@ async def enablerespects(ctx):
 
 
 @bot.command(name="disablerespects")
-@commands.has_guild_permissions(administrator=True)
+@commands.has_guild_permissions(manage_server=True)
 async def disablerespects(ctx):
     global server_data
 
@@ -429,7 +429,7 @@ async def warncount(ctx, user: discord.User):
 
 
 @bot.command(name="mute")
-@commands.has_guild_permissions(administrator=True)
+@commands.has_guild_permissions(kick_members=True)
 async def mute(ctx, user: discord.Member = None):
     if user is None:
         await ctx.send("Insufficient arguments.")
@@ -456,7 +456,7 @@ async def mute(ctx, user: discord.Member = None):
 
 
 @bot.command(name="unmute")
-@commands.has_guild_permissions(administrator=True)
+@commands.has_guild_permissions(kick_members=True)
 async def unmute(ctx, user: discord.Member = None):
     if user is None:
         await ctx.send("Insufficient arguments.")
@@ -481,7 +481,7 @@ async def unmute(ctx, user: discord.Member = None):
 
 
 @bot.command(name="tempmute")
-@commands.has_guild_permissions(administrator=True)
+@commands.has_guild_permissions(kick_members=True)
 async def tempmute(ctx, user: discord.Member = None, time: int = None):
     if user is None or time is None:
         await ctx.send("Insufficient arguments.")

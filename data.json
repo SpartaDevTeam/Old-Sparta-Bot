@@ -794,5 +794,14 @@
         "welcome_msg": null,
         "join_role": null,
         "pay_respects": false
+    },
+    "743718568721383436": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
     }
 }
