@@ -59,10 +59,9 @@ mod_embed.add_field(name=f"`{PREFIX}clearwarn <user>`",
                     value="Clear a user's warns")
 mod_embed.add_field(name=f"`{PREFIX}warncount <user>`",
                     value="Displays how many times a user has been warned")
-mod_embed.add_field(name=f"`{PREFIX}mute <user>`", value="Mutes a user")
+mod_embed.add_field(name=f"`{PREFIX}mute <user> <time>`",
+                    value="Mutes a user. You can optionally provide a time as well. Ex: 5s, 4m, 2h")
 mod_embed.add_field(name=f"`{PREFIX}unmute <user>`", value="Unmutes a user")
-mod_embed.add_field(
-    name=f"`{PREFIX}tempmute <user> <time in seconds>`", value="Temporarily mutes a user")
 mod_embed.add_field(name=f"`{PREFIX}ban <user> <reason>`",
                     value="Bans a user from the server")
 mod_embed.add_field(name=f"`{PREFIX}unban <username with #number> <reason>`",
