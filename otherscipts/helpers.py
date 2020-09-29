@@ -3,13 +3,6 @@ import asyncio
 import discord
 
 
-async def update_data(data):
-    while True:
-        with open("data.json", "w") as data_file:
-            json.dump(data, data_file)
-        await asyncio.sleep(30)
-
-
 async def update_presence(bot, prefix):
     while True:
         server_count = len(bot.guilds)
@@ -27,16 +20,3 @@ async def create_mute_role(guild):
         await channel.set_permissions(mute_role, send_messages=False)
 
     return mute_role
-
-
-def create_new_data():
-    data_entry = {
-        "active": False,
-        "users": [],
-        "urls": [],
-        "channels": [],
-        "welcome_msg": None,
-        "join_role": None,
-        "pay_respects": False
-    }
-    return data_entry

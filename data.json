@@ -809,8 +809,8 @@
         "users": [],
         "urls": [],
         "channels": [],
-        "welcome_msg": null,
-        "join_role": null,
-        "pay_respects": false
+        "welcome_msg": "Hello there [mention]",
+        "join_role": 760391815453999125,
+        "pay_respects": true
     }
 }

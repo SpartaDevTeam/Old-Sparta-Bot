@@ -10,8 +10,10 @@ from discord import Member
 
 # Import Cogs
 from cogs.misc import Miscellaneous
+from cogs.serversettings import ServerSettings
 
-from helpers import create_mute_role, create_new_data, update_data, update_presence
+from otherscipts.helpers import create_mute_role, update_presence
+from otherscipts.data import Data
 
 TOKEN = os.getenv('SPARTA_TOKEN')
 
@@ -21,35 +23,28 @@ bot = commands.Bot(command_prefix=PREFIX,
                    help_command=None)
 
 THEME_COLOR = discord.Colour.blue()
+warn_count = {}
 
 # Add Cogs
 bot.add_cog(Miscellaneous(bot, THEME_COLOR))
-
-warn_count = {}
-
-with open("data.json", "r") as data_file:
-    server_data = json.load(data_file)
-
-current_help_user = None
+bot.add_cog(ServerSettings(bot, THEME_COLOR))
 
 
 @bot.event
 async def on_ready():
-    bot.loop.create_task(update_data(server_data))
+    bot.loop.create_task(Data.auto_update_data())
     bot.loop.create_task(update_presence(bot, PREFIX))
     print("Bot is ready...")
 
 
 @bot.event
 async def on_member_join(member):
-    global server_data
-
     guild: discord.Guild = member.guild
     channels = guild.channels
 
-    if str(guild.id) not in server_data:
-        server_data[str(guild.id)] = create_new_data()
-    data = server_data[str(guild.id)]
+    if str(guild.id) not in Data.server_data:
+        Data.server_data[str(guild.id)] = Data.create_new_data()
+    data = Data.server_data[str(guild.id)]
 
     print(f"{member} has joined {guild} server...")
 
@@ -83,113 +78,6 @@ async def on_member_remove(member):
             msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server\n"
             await channel.send(msg)
             break
-
-
-# LABEL: Server Settings
-@bot.command(name="welcomemessage")
-@commands.has_guild_permissions(administrator=True)
-async def welcome_message(ctx, *, msg: str = ""):
-    global server_data
-    if str(ctx.guild.id) not in server_data:
-        server_data[str(ctx.guild.id)] = create_new_data()
-
-    server_data[str(ctx.guild.id)]["welcome_msg"] = msg
-    if len(msg.strip()) == 0:
-        await ctx.send("This server's welcome message has been disabled")
-    else:
-        await ctx.send(f"This server's welcome message has been set to ```{msg}```")
-
-
-@bot.command(name="joinrole")
-@commands.has_guild_permissions(administrator=True)
-async def join_role(ctx, *, role: discord.Role):
-    global server_data
-    if str(ctx.guild.id) not in server_data:
-        server_data[str(ctx.guild.id)] = create_new_data()
-
-    server_data[str(ctx.guild.id)]["join_role"] = role.id
-    await ctx.send(f"This server's join role has been set to **{role}**")
-
-
-@bot.command(name="serverinfo")
-async def serverinfo(ctx):
-    name = ctx.guild.name
-    description = ctx.guild.description
-    owner = ctx.guild.owner
-    guild_id = ctx.guild.id
-    region = ctx.guild.region
-    member_count = ctx.guild.member_count
-    icon = ctx.guild.icon_url
-
-    embed = discord.Embed(
-        title=f"{name} Server Information",
-        description=description,
-        color=THEME_COLOR
-    )
-    embed.set_thumbnail(url=icon)
-    embed.add_field(name="Owner", value=owner, inline=True)
-    embed.add_field(name="Server ID", value=guild_id, inline=True)
-    embed.add_field(name="Region", value=region, inline=True)
-    embed.add_field(name="Member Count", value=member_count, inline=True)
-
-    await ctx.send(embed=embed)
-
-
-@bot.command(name="userinfo")
-async def userinfo(ctx, member: discord.Member = None):
-    if member is None:
-        member = ctx.author
-
-    embed = discord.Embed(
-        color=THEME_COLOR,
-        timestamp=ctx.message.created_at
-    )
-
-    embed.set_author(name=f"{member} Info")
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_footer(
-        text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-
-    embed.add_field(name="ID:", value=member.id)
-    embed.add_field(
-        name="Joined Discord At:",
-        value=member.created_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC")
-    )
-    embed.add_field(
-        name="Joined Server At:",
-        value=member.joined_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC")
-    )
-    embed.add_field(
-        name=f"{len(member.roles)} Roles",
-        value=" ".join([role.mention for role in member.roles])
-    )
-    embed.add_field(name="Bot?", value=member.bot)
-
-    await ctx.send(embed=embed)
-
-
-@bot.command(name="enablerespects")
-@commands.has_guild_permissions(manage_messages=True)
-async def enablerespects(ctx):
-    global server_data
-
-    if str(ctx.guild.id) not in server_data:
-        server_data[str(ctx.guild.id)] = create_new_data()
-
-    server_data[str(ctx.guild.id)]["pay_respects"] = True
-    await ctx.send("Respects have been enabled!")
-
-
-@bot.command(name="disablerespects")
-@commands.has_guild_permissions(manage_messages=True)
-async def disablerespects(ctx):
-    global server_data
-
-    if str(ctx.guild.id) not in server_data:
-        server_data[str(ctx.guild.id)] = create_new_data()
-
-    server_data[str(ctx.guild.id)]["pay_respects"] = False
-    await ctx.send("Respects have been disabled!")
 
 
 # LABEL: Moderator Commands
@@ -414,22 +302,20 @@ async def unlockchannel(ctx, channel: discord.TextChannel = None):
 @bot.command(name="activateautomod")
 @commands.has_guild_permissions(administrator=True)
 async def activateautomod(ctx):
-    global server_data
-    if str(ctx.guild.id) not in server_data:
-        server_data[str(ctx.guild.id)] = create_new_data()
+    if str(ctx.guild.id) not in Data.server_data:
+        Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
-    server_data[str(ctx.guild.id)]["active"] = True
+    Data.server_data[str(ctx.guild.id)]["active"] = True
     await ctx.send("Automod is now active in your server...")
 
 
 @bot.command(name="stopautomod")
 @commands.has_guild_permissions(administrator=True)
 async def stopautomod(ctx):
-    global server_data
-    if str(ctx.guild.id) not in server_data:
-        server_data[str(ctx.guild.id)] = create_new_data()
+    if str(ctx.guild.id) not in Data.server_data:
+        Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
-    server_data[str(ctx.guild.id)]["active"] = False
+    Data.server_data[str(ctx.guild.id)]["active"] = False
     await ctx.send("Automod is now inactive in your server...")
 
 
@@ -439,11 +325,10 @@ async def whitelistuser(ctx, user: discord.User = None):
     if user is None:
         ctx.send("Insufficient Arguments")
     else:
-        global server_data
-        if str(ctx.guild.id) not in server_data:
-            server_data[str(ctx.guild.id)] = create_new_data()
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
-        server_data[str(ctx.guild.id)]["users"].append(str(user.id))
+        Data.server_data[str(ctx.guild.id)]["users"].append(str(user.id))
         await ctx.send(f"Added {user.mention} to AutoMod user whitelist.")
 
 
@@ -453,11 +338,10 @@ async def whitelisturl(ctx, url: str = None):
     if url is None:
         ctx.send("Insufficient Arguments")
     else:
-        global server_data
-        if str(ctx.guild.id) not in server_data:
-            server_data[str(ctx.guild.id)] = create_new_data()
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
-        server_data[str(ctx.guild.id)]["urls"].append(url)
+        Data.server_data[str(ctx.guild.id)]["urls"].append(url)
         await ctx.send(f"Added `{url}` to AutoMod URL whitelist.")
 
 
@@ -467,18 +351,17 @@ async def whitelistchannel(ctx, channel: discord.TextChannel = None):
     if channel is None:
         ctx.send("Insufficient Arguments")
     else:
-        global server_data
-        if str(ctx.guild.id) not in server_data:
-            server_data[str(ctx.guild.id)] = create_new_data()
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
-        server_data[str(ctx.guild.id)]["channels"].append(
+        Data.server_data[str(ctx.guild.id)]["channels"].append(
             str(channel.id))
         await ctx.send(f"Added {channel.mention} to AutoMod Channel whitelist.")
 
 
 @bot.command(name="automodstatus")
 async def automodstatus(ctx):
-    status = server_data[str(ctx.guild.id)]["active"]
+    status = Data.server_data[str(ctx.guild.id)]["active"]
     await ctx.send(f"AutoMod Active: **{status}**")
 
 
@@ -556,7 +439,6 @@ async def data(ctx):
 
 @bot.event
 async def on_message(message: discord.Message):
-    global server_data
     author: discord.Member = message.author
     channel: discord.TextChannel = message.channel
     guild: discord.Guild = message.guild
@@ -564,10 +446,10 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
-    if str(guild.id) not in server_data:
-        server_data[str(guild.id)] = create_new_data()
+    if str(guild.id) not in Data.server_data:
+        Data.server_data[str(guild.id)] = Data.create_new_data()
 
-    data = server_data[str(guild.id)]
+    data = Data.server_data[str(guild.id)]
 
     if data["pay_respects"] and message.content.strip().lower() == "f":
         await channel.send(f"**{author.display_name}** has paid their respects...")
