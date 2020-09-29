@@ -15,7 +15,7 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": true
     },
     "750216415826673775": {
         "active": false,
@@ -796,6 +796,15 @@
         "pay_respects": false
     },
     "743718568721383436": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "760343114287153173": {
         "active": false,
         "users": [],
         "urls": [],
