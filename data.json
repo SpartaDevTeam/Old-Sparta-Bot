@@ -812,5 +812,14 @@
         "welcome_msg": "Hello there [mention]",
         "join_role": 760391815453999125,
         "pay_respects": true
+    },
+    "759313094681559040": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
     }
 }

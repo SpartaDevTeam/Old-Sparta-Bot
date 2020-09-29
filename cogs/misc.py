@@ -142,7 +142,7 @@ class Miscellaneous(commands.Cog):
         member_count = 0
 
         for guild in self.bot.guilds:
-            member_count += len(guild.members)
+            member_count += guild.member_count
 
         embed.add_field(name="Ping", value=f"{ping}ms")
         embed.add_field(name="Servers", value=guild_count)
