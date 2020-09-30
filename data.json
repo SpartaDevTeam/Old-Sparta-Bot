@@ -51,7 +51,7 @@
         "channels": [],
         "welcome_msg": "Welcome, [mention], to the Official Comrades Server. Please read the <#752739072212074626> or else...",
         "join_role": null,
-        "pay_respects": true
+        "pay_respects": false
     },
     "675669569603502091": {
         "active": false,
@@ -69,7 +69,8 @@
         "channels": [
             "754624510778409011",
             "755440781233487922",
-            "757821744710156391"
+            "757821744710156391",
+            "758970100752842793"
         ],
         "welcome_msg": null,
         "join_role": null,
@@ -814,6 +815,24 @@
         "pay_respects": true
     },
     "759313094681559040": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "733002018108604526": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "745820134483951656": {
         "active": false,
         "users": [],
         "urls": [],
