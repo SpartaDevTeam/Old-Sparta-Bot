@@ -60,7 +60,8 @@ class ServerSettings(commands.Cog):
 
         embed = discord.Embed(
             color=self.theme_color,
-            timestamp=ctx.message.created_at
+            timestamp=ctx.message.created_at,
+            description=member.mention
         )
 
         embed.set_author(name=f"{member} Info")
@@ -68,18 +69,21 @@ class ServerSettings(commands.Cog):
         embed.set_footer(
             text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
 
-        embed.add_field(name="ID:", value=member.id)
+        embed.add_field(name="ID:", value=member.id, inline=False)
         embed.add_field(
-            name="Joined Discord At:",
-            value=member.created_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC")
+            name="Registered At:",
+            value=member.created_at.strftime("%a, %d %b %Y %I:%M %p"),
+            inline=False
         )
         embed.add_field(
             name="Joined Server At:",
-            value=member.joined_at.strftime("%a, %#d, %B , %Y, %I:%M %p UTC")
+            value=member.joined_at.strftime("%a, %d %b %Y %I:%M %p"),
+            inline=False
         )
         embed.add_field(
             name=f"{len(member.roles)} Roles",
-            value=" ".join([role.mention for role in member.roles])
+            value=" ".join([role.mention for role in member.roles if role != ctx.guild.default_role]),
+            inline=False
         )
         embed.add_field(name="Bot?", value=member.bot)
 
