@@ -802,8 +802,8 @@
         "urls": [],
         "channels": [],
         "welcome_msg": null,
-        "join_role": null,
-        "pay_respects": false
+        "join_role": 761449096057192448,
+        "pay_respects": true
     },
     "760343114287153173": {
         "active": false,
