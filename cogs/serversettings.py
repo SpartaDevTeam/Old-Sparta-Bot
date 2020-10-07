@@ -81,7 +81,7 @@ class ServerSettings(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name=f"{len(member.roles)} Roles",
+            name=f"{len(member.roles)-1} Roles",
             value=" ".join([role.mention for role in member.roles if role != ctx.guild.default_role]),
             inline=False
         )
