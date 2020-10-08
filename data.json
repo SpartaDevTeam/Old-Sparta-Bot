@@ -51,7 +51,7 @@
         "channels": [],
         "welcome_msg": "Welcome, [mention], to the Official Comrades Server. Please read the <#752739072212074626> or else...",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": true
     },
     "675669569603502091": {
         "active": false,

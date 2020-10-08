@@ -176,7 +176,7 @@ async def mute(ctx, user: discord.Member = None, time: str = None):
                 elif time_unit == "hours":
                     await asyncio.sleep(int(parsed_time) * 3600)
 
-                if mute_role not in user.roles:
+                if mute_role in user.roles:
                     await user.remove_roles(mute_role)
                     await ctx.send(f"User {user.mention} has been unmuted after {parsed_time} {time_unit}! They can speak now.")
 
