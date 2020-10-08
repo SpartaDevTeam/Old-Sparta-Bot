@@ -594,7 +594,7 @@
         "users": [],
         "urls": [],
         "channels": [],
-        "welcome_msg": "Hello [mention], welcome to CodeBoi's server to learn to code.\n\u2023 Please read the <#753496285276798986>\n\u2023 Talk in <#753493464435523650>\n\u2023 Sign up for you languages in <#753519404972638209> \n\u2023 And most importantly, have fun while coding \ud83d\ude04\n<:vscode:753502516037156966> <:python:753503263650742302> <:cpp:753503463756922910> <:node:753539643755986975> <:java:754940702735073300>",
+        "welcome_msg": "Hello [mention], welcome to CodeBoi's server to learn to code.\n\u2023 Please read the <#753496285276798986>\n\u2023 Talk in <#757851542622568499>\n\u2023 Sign up for learning languages in <#753519404972638209> \n\u2023 And most importantly, have fun while coding \ud83d\ude04\n<:vscode:753502516037156966> <:python:753503263650742302> <:cpp:753503463756922910> <:node:753539643755986975> <:java:754940702735073300>",
         "join_role": 753494288058417162,
         "pay_respects": false
     },
@@ -740,7 +740,7 @@
         "channels": [],
         "welcome_msg": "Welcome to **Democrat Gang** Fellow Democrat [mention]. Here we are a democracy and have elections to decide leaders. Please see <#757910162479644702>",
         "join_role": 757894177047445565,
-        "pay_respects": false
+        "pay_respects": true
     },
     "710490258449367083": {
         "active": false,
@@ -865,6 +865,33 @@
         "urls": [],
         "channels": [],
         "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "754315561906864179": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "763283659658100736": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": "",
+        "join_role": null,
+        "pay_respects": false
+    },
+    "763583243965956106": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": "",
         "join_role": null,
         "pay_respects": false
     }
