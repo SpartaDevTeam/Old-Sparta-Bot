@@ -1,6 +1,5 @@
 import os
 import subprocess
-import asyncio
 import random
 import discord
 from discord.ext import commands
