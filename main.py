@@ -8,8 +8,9 @@ from discord.ext import commands
 # Import Cogs
 from cogs.misc import Miscellaneous
 from cogs.serversettings import ServerSettings
+from cogs.mod import Moderator
 
-from otherscipts.helpers import create_mute_role, update_presence
+from otherscipts.helpers import update_presence
 from otherscipts.data import Data
 
 TOKEN = os.getenv('SPARTA_TOKEN')
@@ -20,11 +21,11 @@ bot = commands.Bot(command_prefix=PREFIX,
                    help_command=None)
 
 THEME_COLOR = discord.Colour.blue()
-warn_count = {}
 
 # Add Cogs
 bot.add_cog(Miscellaneous(bot, THEME_COLOR))
 bot.add_cog(ServerSettings(bot, THEME_COLOR))
+bot.add_cog(Moderator(bot, THEME_COLOR))
 
 
 @bot.event
@@ -75,225 +76,6 @@ async def on_member_remove(member):
             msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server\n"
             await channel.send(msg)
             break
-
-
-# LABEL: Moderator Commands
-@bot.command(name="warn")
-@commands.has_guild_permissions(administrator=True)
-async def warn(ctx, user: discord.User = None, *, reason=None):
-    if user is None or reason is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        print(f"Warning user {user.name} for {reason}...")
-
-        if str(user) not in warn_count:
-            warn_count[str(user)] = 1
-        else:
-            warn_count[str(user)] += 1
-
-        embed = discord.Embed(
-            title=f"{user.name} has been warned", color=THEME_COLOR)
-        embed.add_field(name="Reason", value=reason)
-        embed.add_field(name="This user has been warned",
-                        value=f"{warn_count[str(user)]} time(s)")
-
-        await ctx.send(content=None, embed=embed)
-
-
-@bot.command(name="clearwarn")
-@commands.has_guild_permissions(administrator=True)
-async def clearwarn(ctx, user: discord.User = None):
-    global warn_count
-    if user is None:
-        warn_count = {}
-        await ctx.send("Clearing all warns.")
-    else:
-        warn_count[str(user)] = 0
-        await ctx.send(f"Clearing warns for {user.mention}.")
-
-
-@bot.command(name="warncount")
-async def warncount(ctx, user: discord.User):
-    if str(user) not in warn_count:
-        warn_count[str(user)] = 0
-
-    count = warn_count[str(user)]
-    await ctx.send(f"{user.mention} has been warned {count} time(s)")
-
-
-@bot.command(name="mute")
-@commands.has_guild_permissions(kick_members=True)
-async def mute(ctx, user: discord.Member = None, time: str = None):
-    if user is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        guild = ctx.guild
-        mute_role = None
-
-        for role in guild.roles:
-            if role.name.lower() == "muted":
-                mute_role = role
-                break
-
-        if mute_role in user.roles:
-            await ctx.send("This user is already muted.")
-        else:
-            if not mute_role:
-                await ctx.send("This server does not have a `Muted` Role. Creating one right now.")
-                await ctx.send("This may take some time.")
-                mute_role = await create_mute_role(guild)
-
-            if time is None:
-                await user.add_roles(mute_role)
-                await ctx.send(f"User {user.mention} has been muted! They cannot speak.")
-            else:
-                time_unit = None
-                parsed_time = None
-
-                if "s" in time:
-                    time_unit = "seconds"
-                    parsed_time = time[0:(len(time) - 1)]
-                elif "m" in time:
-                    time_unit = "minutes"
-                    parsed_time = time[0:(len(time) - 1)]
-                elif "h" in time:
-                    time_unit = "hours"
-                    parsed_time = time[0:(len(time) - 1)]
-                else:
-                    time_unit = "minutes"  # default to minutes if user doesn't provide a time unit
-                    parsed_time = time[0:len(time)]
-
-                await user.add_roles(mute_role)
-                await ctx.send(f"User {user.mention} has been muted for {parsed_time} {time_unit}! They cannot speak.")
-
-                if time_unit == "seconds":
-                    await asyncio.sleep(int(parsed_time))
-                elif time_unit == "minutes":
-                    await asyncio.sleep(int(parsed_time) * 60)
-                elif time_unit == "hours":
-                    await asyncio.sleep(int(parsed_time) * 3600)
-
-                if mute_role in user.roles:
-                    await user.remove_roles(mute_role)
-                    await ctx.send(f"User {user.mention} has been unmuted after {parsed_time} {time_unit}! They can speak now.")
-
-
-@bot.command(name="unmute")
-@commands.has_guild_permissions(kick_members=True)
-async def unmute(ctx, user: discord.Member = None):
-    if user is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        guild = ctx.guild
-        mute_role = None
-
-        for role in guild.roles:
-            if role.name.lower() == "muted":
-                mute_role = role
-                break
-
-        if mute_role in user.roles:
-            if not mute_role:
-                mute_role = await create_mute_role(guild)
-
-            await user.remove_roles(mute_role)
-            await ctx.send(f"User {user.mention} has been unmuted! They can now speak.")
-
-        else:
-            await ctx.send("This user was never muted.")
-
-
-@bot.command(name="ban")
-@commands.has_guild_permissions(ban_members=True)
-async def ban(ctx, user: discord.User = None, *, reason=None):
-    if user is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        await ctx.guild.ban(user, reason=reason)
-        if reason:
-            await ctx.send(f"User **{user}** has been banned for reason: **{reason}**.")
-        else:
-            await ctx.send(f"User **{user}** has been banned.")
-        await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
-
-
-@bot.command(name="tempban")
-@commands.has_guild_permissions(ban_members=True)
-async def tempban(ctx, user: discord.User = None, days: int = 1):
-    if user is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        await ctx.guild.ban(user)
-        await ctx.send(f"User **{user}** has been temporarily banned for **{days} day(s)**")
-        await user.send(f"You have been **temporarily banned** from **{ctx.guild}** server for **{days} day(s)**")
-        await asyncio.sleep(days * 86400)  # convert days to seconds
-        await ctx.guild.unban(user)
-        await ctx.send(f"**{user}** has been unbanned after a {days} day Temp Ban.")
-
-
-@bot.command(name="unban")
-@commands.has_guild_permissions(ban_members=True)
-async def unban(ctx, username: str = None, *, reason=None):
-    if username is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        banned_users = await ctx.guild.bans()
-        member_name, member_discriminator = username.split('#')
-
-        for ban_entry in banned_users:
-            user = ban_entry.user
-
-            if (user.name, user.discriminator) == (member_name, member_discriminator):
-                await ctx.guild.unban(user)
-
-        try:
-            if reason:
-                await ctx.send(f"User **{username}** has been unbanned for reason: **{reason}**.")
-            else:
-                await ctx.send(f"User **{username}** has been unbanned.")
-            await user.send(f"You have been **unbanned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
-        except NameError:
-            await ctx.send(f"{username} is has not been banned in this server.")
-
-
-@bot.command(name="kick")
-@commands.has_guild_permissions(kick_members=True)
-async def kick(ctx, user: discord.User = None, *, reason=None):
-    if user is None:
-        await ctx.send("Insufficient arguments.")
-    else:
-        await ctx.guild.kick(user, reason=reason)
-        if reason:
-            await ctx.send(f"User **{user}** has been kicked for reason: **{reason}**.")
-        else:
-            await ctx.send(f"User **{user}** has been kicked.")
-        await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
-
-
-@bot.command(name="lockchannel")
-@commands.has_guild_permissions(administrator=True)
-async def lockchannel(ctx, channel: discord.TextChannel = None):
-    if channel is None:
-        channel = ctx.channel
-
-    for role in ctx.guild.roles:
-        if role.permissions.administrator:
-            await channel.set_permissions(role, send_messages=True, read_messages=True)
-        elif role.name == "@everyone":
-            await channel.set_permissions(role, send_messages=False)
-
-    await ctx.send(f"🔒The channel {channel.mention} has been locked")
-
-
-@bot.command(name="unlockchannel")
-@commands.has_guild_permissions(administrator=True)
-async def unlockchannel(ctx, channel: discord.TextChannel = None):
-    if channel is None:
-        channel = ctx.channel
-
-    await channel.set_permissions(ctx.guild.roles[0], send_messages=True)
-
-    await ctx.send(f"🔓The channel {channel.mention} has been unlocked")
 
 
 # LABEL: AutoMod Commands
