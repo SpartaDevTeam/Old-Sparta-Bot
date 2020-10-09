@@ -1,12 +1,9 @@
 import os
 import subprocess
 import asyncio
-import json
-import discord
 import random
-import datetime
+import discord
 from discord.ext import commands
-from discord import Member
 
 # Import Cogs
 from cogs.misc import Miscellaneous

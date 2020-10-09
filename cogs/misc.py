@@ -183,9 +183,9 @@ class Miscellaneous(commands.Cog):
             await ctx.channel.purge(limit=1)
 
     @commands.command(name="nuke")
-    @commands.has_guild_permissions(manage_messages=True)
+    @commands.has_guild_permissions(manage_channels=True)
     async def nuke(self, ctx):
-        temp_channel = await ctx.channel.clone()
+        temp_channel: discord.TextChannel = await ctx.channel.clone()
         await temp_channel.edit(position=ctx.channel.position)
         await ctx.channel.delete(reason="Nuke")
-        await ctx.send("Nuked this channel!")
+        await temp_channel.send("Nuked this channel!")
