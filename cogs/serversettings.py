@@ -100,7 +100,7 @@ class ServerSettings(commands.Cog):
             if  i[1] and i[0] == "early_verified_bot_developer":
                 badges += str(self.bot.get_emoji(764456791601315860))+" Early Verified Bot Developer"
             if  i[1] and i[0] == "verified_bot":
-                badges += str(self.bot.get_emoji(764456791479418881))+" Verified Bot"
+                badges += str(self.bot.get_emoji(764507982347763712))+str(self.bot.get_emoji(764507981907755018))+" Verified Bot"
             if  i[1] and i[0] == "hypesquad":
                 badges += str(self.bot.get_emoji(764456789256830976))+" Hypesquad"
             if  i[1] and i[0] == "hypesquad_bravery":
