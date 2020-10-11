@@ -188,6 +188,6 @@ class Miscellaneous(commands.Cog):
         temp_channel: discord.TextChannel = await ctx.channel.clone()
         await temp_channel.edit(position=ctx.channel.position)
         await ctx.channel.delete(reason="Nuke")
-        embed = discord.Embed(color=self.theme_color, description="Nuked This Channel!")
+        embed = discord.Embed(color=self.theme_color, description=f"{ctx.author.mention} Nuked This Channel!")
         embed.set_image(url="https://media.tenor.com/images/04dc5750f44e6d94c0a9f8eb8abf5421/tenor.gif")
         await temp_channel.send(embed=embed)
