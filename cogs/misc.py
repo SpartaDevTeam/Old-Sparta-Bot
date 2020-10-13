@@ -94,7 +94,7 @@ class Miscellaneous(commands.Cog):
         fun_embed.add_field(name=f"`{PREFIX}avatar <user>`",
                             value="Display a users avatar")
         fun_embed.add_field(name=f"`{PREFIX}choose`",
-                            value="Chooses a option for you")
+                            value="Chooses a option for you and divide options using a (,)")
 
         self.help_index = 0
         self.current_help_msg = None
