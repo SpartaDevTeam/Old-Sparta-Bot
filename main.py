@@ -176,7 +176,7 @@ async def roll(ctx):
     ranroll = random.choice(choices)
     await ctx.send(ranroll)
 
-bot.command(name="choose", aliases=['ch'])
+@bot.command(name="choose", aliases=['ch'])
 async def choose(ctx, *, choices: str):
     choicelist = choices.split(",")
     await ctx.send("I choose " + random.choice(choicelist))
