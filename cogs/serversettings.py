@@ -10,7 +10,7 @@ class ServerSettings(commands.Cog):
         self.theme_color = theme_color
 
     @commands.command(name="welcomemessage")
-    @commands.has_guild_permissions(administrator=True)
+    @commands.has_guild_permissions(manage_guild=True)
     async def welcome_message(self, ctx, *, msg: str = ""):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
@@ -22,7 +22,7 @@ class ServerSettings(commands.Cog):
             await ctx.send(f"This server's welcome message has been set to ```{msg}```")
 
     @commands.command(name="joinrole")
-    @commands.has_guild_permissions(administrator=True)
+    @commands.has_guild_permissions(manage_guild=True)
     async def join_role(self, ctx, *, role: discord.Role):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()

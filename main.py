@@ -2,6 +2,8 @@ import os
 import subprocess
 import random
 import discord
+import asyncio
+import inspect
 from discord.ext import commands
 
 # Import Cogs
@@ -145,35 +147,17 @@ async def automodstatus(ctx):
 
 
 # LABEL: Programming Commands
-@bot.command(name="eval")
-async def eval_code(ctx, *, code):
-    is_owner = await bot.is_owner(ctx.author)
-    if is_owner or ctx.author.id == 733532987794128897:  # for real sparta
-        # Some formatting before executing code
-        print(code)
-        code = code.strip("```")
-        code = code.strip("py")
-        code = code.strip("python")
-        print(code)
-
-        code_file = open("run.py", "w")
-        code_file.write(code)
-        code_file.close()
-
-        cmd = subprocess.run(["python3", "run.py"], capture_output=True)
-        output = cmd.stdout.decode()  # bytes => str
-
-        os.remove("run.py")
-
-        if len(output) == 0:
-            output = "```There was an error in your code...```"
+@bot.command(name='eval', pass_context=True)
+async def eval_(ctx, *, command):
+    if ctx.author.id == 733532987794128897 or ctx.author.id == 400857098121904149:
+        res = eval(command)
+        if inspect.isawaitable(res):
+            await res
         else:
-            output = f"```{output}```"
-
-        output_embed = discord.Embed(title="Code Output", color=THEME_COLOR)
-        output_embed.add_field(name=f"Code run by {ctx.author}:", value=output)
-
-        await ctx.send(embed=output_embed)
+            res
+        comp = await ctx.send("Completed")
+        await asyncio.sleep(3)
+        await comp.delete()
     else:
         await ctx.send("You are not authorized to run this command.")
 
@@ -192,6 +176,10 @@ async def roll(ctx):
     ranroll = random.choice(choices)
     await ctx.send(ranroll)
 
+bot.command(name="choose", aliases=['ch'])
+async def choose(ctx, *, choices: str):
+    choicelist = choices.split(",")
+    await ctx.send("I choose " + random.choice(choicelist))
 
 @bot.command(name="avatar")
 async def avatar(ctx, user: discord.Member = None):
