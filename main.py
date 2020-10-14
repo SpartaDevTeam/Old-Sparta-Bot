@@ -112,7 +112,7 @@ async def roll(ctx):
 @bot.command(name="choose", aliases=['ch'])
 async def choose(ctx, *, choices: str):
     choicelist = choices.split(",")
-    await ctx.send("I choose " + random.choice(choicelist))
+    await ctx.send("I choose " + random.choice(choicelist).strip())
 
 @bot.command(name="avatar")
 async def avatar(ctx, user: discord.Member = None):
