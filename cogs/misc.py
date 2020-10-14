@@ -29,8 +29,8 @@ class Miscellaneous(commands.Cog):
                              value="Get the link to the GitHub Repository")
         misc_embed.add_field(name=f"`{PREFIX}support`",
                              value="Get an invite to the Sparta Bot Support Server")
-        misc_embed.add_field(name=f"`{PREFIX}reminder`"
-                            value="It will remind you via dms. Use s,m,h,d for timings.")
+        misc_embed.add_field(name=f"`{PREFIX}reminder`",
+                             value="It will remind you via dms. Use s,m,h,d for timings.")
 
         server_settings_embed = discord.Embed(
             title="Server Settings Commands Help", color=THEME_COLOR)
