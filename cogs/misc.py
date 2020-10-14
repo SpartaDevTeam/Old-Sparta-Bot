@@ -14,7 +14,7 @@ class Miscellaneous(commands.Cog):
 
         misc_embed = discord.Embed(title="Misc. Help", color=THEME_COLOR)
         misc_embed.add_field(
-            name=f"`{PREFIX}help <category>`", value="Displays command help")
+            name=f"`{PREFIX}help`", value="Displays command help")
         misc_embed.add_field(
             name=f"`{PREFIX}hello`", value="Say hello to the bot")
         misc_embed.add_field(name=f"`{PREFIX}info`",
@@ -69,7 +69,7 @@ class Miscellaneous(commands.Cog):
         mod_embed.add_field(name=f"`{PREFIX}unlockchannel <channel>`",
                             value="Unlocks a channel so every server member can use it")
         mod_embed.add_field(name=f"`{PREFIX}slowmode <seconds>`",
-                            value="Adds slowmode for a channel, aliases is sm")
+                            value="Adds slowmode for a channel, alias is sm")
 
         auto_embed = discord.Embed(
             title="Auto Moderator Help", color=THEME_COLOR)
@@ -107,7 +107,7 @@ class Miscellaneous(commands.Cog):
         self.help_control_emojis = ["⬅️", "➡️"]
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
+    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
         if reaction.message.id == self.current_help_msg and user.id != 731763013417435247:
             if user.id == self.current_help_user:
                 channel: discord.TextChannel = reaction.message.channel
@@ -141,7 +141,7 @@ class Miscellaneous(commands.Cog):
     async def hello(self, ctx):
         await ctx.send("Hi, I am Sparta Bot!")
 
-    @commands.command(name="info",aliases=['bi'])
+    @commands.command(name="info", aliases=['bi'])
     async def info(self, ctx):
         embed = discord.Embed(title="Bot Information", color=self.theme_color)
         ping = round(self.bot.latency * 1000)
@@ -164,7 +164,7 @@ class Miscellaneous(commands.Cog):
             title="Click here to invite Sparta Bot!", url=invite_url, color=self.theme_color)
         await ctx.send(content=None, embed=embed)
 
-    @commands.command(name="github",aliases=['GitHub'])
+    @commands.command(name="github", aliases=['GitHub'])
     async def github(self, ctx):
         repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
         embed = discord.Embed(
@@ -195,19 +195,22 @@ class Miscellaneous(commands.Cog):
         temp_channel: discord.TextChannel = await ctx.channel.clone()
         await temp_channel.edit(position=ctx.channel.position)
         await ctx.channel.delete(reason="Nuke")
-        embed = discord.Embed(color=self.theme_color, description=f"{ctx.author.mention} Nuked This Channel!")
-        embed.set_image(url="https://media.tenor.com/images/04dc5750f44e6d94c0a9f8eb8abf5421/tenor.gif")
+        embed = discord.Embed(
+            color=self.theme_color, description=f"{ctx.author.mention} Nuked This Channel!")
+        embed.set_image(
+            url="https://media.tenor.com/images/04dc5750f44e6d94c0a9f8eb8abf5421/tenor.gif")
         await temp_channel.send(embed=embed)
 
-
-
-    @commands.command(aliases = ["remind", "remindme", "remind_me", "rm"])
-    @commands.bot_has_permissions(attach_files = True, embed_links = True)
-    async def reminder(self ,ctx, time, *, reminder):
-        embed = discord.Embed(color=self.theme_color, timestamp=datetime.datetime.utcnow())
+    @commands.command(aliases=["remind", "remindme", "remind_me", "rm"])
+    @commands.bot_has_permissions(attach_files=True, embed_links=True)
+    async def reminder(self, ctx, time, *, reminder):
+        embed = discord.Embed(color=self.theme_color,
+                              timestamp=datetime.datetime.utcnow())
         seconds = 0
         if reminder is None:
-            embed.add_field(name='Warning', value='Please specify what do you want me to remind you about.') # Error message
+            # Error message
+            embed.add_field(
+                name='Warning', value='Please specify what do you want me to remind you about.')
         if time.lower().endswith("d"):
             seconds += int(time[:-1]) * 60 * 60 * 24
             counter = f"{seconds // 60 // 60 // 24} days"
@@ -223,11 +226,10 @@ class Miscellaneous(commands.Cog):
         if seconds == 0:
             embed.add_field(name='Warning',
                             value='Please specify a proper duration.')
-    
+
         else:
             await ctx.send(f"Alright, I will remind you about **{reminder}** in **{counter}**.")
             await asyncio.sleep(seconds)
             await ctx.author.send(f"Hi, you asked me to remind you about **{reminder} {counter} ago**.")
             return
         await ctx.send(embed=embed)
-

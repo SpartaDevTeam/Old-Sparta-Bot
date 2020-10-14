@@ -920,9 +920,45 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": true
     },
     "717549856217890878": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "732560626190385193": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "764144791385931786": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "765166367522553877": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "748916936443822180": {
         "active": false,
         "users": [],
         "urls": [],

@@ -13,9 +13,11 @@ class Moderator(commands.Cog):
 
     @commands.command(name="warn")
     @commands.has_guild_permissions(kick_members=True)
-    async def warn(self, ctx, user: discord.User = None, *, reason=None):
+    async def warn(self, ctx, user: discord.Member = None, *, reason=None):
         if user is None or reason is None:
             await ctx.send("Insufficient arguments.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot warn this user because their role is higher than or equal to yours.")
         else:
             print(f"Warning user {user.name} for {reason}...")
 
@@ -32,18 +34,20 @@ class Moderator(commands.Cog):
 
             await ctx.send(content=None, embed=embed)
 
-    @commands.command(name="clearwarn",aliases=['cw','removewarns','rw'])
+    @commands.command(name="clearwarn", aliases=['cw', 'removewarns', 'rw'])
     @commands.has_guild_permissions(kick_members=True)
-    async def clearwarn(self, ctx, user: discord.User = None):
+    async def clearwarn(self, ctx, user: discord.Member = None):
         if user is None:
             self.warn_count = {}
             await ctx.send("Clearing all warns.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot clear this user's warnings because their role is higher than or equal to yours.")
         else:
             self.warn_count[str(user)] = 0
             await ctx.send(f"Clearing warns for {user.mention}.")
 
     @commands.command(name="warncount")
-    async def warncount(self, ctx, user: discord.User):
+    async def warncount(self, ctx, user: discord.Member):
         if str(user) not in self.warn_count:
             self.warn_count[str(user)] = 0
 
@@ -55,6 +59,8 @@ class Moderator(commands.Cog):
     async def mute(self, ctx, user: discord.Member = None, time: str = None):
         if user is None:
             await ctx.send("Insufficient arguments.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot mute this user because their role is higher than or equal to yours.")
         else:
             guild = ctx.guild
             mute_role = None
@@ -110,6 +116,8 @@ class Moderator(commands.Cog):
     async def unmute(self, ctx, user: discord.Member = None):
         if user is None:
             await ctx.send("Insufficient arguments.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot unmute this user because their role is higher than or equal to yours.")
         else:
             guild = ctx.guild
             mute_role = None
@@ -131,9 +139,11 @@ class Moderator(commands.Cog):
 
     @commands.command(name="ban")
     @commands.has_guild_permissions(ban_members=True)
-    async def ban(self, ctx, user: discord.User = None, *, reason=None):
+    async def ban(self, ctx, user: discord.Member = None, *, reason=None):
         if user is None:
             await ctx.send("Insufficient arguments.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot ban this user because their role is higher than or equal to yours.")
         else:
             await ctx.guild.ban(user, reason=reason)
             if reason:
@@ -144,9 +154,11 @@ class Moderator(commands.Cog):
 
     @commands.command(name="tempban")
     @commands.has_guild_permissions(ban_members=True)
-    async def tempban(self, ctx, user: discord.User = None, days: int = 1):
+    async def tempban(self, ctx, user: discord.Member = None, days: int = 1):
         if user is None:
             await ctx.send("Insufficient arguments.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot temporarily ban this user because their role is higher than or equal to yours.")
         else:
             await ctx.guild.ban(user)
             await ctx.send(f"User **{user}** has been temporarily banned for **{days} day(s)**")
@@ -160,6 +172,7 @@ class Moderator(commands.Cog):
     async def unban(self, ctx, username: str = None, *, reason=None):
         if username is None:
             await ctx.send("Insufficient arguments.")
+
         else:
             banned_users = await ctx.guild.bans()
             member_name, member_discriminator = username.split('#')
@@ -181,9 +194,11 @@ class Moderator(commands.Cog):
 
     @commands.command(name="kick")
     @commands.has_guild_permissions(kick_members=True)
-    async def kick(self, ctx, user: discord.User = None, *, reason=None):
+    async def kick(self, ctx, user: discord.Member = None, *, reason=None):
         if user is None:
             await ctx.send("Insufficient arguments.")
+        elif ctx.author.top_role.position <= user.top_role.position:
+            await ctx.send("You cannot kick this user because their role is higher than or equal to yours.")
         else:
             await ctx.guild.kick(user, reason=reason)
             if reason:
@@ -192,7 +207,7 @@ class Moderator(commands.Cog):
                 await ctx.send(f"User **{user}** has been kicked.")
             await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
-    @commands.command(name="lockchannel",aliases=['lock'])
+    @commands.command(name="lockchannel", aliases=['lock'])
     @commands.has_guild_permissions(manage_guild=True)
     async def lockchannel(self, ctx, channel: discord.TextChannel = None):
         if channel is None:
@@ -206,7 +221,7 @@ class Moderator(commands.Cog):
 
         await ctx.send(f"🔒The channel {channel.mention} has been locked")
 
-    @commands.command(name="unlockchannel",aliases=['unlock'])
+    @commands.command(name="unlockchannel", aliases=['unlock'])
     @commands.has_guild_permissions(manage_guild=True)
     async def unlockchannel(self, ctx, channel: discord.TextChannel = None):
         if channel is None:
@@ -216,10 +231,8 @@ class Moderator(commands.Cog):
 
         await ctx.send(f"🔓The channel {channel.mention} has been unlocked")
 
-
-    @commands.command(name="setdelay",aliases=['sm','slowmode'])
+    @commands.command(name="slowmode", aliases=['sm'])
     @commands.has_guild_permissions(manage_guild=True)
     async def setdelay(self, ctx, seconds: int):
         await ctx.channel.edit(slowmode_delay=seconds)
-        await ctx.send(f"Set the slowmode delay in this channel to **{seconds}** seconds!")
-
+        await ctx.send(f"Set the slowmode in this channel to **{seconds}** seconds!")
