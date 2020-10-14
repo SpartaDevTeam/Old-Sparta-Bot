@@ -81,16 +81,25 @@ async def on_member_remove(member):
 
 # LABEL: Programming Commands
 @bot.command(name='eval', pass_context=True)
-async def eval_(ctx, *, command):
+async def eval_(ctx, *, code):
     if ctx.author.id == 733532987794128897 or ctx.author.id == 400857098121904149:
-        res = eval(command)
+        formatted_code = code.strip("```").strip("py").strip("python")
+        res = eval(formatted_code)
+
         if inspect.isawaitable(res):
             await res
         else:
             res
-        comp = await ctx.send("Completed")
-        await asyncio.sleep(3)
-        await comp.delete()
+
+        embed = discord.Embed(
+            title="Code Evaluation Complete!", color=THEME_COLOR)
+        embed.set_footer(
+            text=f"Requested by {ctx.author}",
+            icon_url=ctx.author.avatar_url
+        )
+        embed.add_field(name="Code:", value=code)
+
+        await ctx.send(embed=embed)
     else:
         await ctx.send("You are not authorized to run this command.")
 
@@ -109,10 +118,12 @@ async def roll(ctx):
     ranroll = random.choice(choices)
     await ctx.send(ranroll)
 
+
 @bot.command(name="choose", aliases=['ch'])
 async def choose(ctx, *, choices: str):
     choicelist = choices.split(",")
     await ctx.send("I choose " + random.choice(choicelist).strip())
+
 
 @bot.command(name="avatar")
 async def avatar(ctx, user: discord.Member = None):
