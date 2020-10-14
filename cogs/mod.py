@@ -32,7 +32,7 @@ class Moderator(commands.Cog):
 
             await ctx.send(content=None, embed=embed)
 
-    @commands.command(name="clearwarn")
+    @commands.command(name="clearwarn",aliases=['cw','removewarns','rw'])
     @commands.has_guild_permissions(kick_members=True)
     async def clearwarn(self, ctx, user: discord.User = None):
         if user is None:
@@ -192,7 +192,7 @@ class Moderator(commands.Cog):
                 await ctx.send(f"User **{user}** has been kicked.")
             await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
-    @commands.command(name="lockchannel")
+    @commands.command(name="lockchannel",aliases=['lock'])
     @commands.has_guild_permissions(manage_guild=True)
     async def lockchannel(self, ctx, channel: discord.TextChannel = None):
         if channel is None:
@@ -206,7 +206,7 @@ class Moderator(commands.Cog):
 
         await ctx.send(f"🔒The channel {channel.mention} has been locked")
 
-    @commands.command(name="unlockchannel")
+    @commands.command(name="unlockchannel",aliases=['unlock'])
     @commands.has_guild_permissions(manage_guild=True)
     async def unlockchannel(self, ctx, channel: discord.TextChannel = None):
         if channel is None:

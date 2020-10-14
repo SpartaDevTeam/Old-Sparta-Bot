@@ -29,6 +29,8 @@ class Miscellaneous(commands.Cog):
                              value="Get the link to the GitHub Repository")
         misc_embed.add_field(name=f"`{PREFIX}support`",
                              value="Get an invite to the Sparta Bot Support Server")
+        misc_embed.add_field(name=f"`{PREFIX}reminder`",
+                             value="It will remind you via dms. Use s,m,h,d for timings.")
 
         server_settings_embed = discord.Embed(
             title="Server Settings Commands Help", color=THEME_COLOR)
@@ -139,7 +141,7 @@ class Miscellaneous(commands.Cog):
     async def hello(self, ctx):
         await ctx.send("Hi, I am Sparta Bot!")
 
-    @commands.command(name="info")
+    @commands.command(name="info",aliases=['bi'])
     async def info(self, ctx):
         embed = discord.Embed(title="Bot Information", color=self.theme_color)
         ping = round(self.bot.latency * 1000)
@@ -162,7 +164,7 @@ class Miscellaneous(commands.Cog):
             title="Click here to invite Sparta Bot!", url=invite_url, color=self.theme_color)
         await ctx.send(content=None, embed=embed)
 
-    @commands.command(name="github")
+    @commands.command(name="github",aliases=['GitHub'])
     async def github(self, ctx):
         repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
         embed = discord.Embed(

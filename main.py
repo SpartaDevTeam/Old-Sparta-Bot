@@ -127,7 +127,7 @@ async def choose(ctx, *, choices: str):
     await ctx.send("I choose " + random.choice(choicelist).strip())
 
 
-@bot.command(name="avatar")
+@bot.command(name="avatar",aliases=['av'])
 async def avatar(ctx, user: discord.Member = None):
     if user is None:
         user = ctx.author
@@ -176,14 +176,20 @@ async def on_message(message: discord.Message):
                         for url in data["urls"]:
                             if not url in message.content:
                                 await channel.purge(limit=1)
-                                await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+                                msg1 =await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+                                await asyncio.sleep(2)
+                                await msg1.delete()
                     else:
                         await channel.purge(limit=1)
-                        await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+                        msg2 = await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+                        await asyncio.sleep(3)
+                        await msg2.delete()
 
                 elif len(message.attachments) > 0:
                     await channel.purge(limit=1)
-                    await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
+                    msg3 = await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
+                    await asyncio.sleep(3)
+                    await msg3.delete()
 
 
 bot.run(TOKEN)
