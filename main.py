@@ -125,7 +125,7 @@ async def choose(ctx, *, choices: str):
     await ctx.send("I choose " + random.choice(choicelist).strip())
 
 
-@bot.command(name="avatar")
+@bot.command(name="avatar",aliases=['av'])
 async def avatar(ctx, user: discord.Member = None):
     if user is None:
         user = ctx.author

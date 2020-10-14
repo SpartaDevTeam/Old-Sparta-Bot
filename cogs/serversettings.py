@@ -9,7 +9,7 @@ class ServerSettings(commands.Cog):
         self.bot = bot
         self.theme_color = theme_color
 
-    @commands.command(name="welcomemessage")
+    @commands.command(name="welcomemessage",aliases=['welmessage','welmsg'])
     @commands.has_guild_permissions(manage_guild=True)
     async def welcome_message(self, ctx, *, msg: str = ""):
         if str(ctx.guild.id) not in Data.server_data:
@@ -30,7 +30,7 @@ class ServerSettings(commands.Cog):
         Data.server_data[str(ctx.guild.id)]["join_role"] = role.id
         await ctx.send(f"This server's join role has been set to **{role}**")
 
-    @commands.command(name="serverinfo")
+    @commands.command(name="serverinfo",aliases=['si'])
     async def serverinfo(self, ctx):
         name = ctx.guild.name
         description = ctx.guild.description
@@ -53,7 +53,7 @@ class ServerSettings(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="userinfo")
+    @commands.command(name="userinfo",aliases=['ui','whois'])
     async def userinfo(self, ctx, member: discord.Member = None):
         if member is None:
             member = ctx.author
