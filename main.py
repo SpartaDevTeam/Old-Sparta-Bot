@@ -10,6 +10,7 @@ from discord.ext import commands
 from cogs.misc import Miscellaneous
 from cogs.serversettings import ServerSettings
 from cogs.mod import Moderator
+from cogs.automod import AutoMod
 
 from otherscipts.helpers import update_presence
 from otherscipts.data import Data
@@ -27,6 +28,7 @@ THEME_COLOR = discord.Colour.blue()
 bot.add_cog(Miscellaneous(bot, THEME_COLOR))
 bot.add_cog(ServerSettings(bot, THEME_COLOR))
 bot.add_cog(Moderator(bot, THEME_COLOR))
+bot.add_cog(AutoMod(bot, THEME_COLOR))
 
 
 @bot.event
