@@ -12,7 +12,7 @@ class Moderator(commands.Cog):
         self.warn_count = {}
 
     @commands.command(name="warn")
-    @commands.has_guild_permissions(administrator=True)
+    @commands.has_guild_permissions(kick_members=True)
     async def warn(self, ctx, user: discord.User = None, *, reason=None):
         if user is None or reason is None:
             await ctx.send("Insufficient arguments.")
@@ -33,7 +33,7 @@ class Moderator(commands.Cog):
             await ctx.send(content=None, embed=embed)
 
     @commands.command(name="clearwarn")
-    @commands.has_guild_permissions(administrator=True)
+    @commands.has_guild_permissions(kick_members=True)
     async def clearwarn(self, ctx, user: discord.User = None):
         if user is None:
             self.warn_count = {}
@@ -193,7 +193,7 @@ class Moderator(commands.Cog):
             await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
     @commands.command(name="lockchannel")
-    @commands.has_guild_permissions(administrator=True)
+    @commands.has_guild_permissions(manage_guild=True)
     async def lockchannel(self, ctx, channel: discord.TextChannel = None):
         if channel is None:
             channel = ctx.channel
@@ -207,7 +207,7 @@ class Moderator(commands.Cog):
         await ctx.send(f"🔒The channel {channel.mention} has been locked")
 
     @commands.command(name="unlockchannel")
-    @commands.has_guild_permissions(administrator=True)
+    @commands.has_guild_permissions(manage_guild=True)
     async def unlockchannel(self, ctx, channel: discord.TextChannel = None):
         if channel is None:
             channel = ctx.channel
@@ -215,3 +215,11 @@ class Moderator(commands.Cog):
         await channel.set_permissions(ctx.guild.roles[0], send_messages=True)
 
         await ctx.send(f"🔓The channel {channel.mention} has been unlocked")
+
+
+    @commands.command(name="setdelay",aliases=['sm','slowmode'])
+    @commands.has_guild_permissions(manage_guild=True)
+    async def setdelay(self, ctx, seconds: int):
+        await ctx.channel.edit(slowmode_delay=seconds)
+        await ctx.send(f"Set the slowmode delay in this channel to **{seconds}** seconds!")
+

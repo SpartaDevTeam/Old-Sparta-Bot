@@ -65,6 +65,8 @@ class Miscellaneous(commands.Cog):
                             value="Locks a channel so only Administrators can use it")
         mod_embed.add_field(name=f"`{PREFIX}unlockchannel <channel>`",
                             value="Unlocks a channel so every server member can use it")
+        mod_embed.add_field(name=f"`{PREFIX}slowmode <seconds>`",
+                            value="Adds slowmode for a channel, aliases is sm")
 
         auto_embed = discord.Embed(
             title="Auto Moderator Help", color=THEME_COLOR)
@@ -91,6 +93,8 @@ class Miscellaneous(commands.Cog):
         fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
         fun_embed.add_field(name=f"`{PREFIX}avatar <user>`",
                             value="Display a users avatar")
+        fun_embed.add_field(name=f"`{PREFIX}choose`",
+                            value="Chooses a option for you and divide options using a (,)")
 
         self.help_index = 0
         self.current_help_msg = None
@@ -178,9 +182,9 @@ class Miscellaneous(commands.Cog):
             await ctx.send("Insufficient arguments.")
         else:
             await ctx.channel.purge(limit=count+1)
-            await ctx.send(f"Cleared the last {count} message(s)!")
+            rtmsg = await ctx.send(f"Cleared the last {count} message(s)!")
             await asyncio.sleep(3)
-            await ctx.channel.purge(limit=1)
+            await rtmsg.delete()
 
     @commands.command(name="nuke")
     @commands.has_guild_permissions(manage_channels=True)
@@ -188,6 +192,6 @@ class Miscellaneous(commands.Cog):
         temp_channel: discord.TextChannel = await ctx.channel.clone()
         await temp_channel.edit(position=ctx.channel.position)
         await ctx.channel.delete(reason="Nuke")
-        embed = discord.Embed(color=self.theme_color, description="Nuked This Channel!")
+        embed = discord.Embed(color=self.theme_color, description=f"{ctx.author.mention} Nuked This Channel!")
         embed.set_image(url="https://media.tenor.com/images/04dc5750f44e6d94c0a9f8eb8abf5421/tenor.gif")
         await temp_channel.send(embed=embed)
