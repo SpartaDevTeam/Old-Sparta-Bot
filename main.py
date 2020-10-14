@@ -97,7 +97,7 @@ async def eval_(ctx, *, code):
             text=f"Requested by {ctx.author}",
             icon_url=ctx.author.avatar_url
         )
-        embed.add_field(name="Code:", value=code)
+        embed.add_field(name="Code:", value=f"```py\n{formatted_code}```")
 
         await ctx.send(embed=embed)
     else:
