@@ -1,6 +1,7 @@
 import asyncio
 import discord
 from discord.ext import commands
+import datetime
 
 
 class Miscellaneous(commands.Cog):
@@ -195,3 +196,36 @@ class Miscellaneous(commands.Cog):
         embed = discord.Embed(color=self.theme_color, description=f"{ctx.author.mention} Nuked This Channel!")
         embed.set_image(url="https://media.tenor.com/images/04dc5750f44e6d94c0a9f8eb8abf5421/tenor.gif")
         await temp_channel.send(embed=embed)
+
+
+
+    @commands.command(aliases = ["remind", "remindme", "remind_me", "rm"])
+    @commands.bot_has_permissions(attach_files = True, embed_links = True)
+    async def reminder(self ,ctx, time, *, reminder):
+        embed = discord.Embed(color=self.theme_color, timestamp=datetime.datetime.utcnow())
+        seconds = 0
+        if reminder is None:
+            embed.add_field(name='Warning', value='Please specify what do you want me to remind you about.') # Error message
+        if time.lower().endswith("d"):
+            seconds += int(time[:-1]) * 60 * 60 * 24
+            counter = f"{seconds // 60 // 60 // 24} days"
+        if time.lower().endswith("h"):
+            seconds += int(time[:-1]) * 60 * 60
+            counter = f"{seconds // 60 // 60} hours"
+        elif time.lower().endswith("m"):
+            seconds += int(time[:-1]) * 60
+            counter = f"{seconds // 60} minutes"
+        elif time.lower().endswith("s"):
+            seconds += int(time[:-1])
+            counter = f"{seconds} seconds"
+        if seconds == 0:
+            embed.add_field(name='Warning',
+                            value='Please specify a proper duration.')
+    
+        else:
+            await ctx.send(f"Alright, I will remind you about **{reminder}** in **{counter}**.")
+            await asyncio.sleep(seconds)
+            await ctx.author.send(f"Hi, you asked me to remind you about **{reminder} {counter} ago**.")
+            return
+        await ctx.send(embed=embed)
+
