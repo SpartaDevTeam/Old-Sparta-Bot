@@ -17,10 +17,16 @@ from otherscipts.data import Data
 
 TOKEN = os.getenv('SPARTA_TOKEN')
 
+intents = discord.Intents.default()
+intents.members = True
+
 PREFIX = "s!"
-bot = commands.Bot(command_prefix=PREFIX,
-                   description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
-                   help_command=None)
+bot = commands.Bot(
+    command_prefix=PREFIX,
+    description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
+    intents=intents,
+    help_command=None
+)
 
 THEME_COLOR = discord.Colour.blue()
 
@@ -127,7 +133,7 @@ async def choose(ctx, *, choices: str):
     await ctx.send("I choose " + random.choice(choicelist).strip())
 
 
-@bot.command(name="avatar",aliases=['av'])
+@bot.command(name="avatar", aliases=['av'])
 async def avatar(ctx, user: discord.Member = None):
     if user is None:
         user = ctx.author
@@ -176,7 +182,7 @@ async def on_message(message: discord.Message):
                         for url in data["urls"]:
                             if not url in message.content:
                                 await channel.purge(limit=1)
-                                msg1 =await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
+                                msg1 = await channel.send(f"{author.mention}, you are not allowed to send links in this channel.")
                                 await asyncio.sleep(2)
                                 await msg1.delete()
                     else:
