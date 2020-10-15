@@ -24,7 +24,7 @@ PREFIX = "s!"
 bot = commands.Bot(
     command_prefix=PREFIX,
     description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
-    intents=intents,
+    #intents=intents, temporarily disabled
     help_command=None
 )
 
