@@ -173,10 +173,7 @@ class Miscellaneous(commands.Cog):
 
     @commands.command(name="support")
     async def support(self, ctx):
-        invite_url = "https://discord.gg/RrVY4bP"
-        embed = discord.Embed(
-            title="Click here to get an invite to the Sparta Bot Support Server!", url=invite_url, color=self.theme_color)
-        await ctx.send(content=None, embed=embed)
+        await ctx.send("Support Server - https://discord.gg/RrVY4bP")
 
     @commands.command(name="clear")
     @commands.has_guild_permissions(manage_messages=True)
