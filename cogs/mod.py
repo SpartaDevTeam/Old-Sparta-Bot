@@ -207,6 +207,22 @@ class Moderator(commands.Cog):
                 await ctx.send(f"User **{user}** has been kicked.")
             await user.send(f"You have been **kicked** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
 
+    @commands.command(name="masskick")
+    async def masskick(self, ctx):
+        def check(m):
+            return m.author == ctx.author
+
+        await ctx.send("How many members do you want to kick?")
+        msg = await self.bot.wait_for("message", check=check)
+
+        for i in range(int(msg.content)):
+            await ctx.send("Whom do you want to kick?")
+            msg2 = await self.bot.wait_for("message", check=check)
+            user = msg2.mentions[0]
+            await user.kick()
+            await ctx.send(f"User **{user}** has been kicked.")
+            await user.send(f"You have been **kicked** from **{ctx.guild}** server")
+
     @commands.command(name="lockchannel", aliases=['lock'])
     @commands.has_guild_permissions(manage_guild=True)
     async def lockchannel(self, ctx, channel: discord.TextChannel = None):

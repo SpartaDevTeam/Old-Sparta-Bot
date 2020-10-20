@@ -24,7 +24,7 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": true
     },
     "732831271381631036": {
         "active": false,
@@ -959,6 +959,78 @@
         "pay_respects": false
     },
     "748916936443822180": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "754586982205751348": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "766203622744522754": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "765853783670390804": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "758553515890180107": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "710886755540271184": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "733090856411594772": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "759753314476228659": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "748607699066945546": {
         "active": false,
         "users": [],
         "urls": [],
