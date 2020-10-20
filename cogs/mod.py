@@ -16,7 +16,7 @@ class Moderator(commands.Cog):
     async def warn(self, ctx, user: discord.Member = None, *, reason=None):
         if user is None or reason is None:
             await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot warn this user because their role is higher than or equal to yours.")
         else:
             print(f"Warning user {user.name} for {reason}...")
@@ -40,7 +40,7 @@ class Moderator(commands.Cog):
         if user is None:
             self.warn_count = {}
             await ctx.send("Clearing all warns.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot clear this user's warnings because their role is higher than or equal to yours.")
         else:
             self.warn_count[str(user)] = 0
@@ -59,7 +59,7 @@ class Moderator(commands.Cog):
     async def mute(self, ctx, user: discord.Member = None, time: str = None):
         if user is None:
             await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot mute this user because their role is higher than or equal to yours.")
         else:
             guild = ctx.guild
@@ -116,7 +116,7 @@ class Moderator(commands.Cog):
     async def unmute(self, ctx, user: discord.Member = None):
         if user is None:
             await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot unmute this user because their role is higher than or equal to yours.")
         else:
             guild = ctx.guild
@@ -142,7 +142,7 @@ class Moderator(commands.Cog):
     async def ban(self, ctx, user: discord.Member = None, *, reason=None):
         if user is None:
             await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot ban this user because their role is higher than or equal to yours.")
         else:
             await ctx.guild.ban(user, reason=reason)
@@ -157,7 +157,7 @@ class Moderator(commands.Cog):
     async def tempban(self, ctx, user: discord.Member = None, days: int = 1):
         if user is None:
             await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot temporarily ban this user because their role is higher than or equal to yours.")
         else:
             await ctx.guild.ban(user)
@@ -197,7 +197,7 @@ class Moderator(commands.Cog):
     async def kick(self, ctx, user: discord.Member = None, *, reason=None):
         if user is None:
             await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position:
+        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
             await ctx.send("You cannot kick this user because their role is higher than or equal to yours.")
         else:
             await ctx.guild.kick(user, reason=reason)

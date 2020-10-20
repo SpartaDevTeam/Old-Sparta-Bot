@@ -56,14 +56,16 @@ class Miscellaneous(commands.Cog):
                             value="Displays how many times a user has been warned")
         mod_embed.add_field(name=f"`{PREFIX}mute <user> <time>`",
                             value="Mutes a user. You can optionally provide a time as well. Ex: 5s, 4m, 2h")
-        mod_embed.add_field(
-            name=f"`{PREFIX}unmute <user>`", value="Unmutes a user")
+        mod_embed.add_field(name=f"`{PREFIX}unmute <user>`",
+                            value="Unmutes a user")
         mod_embed.add_field(name=f"`{PREFIX}ban <user> <reason>`",
                             value="Bans a user from the server")
         mod_embed.add_field(name=f"`{PREFIX}unban <username with #number> <reason>`",
                             value="Unbans a user from the server")
         mod_embed.add_field(name=f"`{PREFIX}kick <user> <reason>`",
                             value="Kicks a user from the server")
+        mod_embed.add_field(name=f"`{PREFIX}masskick`",
+                            value="Kick multiple users from your server")
         mod_embed.add_field(name=f"`{PREFIX}lockchannel <channel>`",
                             value="Locks a channel so only Administrators can use it")
         mod_embed.add_field(name=f"`{PREFIX}unlockchannel <channel>`",
