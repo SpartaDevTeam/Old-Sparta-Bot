@@ -219,9 +219,12 @@ class Moderator(commands.Cog):
             await ctx.send("Whom do you want to kick?")
             msg2 = await self.bot.wait_for("message", check=check)
             user = msg2.mentions[0]
-            await user.kick()
-            await ctx.send(f"User **{user}** has been kicked.")
-            await user.send(f"You have been **kicked** from **{ctx.guild}** server")
+            if ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
+                await ctx.send("You cannot kick this user because their role is higher than or equal to yours.")
+            else:
+                await user.kick()
+                await ctx.send(f"User **{user}** has been kicked.")
+                await user.send(f"You have been **kicked** from **{ctx.guild}** server")
 
     @commands.command(name="lockchannel", aliases=['lock'])
     @commands.has_guild_permissions(manage_guild=True)
