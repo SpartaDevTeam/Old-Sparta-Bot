@@ -166,7 +166,7 @@ class Miscellaneous(commands.Cog):
             title="Click here to invite Sparta Bot!", url=invite_url, color=self.theme_color)
         await ctx.send(content=None, embed=embed)
 
-    @commands.command(name="github", aliases=['GitHub'])
+    @commands.command(name="github")
     async def github(self, ctx):
         repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
         embed = discord.Embed(
