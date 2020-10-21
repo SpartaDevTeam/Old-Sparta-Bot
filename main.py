@@ -25,7 +25,8 @@ bot = commands.Bot(
     command_prefix=PREFIX,
     description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
     #intents=intents, temporarily disabled
-    help_command=None
+    help_command=None,
+    case_insensitive=True
 )
 
 THEME_COLOR = discord.Colour.blue()
