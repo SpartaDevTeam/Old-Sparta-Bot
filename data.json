@@ -12,7 +12,9 @@
         "active": false,
         "users": [],
         "urls": [],
-        "channels": [],
+        "channels": [
+            "747841033391570985"
+        ],
         "welcome_msg": null,
         "join_role": null,
         "pay_respects": false
@@ -1031,6 +1033,15 @@
         "pay_respects": false
     },
     "748607699066945546": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false
+    },
+    "767346331319926795": {
         "active": false,
         "users": [],
         "urls": [],
