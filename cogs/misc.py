@@ -3,6 +3,8 @@ import discord
 from discord.ext import commands
 import datetime
 
+from otherscipts.data import Data
+
 
 class Miscellaneous(commands.Cog):
     def __init__(self, bot, theme_color):
@@ -29,8 +31,10 @@ class Miscellaneous(commands.Cog):
                              value="Get the link to the GitHub Repository")
         misc_embed.add_field(name=f"`{PREFIX}support`",
                              value="Get an invite to the Sparta Bot Support Server")
-        misc_embed.add_field(name=f"`{PREFIX}reminder`",
+        misc_embed.add_field(name=f"`{PREFIX}reminder <time> <reminder>`",
                              value="It will remind you via dms. Use s,m,h,d for timings.")
+        misc_embed.add_field(name=f"`{PREFIX}afk <time> <reason>`",
+                             value="Specify how long you will be AFK for and why you are AFK.")
 
         server_settings_embed = discord.Embed(
             title="Server Settings Commands Help", color=THEME_COLOR)
@@ -200,20 +204,15 @@ class Miscellaneous(commands.Cog):
             url="https://media.tenor.com/images/04dc5750f44e6d94c0a9f8eb8abf5421/tenor.gif")
         await temp_channel.send(embed=embed)
 
-    @commands.command(aliases=["remind", "remindme", "remind_me", "rm"])
-    @commands.bot_has_permissions(attach_files=True, embed_links=True)
-    async def reminder(self, ctx, time, *, reminder):
+    @commands.command(name="reminder", aliases=["remind", "remindme", "remind_me", "rm"])
+    async def reminder(self, ctx, time=None, *, reminder=None):
         embed = discord.Embed(color=self.theme_color,
                               timestamp=datetime.datetime.utcnow())
         seconds = 0
-        if reminder is None:
-            # Error message
-            embed.add_field(
-                name='Warning', value='Please specify what do you want me to remind you about.')
         if time.lower().endswith("d"):
             seconds += int(time[:-1]) * 60 * 60 * 24
             counter = f"{seconds // 60 // 60 // 24} days"
-        if time.lower().endswith("h"):
+        elif time.lower().endswith("h"):
             seconds += int(time[:-1]) * 60 * 60
             counter = f"{seconds // 60 // 60} hours"
         elif time.lower().endswith("m"):
@@ -222,13 +221,72 @@ class Miscellaneous(commands.Cog):
         elif time.lower().endswith("s"):
             seconds += int(time[:-1])
             counter = f"{seconds} seconds"
-        if seconds == 0:
-            embed.add_field(name='Warning',
-                            value='Please specify a proper duration.')
 
-        else:
+        if reminder is None:
+            # Error message
+            embed.add_field(name='Warning', value='Please specify what do you want me to remind you about.')
+
+        if seconds == 0:
+            embed.add_field(name='Warning', value='Please specify a proper duration.')
+
+        if len(embed.fields) == 0:
             await ctx.send(f"Alright, I will remind you about **{reminder}** in **{counter}**.")
             await asyncio.sleep(seconds)
             await ctx.author.send(f"Hi, you asked me to remind you about **{reminder} {counter} ago**.")
             return
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name="afk")
+    async def afk(self, ctx, time=None, *, reason=None):
+        embed = discord.Embed(color=self.theme_color,
+                              timestamp=datetime.datetime.utcnow())
+        seconds = 0
+        if time.lower().endswith("d"):
+            seconds += int(time[:-1]) * 60 * 60 * 24
+            counter = f"{seconds // 60 // 60 // 24} days"
+        elif time.lower().endswith("h"):
+            seconds += int(time[:-1]) * 60 * 60
+            counter = f"{seconds // 60 // 60} hours"
+        elif time.lower().endswith("m"):
+            seconds += int(time[:-1]) * 60
+            counter = f"{seconds // 60} minutes"
+        elif time.lower().endswith("s"):
+            seconds += int(time[:-1])
+            counter = f"{seconds} seconds"
+
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
+
+        data = Data.server_data[str(ctx.guild.id)]
+
+        # Error messages
+        if reason is None:
+            embed.add_field(name='Warning', value='Please specify a reason.')
+
+        if seconds == 0:
+            embed.add_field(name='Warning', value='Please specify a proper duration.')
+
+        for afk_user_entry in data["afks"]:
+            afk_user_id = str(afk_user_entry["user"])
+
+            if str(ctx.author.id) == afk_user_id:
+                embed.add_field(name='Warning', value='You are already AFK.')
+                break
+
+        if len(embed.fields) == 0:
+            afk_entry = {
+                "user": str(ctx.author.id),
+                "reason": reason
+            }
+
+            data["afks"].append(afk_entry)
+            await ctx.send(f"AFK for user **{ctx.author}** has been set to **{reason}** for **{counter}**.")
+
+            await asyncio.sleep(seconds)
+
+            data["afks"].remove(afk_entry)
+            await ctx.send(f"AFK time for user **{ctx.author}** is over after **{counter}**.")
+            return
+
         await ctx.send(embed=embed)

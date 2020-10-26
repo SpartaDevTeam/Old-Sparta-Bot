@@ -14,7 +14,7 @@ class Data:
             with open(Data.filename, "w") as data_file:
                 json.dump(Data.server_data, data_file)
 
-            await asyncio.sleep(30)
+            await asyncio.sleep(10)
 
     @staticmethod
     def create_new_data():

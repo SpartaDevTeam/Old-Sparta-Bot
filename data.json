@@ -1111,7 +1111,7 @@
         "users": [],
         "urls": [],
         "channels": [],
-        "welcome_msg": null,
+        "welcome_msg": "",
         "join_role": null,
         "pay_respects": false,
         "afks": []

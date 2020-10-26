@@ -171,6 +171,14 @@ async def on_message(message: discord.Message):
 
     data = Data.server_data[str(guild.id)]
 
+    for afk_user_entry in data["afks"]:
+        afk_user_id = int(afk_user_entry["user"])
+        afk_reason = afk_user_entry["reason"]
+        afk_user = guild.get_member(afk_user_id)
+
+        if afk_user in message.mentions:
+            await channel.send(f"**{afk_user}** is currently AFK because **{afk_reason}**.")
+
     if data["pay_respects"] and message.content.strip().lower() == "f":
         await channel.send(f"**{author.display_name}** has paid their respects...")
 
