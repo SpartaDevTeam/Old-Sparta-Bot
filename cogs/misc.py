@@ -33,7 +33,7 @@ class Miscellaneous(commands.Cog):
                              value="Get an invite to the Sparta Bot Support Server")
         misc_embed.add_field(name=f"`{PREFIX}reminder <time> <reminder>`",
                              value="It will remind you via dms. Use s,m,h,d for timings.")
-        misc_embed.add_field(name=f"`{PREFIX}afk<reason>`",
+        misc_embed.add_field(name=f"`{PREFIX}afk <reason>`",
                              value="Lets others know that you are AFK when someone mentions you.")
 
         server_settings_embed = discord.Embed(
