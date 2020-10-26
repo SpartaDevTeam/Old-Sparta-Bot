@@ -6,7 +6,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": [],
     },
     "620281039729721386": {
         "active": false,
@@ -17,7 +18,8 @@
         ],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "750216415826673775": {
         "active": false,
@@ -26,7 +28,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "732831271381631036": {
         "active": false,
@@ -35,7 +38,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "732807942134300672": {
         "active": false,
@@ -44,7 +48,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "730382516594147339": {
         "active": false,
@@ -53,7 +58,8 @@
         "channels": [],
         "welcome_msg": "Welcome, [mention], to the Official Comrades Server. Please read the <#752739072212074626> or else...",
         "join_role": null,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "675669569603502091": {
         "active": false,
@@ -62,7 +68,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "727884708158898186": {
         "active": true,
@@ -76,7 +83,8 @@
         ],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "731723870209572876": {
         "active": false,
@@ -85,7 +93,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "701688671413469284": {
         "active": false,
@@ -94,7 +103,8 @@
         "channels": [],
         "welcome_msg": "Hello [mention]",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "716429805666566214": {
         "active": false,
@@ -103,7 +113,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "718469997445513317": {
         "active": false,
@@ -112,7 +123,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "652151415824711701": {
         "active": false,
@@ -121,7 +133,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "738023497464283236": {
         "active": false,
@@ -130,7 +143,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "752745041658642552": {
         "active": false,
@@ -139,7 +153,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "717324244094287903": {
         "active": false,
@@ -148,7 +163,8 @@
         "channels": [],
         "welcome_msg": "Welcome, [mention] to **Official Sparta\u3005Gaming** Server \nCheck \n<#717325410056011807> For rules\n<#724886342752010291> Take roles from here\n<#724886302457331732> See latest announcements here\n<#717324244878491694> Pls dont be inactive here",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "740517443738402866": {
         "active": false,
@@ -157,7 +173,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "724502637214433290": {
         "active": false,
@@ -166,7 +183,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "716506588000681984": {
         "active": false,
@@ -175,7 +193,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "737343696529391617": {
         "active": false,
@@ -184,7 +203,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "751743822798782474": {
         "active": false,
@@ -193,7 +213,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": 751745301034958869,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "735102307309715487": {
         "active": false,
@@ -202,7 +223,8 @@
         "channels": [],
         "welcome_msg": "Welcome [mention] To Kasu Rajput youtube community remember to read <#735105060320575548>  and always read <#735105277896032356>  we hope u stay here and don't leave :-)",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "725541627115864125": {
         "active": false,
@@ -211,7 +233,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "724139692282478663": {
         "active": false,
@@ -220,7 +243,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "735894730809802762": {
         "active": false,
@@ -229,7 +253,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "736604456551973025": {
         "active": false,
@@ -238,7 +263,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "728668696569970720": {
         "active": false,
@@ -247,7 +273,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "738618933136850964": {
         "active": false,
@@ -256,7 +283,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "724902630933135410": {
         "active": false,
@@ -265,7 +293,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "740826451116294237": {
         "active": false,
@@ -274,7 +303,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "747774095118172273": {
         "active": false,
@@ -283,7 +313,8 @@
         "channels": [],
         "welcome_msg": "Welcome, [mention], to the Official Designers Shop\u2728 Server.\nPlease read the <#747788463880929340> and get special offers in <#747799471114682368> and <#747800171433426974>",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "744795599118794783": {
         "active": false,
@@ -292,7 +323,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "720858698980917270": {
         "active": false,
@@ -301,7 +333,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "699875891223724063": {
         "active": false,
@@ -310,7 +343,8 @@
         "channels": [],
         "welcome_msg": "",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "607621686199713805": {
         "active": false,
@@ -319,7 +353,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "736913365695332424": {
         "active": false,
@@ -328,7 +363,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "714740300006031380": {
         "active": false,
@@ -337,7 +373,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "729665751086268436": {
         "active": false,
@@ -346,7 +383,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "731180536474763346": {
         "active": false,
@@ -355,7 +393,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "733224197827854377": {
         "active": true,
@@ -364,7 +403,8 @@
         "channels": [],
         "welcome_msg": "Hi [mention], Welcome the Sparta Bot Support server \n<a:pin:750619312989011990> Read <#733224797151952926> \n<a:pin:750619312989011990> You Can get Support in <#753121400364990464> \n<a:pin:750619312989011990> Suggestions are open so see <#745284251460698162> \nHope Your Like Our Bot \ud83d\ude04",
         "join_role": 733253560640471040,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "727887472100376648": {
         "active": false,
@@ -373,7 +413,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "740259644739420180": {
         "active": false,
@@ -382,7 +423,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "684228695099047976": {
         "active": false,
@@ -391,7 +433,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "675474975968329770": {
         "active": false,
@@ -400,7 +443,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "694905182357815316": {
         "active": false,
@@ -409,7 +453,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "728881303549771798": {
         "active": false,
@@ -418,7 +463,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "749872356859838494": {
         "active": false,
@@ -427,7 +473,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "741931035922661376": {
         "active": false,
@@ -436,7 +483,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "736162222505590814": {
         "active": false,
@@ -445,7 +493,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "727049522039226389": {
         "active": false,
@@ -454,7 +503,8 @@
         "channels": [],
         "welcome_msg": "Hello Chili Eater [mention]. Welcome to **Chili Gang**, the Home of the Chili Eaters.",
         "join_role": 749930806637494332,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "744106324358463498": {
         "active": false,
@@ -463,7 +513,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "618456700621422602": {
         "active": false,
@@ -472,7 +523,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "742720000720240661": {
         "active": false,
@@ -481,7 +533,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "724592655492972574": {
         "active": false,
@@ -490,7 +543,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "509603727028649985": {
         "active": false,
@@ -499,7 +553,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "734805061187666020": {
         "active": false,
@@ -508,7 +563,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "702901812612563034": {
         "active": false,
@@ -517,7 +573,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "698480284332458044": {
         "active": false,
@@ -526,7 +583,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "696569554146689145": {
         "active": false,
@@ -535,7 +593,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "721681089340506193": {
         "active": false,
@@ -544,7 +603,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "724626410546921492": {
         "active": false,
@@ -553,7 +613,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "753183263433949243": {
         "active": false,
@@ -562,7 +623,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "745499376310550629": {
         "active": false,
@@ -571,7 +633,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "635051074809626657": {
         "active": false,
@@ -580,7 +643,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "705838652173058058": {
         "active": false,
@@ -589,7 +653,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "753493464435523644": {
         "active": false,
@@ -598,7 +663,8 @@
         "channels": [],
         "welcome_msg": "Hello [mention], welcome to CodeBoi's server to learn to code.\n\u2023 Please read the <#753496285276798986>\n\u2023 Talk in <#757851542622568499>\n\u2023 Sign up for learning languages in <#753519404972638209> \n\u2023 And most importantly, have fun while coding \ud83d\ude04\n<:vscode:753502516037156966> <:python:753503263650742302> <:cpp:753503463756922910> <:node:753539643755986975> <:java:754940702735073300>",
         "join_role": 753494288058417162,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "725400887895523349": {
         "active": false,
@@ -607,7 +673,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "750972871475593277": {
         "active": false,
@@ -616,7 +683,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "752102194467176480": {
         "active": false,
@@ -625,7 +693,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "638943292242919455": {
         "active": false,
@@ -634,7 +703,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "713260289910505533": {
         "active": false,
@@ -643,7 +713,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "749871298880208998": {
         "active": false,
@@ -652,7 +723,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "722772676208492604": {
         "active": false,
@@ -661,7 +733,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "710814888607481877": {
         "active": false,
@@ -670,7 +743,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "757162997775859772": {
         "active": false,
@@ -679,7 +753,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": 757230434856730705,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "748968595349831700": {
         "active": false,
@@ -688,7 +763,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "737155672684363959": {
         "active": false,
@@ -697,7 +773,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "738737472867008522": {
         "active": false,
@@ -706,7 +783,8 @@
         "channels": [],
         "welcome_msg": "hi welcome bot <@731763013417435247>",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "757153269305835540": {
         "active": false,
@@ -715,7 +793,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "756167054167507076": {
         "active": false,
@@ -724,7 +803,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "748936083344982027": {
         "active": false,
@@ -733,7 +813,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "757891960626479166": {
         "active": false,
@@ -742,7 +823,8 @@
         "channels": [],
         "welcome_msg": "Welcome to **Democrat Gang** Fellow Democrat [mention]. Here we are a democracy and have elections to decide leaders. Please see <#757910162479644702>",
         "join_role": 757894177047445565,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "710490258449367083": {
         "active": false,
@@ -751,7 +833,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "743044185476694017": {
         "active": false,
@@ -760,7 +843,8 @@
         "channels": [],
         "welcome_msg": "Hi, [mention] have a great time in the server",
         "join_role": 757877555591381223,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "724735383920967763": {
         "active": false,
@@ -769,7 +853,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "750924901858279454": {
         "active": false,
@@ -778,7 +863,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "755852984507826447": {
         "active": false,
@@ -787,7 +873,8 @@
         "channels": [],
         "welcome_msg": "",
         "join_role": 757457742527987713,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "752821778639749180": {
         "active": false,
@@ -796,7 +883,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "743718568721383436": {
         "active": false,
@@ -805,7 +893,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": 761449096057192448,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "760343114287153173": {
         "active": false,
@@ -814,7 +903,8 @@
         "channels": [],
         "welcome_msg": "Hello there [mention]",
         "join_role": 760391815453999125,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "759313094681559040": {
         "active": false,
@@ -823,7 +913,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "733002018108604526": {
         "active": false,
@@ -832,7 +923,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "745820134483951656": {
         "active": false,
@@ -841,7 +933,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "715502929267785769": {
         "active": false,
@@ -850,7 +943,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "758937826858369078": {
         "active": false,
@@ -859,7 +953,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "761870600401715211": {
         "active": false,
@@ -868,7 +963,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "754315561906864179": {
         "active": false,
@@ -877,7 +973,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "763283659658100736": {
         "active": false,
@@ -886,7 +983,8 @@
         "channels": [],
         "welcome_msg": "",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "763583243965956106": {
         "active": false,
@@ -895,7 +993,8 @@
         "channels": [],
         "welcome_msg": "",
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "761364428112789554": {
         "active": false,
@@ -904,7 +1003,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "761740921363497000": {
         "active": false,
@@ -913,7 +1013,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "764799598963195904": {
         "active": false,
@@ -922,7 +1023,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": true
+        "pay_respects": true,
+        "afks": []
     },
     "717549856217890878": {
         "active": false,
@@ -931,7 +1033,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "732560626190385193": {
         "active": false,
@@ -940,7 +1043,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "764144791385931786": {
         "active": false,
@@ -949,7 +1053,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "765166367522553877": {
         "active": false,
@@ -958,7 +1063,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "748916936443822180": {
         "active": false,
@@ -967,7 +1073,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "754586982205751348": {
         "active": false,
@@ -976,7 +1083,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "766203622744522754": {
         "active": false,
@@ -985,7 +1093,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "765853783670390804": {
         "active": false,
@@ -994,7 +1103,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "758553515890180107": {
         "active": false,
@@ -1003,7 +1113,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "710886755540271184": {
         "active": false,
@@ -1012,7 +1123,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "733090856411594772": {
         "active": false,
@@ -1021,7 +1133,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "759753314476228659": {
         "active": false,
@@ -1030,7 +1143,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "748607699066945546": {
         "active": false,
@@ -1039,7 +1153,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "767346331319926795": {
         "active": false,
@@ -1048,7 +1163,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "764685814746710017": {
         "active": false,
@@ -1057,7 +1173,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "736453560316854353": {
         "active": false,
@@ -1066,7 +1183,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "757167930894188574": {
         "active": false,
@@ -1075,7 +1193,8 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     },
     "768176658531876954": {
         "active": false,
@@ -1084,6 +1203,7 @@
         "channels": [],
         "welcome_msg": null,
         "join_role": null,
-        "pay_respects": false
+        "pay_respects": false,
+        "afks": []
     }
 }
