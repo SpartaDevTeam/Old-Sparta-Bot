@@ -25,6 +25,7 @@ class Data:
             "channels": [],
             "welcome_msg": None,
             "join_role": None,
-            "pay_respects": False
+            "pay_respects": False,
+            "afks": []
         }
         return data_entry
