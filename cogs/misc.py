@@ -238,22 +238,8 @@ class Miscellaneous(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="afk")
-    async def afk(self, ctx, time=None, *, reason=None):
-        embed = discord.Embed(color=self.theme_color,
-                              timestamp=datetime.datetime.utcnow())
-        seconds = 0
-        if time.lower().endswith("d"):
-            seconds += int(time[:-1]) * 60 * 60 * 24
-            counter = f"{seconds // 60 // 60 // 24} days"
-        elif time.lower().endswith("h"):
-            seconds += int(time[:-1]) * 60 * 60
-            counter = f"{seconds // 60 // 60} hours"
-        elif time.lower().endswith("m"):
-            seconds += int(time[:-1]) * 60
-            counter = f"{seconds // 60} minutes"
-        elif time.lower().endswith("s"):
-            seconds += int(time[:-1])
-            counter = f"{seconds} seconds"
+    async def afk(self, ctx, *, reason=None):
+        embed = discord.Embed(color=self.theme_color, timestamp=datetime.datetime.utcnow())
 
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
@@ -263,9 +249,6 @@ class Miscellaneous(commands.Cog):
         # Error messages
         if reason is None:
             embed.add_field(name='Warning', value='Please specify a reason.')
-
-        if seconds == 0:
-            embed.add_field(name='Warning', value='Please specify a proper duration.')
 
         for afk_user_entry in data["afks"]:
             afk_user_id = str(afk_user_entry["user"])
@@ -281,7 +264,7 @@ class Miscellaneous(commands.Cog):
             }
 
             data["afks"].append(afk_entry)
-            await ctx.send(f"AFK for user **{ctx.author}** has been set to **{reason}** for **{counter}**.")
+            await ctx.send(f"**{ctx.author}** is now AFK because **{reason}**")
             return
 
         await ctx.send(embed=embed)
