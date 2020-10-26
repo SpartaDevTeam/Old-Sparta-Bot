@@ -50,6 +50,8 @@ class Miscellaneous(commands.Cog):
             name=f"`{PREFIX}enablerespects`", value="Enables Respects (press f)")
         server_settings_embed.add_field(
             name=f"`{PREFIX}disablerespects`", value="Disables Respects")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}prefix <prefix>`", value="Sets the prefix in the current server")
 
         mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
         mod_embed.add_field(name=f"`{PREFIX}warn <user> <reason>`",
