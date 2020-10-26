@@ -26,6 +26,7 @@ class Data:
             "welcome_msg": None,
             "join_role": None,
             "pay_respects": False,
-            "afks": []
+            "afks": [],
+            "prefix": "s!"
         }
         return data_entry

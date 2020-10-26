@@ -244,8 +244,6 @@ class Miscellaneous(commands.Cog):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
-        data = Data.server_data[str(ctx.guild.id)]
-
         # Error messages
         if reason is None:
             embed.add_field(name='Warning', value='Please specify a reason.')
@@ -263,7 +261,7 @@ class Miscellaneous(commands.Cog):
                 "reason": reason
             }
 
-            data["afks"].append(afk_entry)
+            Data.server_data[str(ctx.guild.id)]["afks"].append(afk_entry)
             await ctx.send(f"**{ctx.author}** is now AFK because **{reason}**")
             return
 

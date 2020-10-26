@@ -9,7 +9,7 @@ class ServerSettings(commands.Cog):
         self.bot = bot
         self.theme_color = theme_color
 
-    @commands.command(name="welcomemessage",aliases=['welmessage','welmsg'])
+    @commands.command(name="welcomemessage", aliases=['welmessage', 'welmsg'])
     @commands.has_guild_permissions(manage_guild=True)
     async def welcome_message(self, ctx, *, msg: str = ""):
         if str(ctx.guild.id) not in Data.server_data:
@@ -30,7 +30,7 @@ class ServerSettings(commands.Cog):
         Data.server_data[str(ctx.guild.id)]["join_role"] = role.id
         await ctx.send(f"This server's join role has been set to **{role}**")
 
-    @commands.command(name="serverinfo",aliases=['si'])
+    @commands.command(name="serverinfo", aliases=['si'])
     async def serverinfo(self, ctx):
         name = ctx.guild.name
         description = ctx.guild.description
@@ -53,7 +53,7 @@ class ServerSettings(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="userinfo",aliases=['ui','whois'])
+    @commands.command(name="userinfo", aliases=['ui', 'whois'])
     async def userinfo(self, ctx, member: discord.Member = None):
         if member is None:
             member = ctx.author
@@ -148,3 +148,12 @@ class ServerSettings(commands.Cog):
 
         Data.server_data[str(ctx.guild.id)]["pay_respects"] = False
         await ctx.send("Respects have been disabled!")
+
+    @commands.command(name="prefix")
+    @commands.has_guild_permissions(manage_messages=True)
+    async def prefix(self, ctx, prefix="s!"):
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
+
+        Data.server_data[str(ctx.guild.id)]["prefix"] = prefix
+        await ctx.send(f"The prefix for this server has been set to `{prefix}`")

@@ -20,9 +20,18 @@ TOKEN = os.getenv('SPARTA_TOKEN')
 intents = discord.Intents.default()
 intents.members = True
 
+
+def get_prefix(client, message):
+    if str(message.guild.id) not in Data.server_data:
+        Data.server_data[str(message.guild.id)] = Data.create_new_data()
+
+    data = Data.server_data[str(message.guild.id)]
+    return data["prefix"]
+
+
 PREFIX = "s!"
 bot = commands.Bot(
-    command_prefix=PREFIX,
+    command_prefix=get_prefix,
     description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
     intents=intents,
     help_command=None,
@@ -175,13 +184,17 @@ async def on_message(message: discord.Message):
 
     data = Data.server_data[str(guild.id)]
 
+    if len(message.mentions) != 0 and message.mentions[0] == bot.user:
+        pre = data["prefix"]
+        await channel.send(f"The prefix in this server is `{pre}`")
+
     for afk_user_entry in data["afks"]:
         afk_user_id = int(afk_user_entry["user"])
         afk_reason = afk_user_entry["reason"]
         afk_user = guild.get_member(afk_user_id)
 
         if afk_user.id == author.id and afk_user_id == previous_msg_sender_id:
-            data["afks"].remove(afk_user_entry)
+            Data.server_data[str(ctx.guild.id)]["afks"].remove(afk_user_entry)
             await channel.send(f"**{afk_user}** is no longer AFK.")
 
         elif afk_user in message.mentions:
