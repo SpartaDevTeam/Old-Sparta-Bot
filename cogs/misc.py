@@ -33,8 +33,8 @@ class Miscellaneous(commands.Cog):
                              value="Get an invite to the Sparta Bot Support Server")
         misc_embed.add_field(name=f"`{PREFIX}reminder <time> <reminder>`",
                              value="It will remind you via dms. Use s,m,h,d for timings.")
-        misc_embed.add_field(name=f"`{PREFIX}afk <time> <reason>`",
-                             value="Specify how long you will be AFK for and why you are AFK.")
+        misc_embed.add_field(name=f"`{PREFIX}afk<reason>`",
+                             value="Lets others know that you are AFK when someone mentions you.")
 
         server_settings_embed = discord.Embed(
             title="Server Settings Commands Help", color=THEME_COLOR)
@@ -282,11 +282,6 @@ class Miscellaneous(commands.Cog):
 
             data["afks"].append(afk_entry)
             await ctx.send(f"AFK for user **{ctx.author}** has been set to **{reason}** for **{counter}**.")
-
-            await asyncio.sleep(seconds)
-
-            data["afks"].remove(afk_entry)
-            await ctx.send(f"AFK time for user **{ctx.author}** is over after **{counter}**.")
             return
 
         await ctx.send(embed=embed)

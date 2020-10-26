@@ -176,7 +176,11 @@ async def on_message(message: discord.Message):
         afk_reason = afk_user_entry["reason"]
         afk_user = guild.get_member(afk_user_id)
 
-        if afk_user in message.mentions:
+        if afk_user.id == author.id:
+            data["afks"].remove(afk_user_entry)
+            channel.send(f"**{afk_user}** is no longer AFK.")
+
+        elif afk_user in message.mentions:
             await channel.send(f"**{afk_user}** is currently AFK because **{afk_reason}**.")
 
     if data["pay_respects"] and message.content.strip().lower() == "f":

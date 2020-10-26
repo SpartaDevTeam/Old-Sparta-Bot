@@ -783,7 +783,7 @@
         "channels": [],
         "welcome_msg": "hi welcome bot <@731763013417435247>",
         "join_role": null,
-        "pay_respects": false,
+        "pay_respects": true,
         "afks": []
     },
     "757153269305835540": {
@@ -1022,7 +1022,7 @@
         "urls": [],
         "channels": [],
         "welcome_msg": null,
-        "join_role": null,
+        "join_role": 764800134956974080,
         "pay_respects": true,
         "afks": []
     },
@@ -1197,6 +1197,26 @@
         "afks": []
     },
     "768176658531876954": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": []
+    },
+    "756471316235812914": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": []
+    },
+    "760764626467291136": {
         "active": false,
         "users": [],
         "urls": [],
