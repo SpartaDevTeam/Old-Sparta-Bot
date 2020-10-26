@@ -37,6 +37,8 @@ bot.add_cog(ServerSettings(bot, THEME_COLOR))
 bot.add_cog(Moderator(bot, THEME_COLOR))
 bot.add_cog(AutoMod(bot, THEME_COLOR))
 
+previous_msg_sender_id = None
+
 
 @bot.event
 async def on_ready():
@@ -159,6 +161,8 @@ async def data(ctx):
 
 @bot.event
 async def on_message(message: discord.Message):
+    global previous_msg_sender_id
+
     author: discord.Member = message.author
     channel: discord.TextChannel = message.channel
     guild: discord.Guild = message.guild
@@ -176,9 +180,9 @@ async def on_message(message: discord.Message):
         afk_reason = afk_user_entry["reason"]
         afk_user = guild.get_member(afk_user_id)
 
-        if afk_user.id == author.id:
+        if afk_user.id == author.id and afk_user_id == previous_msg_sender_id:
             data["afks"].remove(afk_user_entry)
-            channel.send(f"**{afk_user}** is no longer AFK.")
+            await channel.send(f"**{afk_user}** is no longer AFK.")
 
         elif afk_user in message.mentions:
             await channel.send(f"**{afk_user}** is currently AFK because **{afk_reason}**.")
@@ -209,6 +213,8 @@ async def on_message(message: discord.Message):
                     msg3 = await channel.send(f"{author.mention}, you are not allowed to send attachments in this channel.")
                     await asyncio.sleep(3)
                     await msg3.delete()
+
+    previous_msg_sender_id = author.id
 
 
 bot.run(TOKEN)
