@@ -29,9 +29,9 @@ def get_prefix(client, message):
     return data["prefix"]
 
 
-PREFIX = "s!"
+PREFIX = get_prefix
 bot = commands.Bot(
-    command_prefix=get_prefix,
+    command_prefix=PREFIX,
     description="I am Sparta Bot, a bot for the Official Sparta Gaming Discord server.",
     intents=intents,
     help_command=None,
@@ -194,7 +194,7 @@ async def on_message(message: discord.Message):
         afk_user = guild.get_member(afk_user_id)
 
         if afk_user.id == author.id and afk_user_id == previous_msg_sender_id:
-            Data.server_data[str(ctx.guild.id)]["afks"].remove(afk_user_entry)
+            Data.server_data[str(guild.id)]["afks"].remove(afk_user_entry)
             await channel.send(f"**{afk_user}** is no longer AFK.")
 
         elif afk_user in message.mentions:

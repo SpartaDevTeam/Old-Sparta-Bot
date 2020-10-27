@@ -150,7 +150,7 @@ class ServerSettings(commands.Cog):
         await ctx.send("Respects have been disabled!")
 
     @commands.command(name="prefix")
-    @commands.has_guild_permissions(manage_messages=True)
+    @commands.has_guild_permissions(administrator=True)
     async def prefix(self, ctx, prefix="s!"):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
