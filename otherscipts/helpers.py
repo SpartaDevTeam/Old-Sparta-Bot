@@ -7,7 +7,7 @@ async def update_presence(bot, prefix):
     while True:
         server_count = len(bot.guilds)
         activity = discord.Activity(
-            type=discord.ActivityType.watching, name=f"{server_count} servers || {prefix}help")
+            type=discord.ActivityType.watching, name=f"{server_count} servers || s!help")
         await bot.change_presence(activity=activity)
         await asyncio.sleep(10)
 
