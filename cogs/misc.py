@@ -10,7 +10,6 @@ class Miscellaneous(commands.Cog):
     def __init__(self, bot, theme_color):
         self.bot = bot
         self.theme_color = theme_color
-        THEME_COLOR = self.theme_color
 
         self.help_index = 0
         self.current_help_msg = None
@@ -81,11 +80,8 @@ class Miscellaneous(commands.Cog):
         server_settings_embed.add_field(
             name=f"`{PREFIX}prefix <prefix>`", value="Sets the prefix in the current server")
 
-<<<<<<< HEAD
         mod_embed = discord.Embed(title="Moderator Help", color=self.theme_color)
-=======
-        mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
->>>>>>> 3e2462d3b4e678d46555d4d055c3c9777fd91266
+
         mod_embed.add_field(name=f"`{PREFIX}warn <user> <reason>`",
                             value="Warn a user for doing something")
         mod_embed.add_field(name=f"`{PREFIX}clearwarn <user>`",
@@ -112,11 +108,7 @@ class Miscellaneous(commands.Cog):
                             value="Adds slowmode for a channel, alias is sm")
 
         auto_embed = discord.Embed(
-<<<<<<< HEAD
             title="Auto Moderator Help", color=self.theme_color)
-=======
-            title="Auto Moderator Help", color=THEME_COLOR)
->>>>>>> 3e2462d3b4e678d46555d4d055c3c9777fd91266
         auto_embed.add_field(name=f"`{PREFIX}activateautomod`",
                              value="Turns on Automod in your server")
         auto_embed.add_field(name=f"`{PREFIX}stopautomod`",
@@ -135,11 +127,7 @@ class Miscellaneous(commands.Cog):
         programming_embed.add_field(
             name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord")
 
-<<<<<<< HEAD
         fun_embed = discord.Embed(title="Fun Commands Help", color=self.theme_color)
-=======
-        fun_embed = discord.Embed(title="Fun Commands Help", color=THEME_COLOR)
->>>>>>> 3e2462d3b4e678d46555d4d055c3c9777fd91266
         fun_embed.add_field(name=f"`{PREFIX}coinflip`", value="Flip a coin")
         fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
         fun_embed.add_field(name=f"`{PREFIX}avatar <user>`",
