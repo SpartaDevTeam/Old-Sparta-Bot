@@ -1368,5 +1368,16 @@
         "pay_respects": false,
         "afks": [],
         "prefix": "s!"
+    },
+    "770502363689123841": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
     }
 }
