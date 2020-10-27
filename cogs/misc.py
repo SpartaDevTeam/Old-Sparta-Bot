@@ -10,108 +10,11 @@ class Miscellaneous(commands.Cog):
     def __init__(self, bot, theme_color):
         self.bot = bot
         self.theme_color = theme_color
-
-        PREFIX = self.bot.command_prefix
         THEME_COLOR = self.theme_color
-
-        misc_embed = discord.Embed(title="Misc. Help", color=THEME_COLOR)
-        misc_embed.add_field(
-            name=f"`{PREFIX()}help`", value="Displays command help")
-        misc_embed.add_field(
-            name=f"`{PREFIX()}hello`", value="Say hello to the bot")
-        misc_embed.add_field(name=f"`{PREFIX()}info`",
-                             value="Displays the bot's information")
-        misc_embed.add_field(
-            name=f"`{PREFIX()}clear <count>`", value="Deletes messages")
-        misc_embed.add_field(name=f"`{PREFIX()}nuke`",
-                             value="Deletes all messages in a channel")
-        misc_embed.add_field(name=f"`{PREFIX()}invite`",
-                             value="Get the link to invite Sparta Bot to your server")
-        misc_embed.add_field(name=f"`{PREFIX()}github`",
-                             value="Get the link to the GitHub Repository")
-        misc_embed.add_field(name=f"`{PREFIX()}support`",
-                             value="Get an invite to the Sparta Bot Support Server")
-        misc_embed.add_field(name=f"`{PREFIX()}reminder <time> <reminder>`",
-                             value="It will remind you via dms. Use s,m,h,d for timings.")
-        misc_embed.add_field(name=f"`{PREFIX()}afk <reason>`",
-                             value="Lets others know that you are AFK when someone mentions you.")
-
-        server_settings_embed = discord.Embed(
-            title="Server Settings Commands Help", color=THEME_COLOR)
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}joinrole <role>`", value="Gives this role to all new members who join the server")
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}serverinfo`", value="Displays server information")
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}userinfo <user>`", value="Displays user information")
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}enablerespects`", value="Enables Respects (press f)")
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}disablerespects`", value="Disables Respects")
-        server_settings_embed.add_field(
-            name=f"`{PREFIX()}prefix <prefix>`", value="Sets the prefix in the current server")
-
-        mod_embed = discord.Embed(title="Moderator Help", color=THEME_COLOR)
-        mod_embed.add_field(name=f"`{PREFIX()}warn <user> <reason>`",
-                            value="Warn a user for doing something")
-        mod_embed.add_field(name=f"`{PREFIX()}clearwarn <user>`",
-                            value="Clear a user's warns")
-        mod_embed.add_field(name=f"`{PREFIX()}warncount <user>`",
-                            value="Displays how many times a user has been warned")
-        mod_embed.add_field(name=f"`{PREFIX()}mute <user> <time>`",
-                            value="Mutes a user. You can optionally provide a time as well. Ex: 5s, 4m, 2h")
-        mod_embed.add_field(name=f"`{PREFIX()}unmute <user>`",
-                            value="Unmutes a user")
-        mod_embed.add_field(name=f"`{PREFIX()}ban <user> <reason>`",
-                            value="Bans a user from the server")
-        mod_embed.add_field(name=f"`{PREFIX()}unban <username with #number> <reason>`",
-                            value="Unbans a user from the server")
-        mod_embed.add_field(name=f"`{PREFIX()}kick <user> <reason>`",
-                            value="Kicks a user from the server")
-        mod_embed.add_field(name=f"`{PREFIX()}masskick`",
-                            value="Kick multiple users from your server")
-        mod_embed.add_field(name=f"`{PREFIX()}lockchannel <channel>`",
-                            value="Locks a channel so only Administrators can use it")
-        mod_embed.add_field(name=f"`{PREFIX()}unlockchannel <channel>`",
-                            value="Unlocks a channel so every server member can use it")
-        mod_embed.add_field(name=f"`{PREFIX()}slowmode <seconds>`",
-                            value="Adds slowmode for a channel, alias is sm")
-
-        auto_embed = discord.Embed(
-            title="Auto Moderator Help", color=THEME_COLOR)
-        auto_embed.add_field(name=f"`{PREFIX()}activateautomod`",
-                             value="Turns on Automod in your server")
-        auto_embed.add_field(name=f"`{PREFIX()}stopautomod`",
-                             value="Turns off Automod in your server")
-        auto_embed.add_field(name=f"`{PREFIX()}whitelistuser <user>`",
-                             value="Make a user immune to Auto Mod (Administrators are already immune)")
-        auto_embed.add_field(name=f"`{PREFIX()}whitelisturl <url>`",
-                             value="Allow a specific url to bypass the Auto Mod")
-        auto_embed.add_field(name=f"`{PREFIX()}whitelistchannel <channel>`",
-                             value="Allow a specific channel to bypass the Auto Mod")
-        auto_embed.add_field(name=f"`{PREFIX()}automodstatus`",
-                             value="Displays the status of AutoMod in your server")
-
-        programming_embed = discord.Embed(
-            title="Programming Commands Help", color=THEME_COLOR)
-        programming_embed.add_field(
-            name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord")
-
-        fun_embed = discord.Embed(title="Fun Commands Help", color=THEME_COLOR)
-        fun_embed.add_field(name=f"`{PREFIX()}coinflip`", value="Flip a coin")
-        fun_embed.add_field(name=f"`{PREFIX()}roll`", value="Roll a dice")
-        fun_embed.add_field(name=f"`{PREFIX()}avatar <user>`",
-                            value="Display a users avatar")
-        fun_embed.add_field(name=f"`{PREFIX()}choose`",
-                            value="Chooses an option for you, divide options using a comma(,)")
 
         self.help_index = 0
         self.current_help_msg = None
         self.current_help_user = None
-        self.all_help_embeds = [misc_embed, server_settings_embed,
-                                mod_embed, auto_embed, programming_embed, fun_embed]
         self.help_control_emojis = ["⬅️", "➡️"]
 
     @commands.Cog.listener()
@@ -137,6 +40,103 @@ class Miscellaneous(commands.Cog):
 
     @commands.command(name="help")
     async def _help(self, ctx):
+        PREFIX = Data.server_data[str(ctx.guild.id)]["prefix"]
+
+        misc_embed = discord.Embed(title="Misc. Help", color=self.theme_color)
+        misc_embed.add_field(
+            name=f"`{PREFIX}help`", value="Displays command help")
+        misc_embed.add_field(
+            name=f"`{PREFIX}hello`", value="Say hello to the bot")
+        misc_embed.add_field(name=f"`{PREFIX}info`",
+                             value="Displays the bot's information")
+        misc_embed.add_field(
+            name=f"`{PREFIX}clear <count>`", value="Deletes messages")
+        misc_embed.add_field(name=f"`{PREFIX}nuke`",
+                             value="Deletes all messages in a channel")
+        misc_embed.add_field(name=f"`{PREFIX}invite`",
+                             value="Get the link to invite Sparta Bot to your server")
+        misc_embed.add_field(name=f"`{PREFIX}github`",
+                             value="Get the link to the GitHub Repository")
+        misc_embed.add_field(name=f"`{PREFIX}support`",
+                             value="Get an invite to the Sparta Bot Support Server")
+        misc_embed.add_field(name=f"`{PREFIX}reminder <time> <reminder>`",
+                             value="It will remind you via dms. Use s,m,h,d for timings.")
+        misc_embed.add_field(name=f"`{PREFIX}afk <reason>`",
+                             value="Lets others know that you are AFK when someone mentions you.")
+
+        server_settings_embed = discord.Embed(
+            title="Server Settings Commands Help", color=self.theme_color)
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}serverinfo`", value="Displays server information")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}userinfo <user>`", value="Displays user information")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}enablerespects`", value="Enables Respects (press f)")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}disablerespects`", value="Disables Respects")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}prefix <prefix>`", value="Sets the prefix in the current server")
+
+        mod_embed = discord.Embed(title="Moderator Help", color=self.theme_color)
+        mod_embed.add_field(name=f"`{PREFIX}warn <user> <reason>`",
+                            value="Warn a user for doing something")
+        mod_embed.add_field(name=f"`{PREFIX}clearwarn <user>`",
+                            value="Clear a user's warns")
+        mod_embed.add_field(name=f"`{PREFIX}warncount <user>`",
+                            value="Displays how many times a user has been warned")
+        mod_embed.add_field(name=f"`{PREFIX}mute <user> <time>`",
+                            value="Mutes a user. You can optionally provide a time as well. Ex: 5s, 4m, 2h")
+        mod_embed.add_field(name=f"`{PREFIX}unmute <user>`",
+                            value="Unmutes a user")
+        mod_embed.add_field(name=f"`{PREFIX}ban <user> <reason>`",
+                            value="Bans a user from the server")
+        mod_embed.add_field(name=f"`{PREFIX}unban <username with #number> <reason>`",
+                            value="Unbans a user from the server")
+        mod_embed.add_field(name=f"`{PREFIX}kick <user> <reason>`",
+                            value="Kicks a user from the server")
+        mod_embed.add_field(name=f"`{PREFIX}masskick`",
+                            value="Kick multiple users from your server")
+        mod_embed.add_field(name=f"`{PREFIX}lockchannel <channel>`",
+                            value="Locks a channel so only Administrators can use it")
+        mod_embed.add_field(name=f"`{PREFIX}unlockchannel <channel>`",
+                            value="Unlocks a channel so every server member can use it")
+        mod_embed.add_field(name=f"`{PREFIX}slowmode <seconds>`",
+                            value="Adds slowmode for a channel, alias is sm")
+
+        auto_embed = discord.Embed(
+            title="Auto Moderator Help", color=self.theme_color)
+        auto_embed.add_field(name=f"`{PREFIX}activateautomod`",
+                             value="Turns on Automod in your server")
+        auto_embed.add_field(name=f"`{PREFIX}stopautomod`",
+                             value="Turns off Automod in your server")
+        auto_embed.add_field(name=f"`{PREFIX}whitelistuser <user>`",
+                             value="Make a user immune to Auto Mod (Administrators are already immune)")
+        auto_embed.add_field(name=f"`{PREFIX}whitelisturl <url>`",
+                             value="Allow a specific url to bypass the Auto Mod")
+        auto_embed.add_field(name=f"`{PREFIX}whitelistchannel <channel>`",
+                             value="Allow a specific channel to bypass the Auto Mod")
+        auto_embed.add_field(name=f"`{PREFIX}automodstatus`",
+                             value="Displays the status of AutoMod in your server")
+
+        programming_embed = discord.Embed(
+            title="Programming Commands Help", color=self.theme_color)
+        programming_embed.add_field(
+            name=f"`{PREFIX}eval <code in codeblocks>`", value="Allows you to run Python3 code in Discord")
+
+        fun_embed = discord.Embed(title="Fun Commands Help", color=self.theme_color)
+        fun_embed.add_field(name=f"`{PREFIX}coinflip`", value="Flip a coin")
+        fun_embed.add_field(name=f"`{PREFIX}roll`", value="Roll a dice")
+        fun_embed.add_field(name=f"`{PREFIX}avatar <user>`",
+                            value="Display a users avatar")
+        fun_embed.add_field(name=f"`{PREFIX}choose`",
+                            value="Chooses an option for you, divide options using a comma(,)")
+
+        self.all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
+
         msg: discord.Message = await ctx.send("Here is the command help:", embed=self.all_help_embeds[self.help_index])
 
         for emoji in self.help_control_emojis:
