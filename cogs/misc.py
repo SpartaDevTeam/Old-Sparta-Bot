@@ -167,7 +167,7 @@ class Miscellaneous(commands.Cog):
 
     @commands.command(name="invite")
     async def invite(self, ctx):
-        invite_url = "https://discord.com/oauth2/authorize?client_id=731763013417435247&permissions=8&scope=bot"
+        invite_url = "https://discord.com/oauth2/authorize?client_id=731763013417435247&scope=bot&permissions=403176703"
         embed = discord.Embed(
             title="Click here to invite Sparta Bot!", url=invite_url, color=self.theme_color)
         await ctx.send(content=None, embed=embed)
