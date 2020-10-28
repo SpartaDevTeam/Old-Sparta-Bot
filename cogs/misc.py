@@ -246,6 +246,8 @@ class Miscellaneous(commands.Cog):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
+        data = Data.server_data[str(ctx.guild.id)]
+
         # Error messages
         if reason is None:
             embed.add_field(name='Warning', value='Please specify a reason.')
