@@ -4,6 +4,8 @@ import random
 import discord
 import asyncio
 import inspect
+import traceback
+import sys
 from discord.ext import commands
 
 # Import Cogs
@@ -97,6 +99,53 @@ async def on_member_remove(member):
             msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server\n"
             await channel.send(msg)
             break
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    try:
+        error = error.original
+    except Exception:
+        pass
+    if type(error) is discord.ext.commands.errors.CommandNotFound:
+        return
+    elif type(error) is discord.ext.commands.errors.BadArgument:
+        pass
+    elif type(error) is discord.ext.commands.errors.MissingRequiredArgument:
+        pass
+    elif type(error) is discord.ext.commands.errors.NoPrivateMessage:
+        pass
+    elif type(error) is discord.ext.commands.errors.MissingPermissions:
+        pass
+    elif type(error) is discord.ext.commands.errors.NotOwner:
+        pass
+    elif type(error) is discord.ext.commands.errors.CommandOnCooldown:
+        pass
+    elif type(error) is discord.ext.commands.errors.ChannelNotFound:
+        pass
+    elif type(error) is discord.ext.commands.errors.BadUnionArgument:
+        pass
+    elif type(error) is discord.ext.commands.errors.BotMissingPermissions:
+        pass
+    elif type(error) is discord.errors.Forbidden:
+        error = "I don't have permission to do that!"
+    else:
+        print(f"Error {type(error)}: {error}")
+        traceback.print_exception(
+            type(error), error, error.__traceback__, file=sys.stderr
+        )
+
+        embed = discord.Embed(
+            title='Error!',
+            description='An unexpected error ocurred.\
+                Please report this to the dev.',
+        )
+        embed.add_field(
+            name='Error Message:',
+            value=f"{type(error)}:\n{error}",
+            inline=False
+        )
+    await ctx.send(f"{error}")
 
 
 # LABEL: Programming Commands
