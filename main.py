@@ -91,13 +91,24 @@ async def on_member_join(member):
 async def on_member_remove(member):
     guild = member.guild
     channels = guild.channels
-    print(f"{member} has left the server...")
+
+    if str(guild.id) not in Data.server_data:
+        Data.server_data[str(guild.id)] = Data.create_new_data()
+    data = Data.server_data[str(guild.id)]
+
+    print(f"{member} has left the {guild.name}...")
 
     # Leave Message
+    if data["leave_msg"] is None:
+        server_leave_msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server"
+    else:
+        server_leave_msg = data["leave_msg"]
+        server_leave_msg = server_leave_msg.replace(
+            "[member]", f"{member}")
+
     for channel in channels:
         if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
-            msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server\n"
-            await channel.send(msg)
+            await channel.send(server_leave_msg)
             break
 
 

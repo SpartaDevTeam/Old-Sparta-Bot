@@ -24,6 +24,7 @@ class Data:
             "urls": [],
             "channels": [],
             "welcome_msg": None,
+            "leave_msg": None,
             "join_role": None,
             "pay_respects": False,
             "afks": [],
