@@ -1802,5 +1802,19 @@
         "pay_respects": false,
         "afks": [],
         "prefix": "s!"
+    },
+    "773446380844744704": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
     }
 }
