@@ -70,7 +70,7 @@ class Miscellaneous(commands.Cog):
         server_settings_embed.add_field(
             name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
         server_settings_embed.add_field(
-            name=f"`{PREFIX}leavemessage <message>`", value="Change the default Leave Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
+            name=f"`{PREFIX}leavemessage <message>`", value="Change the default Leave Message. Use `[member]` to write the user's name, and mention any channel to show it in the message")
         server_settings_embed.add_field(
             name=f"`{PREFIX}welcomechannel <channel>`", value="Change the default channel to show Welcome Message.")
         server_settings_embed.add_field(

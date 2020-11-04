@@ -114,8 +114,7 @@ async def on_member_remove(member):
         server_leave_msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server"
     else:
         server_leave_msg = data["leave_msg"]
-        server_leave_msg = server_leave_msg.replace(
-            "[member]", f"{member}")
+        server_leave_msg = server_leave_msg.replace("[member]", f"{member}")
 
     for channel in channels:
         if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
