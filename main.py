@@ -86,9 +86,9 @@ async def on_member_join(member):
 
     if data["welcome_channel"] is None:
         for channel in channels:
-        if str(channel).find("welcome") != -1:
-            wel_channel = channel
-            break
+            if str(channel).find("welcome") != -1:
+                wel_channel = channel
+                break
     else:
         wel_channel = guild.get_channel(int(data["welcome_channel"]))
 
@@ -127,9 +127,9 @@ async def on_member_remove(member):
 
     if data["leave_channel"] is None:
         for channel in channels:
-        if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
-            lv_channel = channel
-            break
+            if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
+                lv_channel = channel
+                break
     else:
         lv_channel = guild.get_channel(int(data["leave_channel"]))
 
