@@ -159,9 +159,9 @@ class Miscellaneous(commands.Cog):
         for guild in self.bot.guilds:
             member_count += guild.member_count
 
-        embed.add_field(name="Ping", value=f"{ping}ms")
-        embed.add_field(name="Servers", value=guild_count)
-        embed.add_field(name="Total Users", value=member_count)
+        embed.add_field(name="Ping", value=f"{ping}ms",inline=True)
+        embed.add_field(name="Servers", value=guild_count,inline=True)
+        embed.add_field(name="Total Users", value=member_count,inline=True)
 
         await ctx.send(content=None, embed=embed)
 
@@ -182,6 +182,13 @@ class Miscellaneous(commands.Cog):
     @commands.command(name="support")
     async def support(self, ctx):
         await ctx.send("Support Server - https://discord.gg/RrVY4bP")
+
+    @commands.command(name=vote)
+    async def vote(self, ctx):
+        embed = discord.Embed(color=self.theme_color,title="Vote for Sparta Bot")
+        embed.add_field(name="Vote every 12 hours",value="[top.gg](https://top.gg/bot/731763013417435247)",inline=True)
+        embed.add_field(name="Vote every 24 hours",value="[dbl](https://botsfordiscord.com/bot/731763013417435247)",inline=True)
+        embed.add_field(name="Join Support Server",value="[Click here](https://discord.gg/qAs3Zr2cnU)",inline=True)  
 
     @commands.command(name="clear")
     @commands.has_guild_permissions(manage_messages=True)
