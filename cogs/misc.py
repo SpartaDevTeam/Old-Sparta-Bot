@@ -58,6 +58,8 @@ class Miscellaneous(commands.Cog):
                              value="Get the link to the GitHub Repository")
         misc_embed.add_field(name=f"`{PREFIX}support`",
                              value="Get an invite to the Sparta Bot Support Server")
+        misc_embed.add_field(name=f"`{PREFIX}vote`",
+                             value="Get an links to Top.gg page and BFD page.")
         misc_embed.add_field(name=f"`{PREFIX}reminder <time> <reminder>`",
                              value="It will remind you via dms. Use s,m,h,d for timings.")
         misc_embed.add_field(name=f"`{PREFIX}afk <reason>`",
@@ -67,6 +69,12 @@ class Miscellaneous(commands.Cog):
             title="Server Settings Commands Help", color=self.theme_color)
         server_settings_embed.add_field(
             name=f"`{PREFIX}welcomemessage <message>`", value="Change the default Welcome Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}leavemessage <message>`", value="Change the default Leave Message. Use `[mention]` to mention the user, and mention any channel to show it in the message")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}welcomechannel <channel>`", value="Change the default channel to show Welcome Message.")
+        server_settings_embed.add_field(
+            name=f"`{PREFIX}leavechannel <channel>`", value="Change the default channel to show Leave Message.")
         server_settings_embed.add_field(
             name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server")
         server_settings_embed.add_field(
@@ -159,9 +167,9 @@ class Miscellaneous(commands.Cog):
         for guild in self.bot.guilds:
             member_count += guild.member_count
 
-        embed.add_field(name="Ping", value=f"{ping}ms",inline=True)
-        embed.add_field(name="Servers", value=guild_count,inline=True)
-        embed.add_field(name="Total Users", value=member_count,inline=True)
+        embed.add_field(name="Ping", value=f"{ping}ms", inline=True)
+        embed.add_field(name="Servers", value=guild_count, inline=True)
+        embed.add_field(name="Total Users", value=member_count, inline=True)
 
         await ctx.send(content=None, embed=embed)
 
@@ -183,12 +191,12 @@ class Miscellaneous(commands.Cog):
     async def support(self, ctx):
         await ctx.send("Support Server - https://discord.gg/RrVY4bP")
 
-    @commands.command(name=vote)
+    @commands.command(name="vote")
     async def vote(self, ctx):
-        embed = discord.Embed(color=self.theme_color,title="Vote for Sparta Bot")
-        embed.add_field(name="Vote every 12 hours",value="[top.gg](https://top.gg/bot/731763013417435247)",inline=True)
-        embed.add_field(name="Vote every 24 hours",value="[dbl](https://botsfordiscord.com/bot/731763013417435247)",inline=True)
-        embed.add_field(name="Join Support Server",value="[Click here](https://discord.gg/qAs3Zr2cnU)",inline=True)  
+        embed = discord.Embed(color=self.theme_color, title="Vote for Sparta Bot")
+        embed.add_field(name="Vote every 12 hours", value="[top.gg](https://top.gg/bot/731763013417435247)", inline=True)
+        embed.add_field(name="Vote every 24 hours", value="[dbl](https://botsfordiscord.com/bot/731763013417435247)", inline=True)
+        embed.add_field(name="Join Support Server", value="[Click here](https://discord.gg/qAs3Zr2cnU)", inline=True)
 
     @commands.command(name="clear")
     @commands.has_guild_permissions(manage_messages=True)
