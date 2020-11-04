@@ -11,24 +11,24 @@ class ServerSettings(commands.Cog):
 
     @commands.command(name="welcomemessage", aliases=['welmessage', 'welmsg'])
     @commands.has_guild_permissions(manage_guild=True)
-    async def welcome_message(self, ctx, *, msg: str = ""):
+    async def welcome_message(self, ctx, *, msg: str = None):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
         Data.server_data[str(ctx.guild.id)]["welcome_msg"] = msg
-        if len(msg.strip()) == 0:
+        if msg is None:
             await ctx.send("This server's welcome message has been disabled")
         else:
             await ctx.send(f"This server's welcome message has been set to ```{msg}```")
 
     @commands.command(name="leavemessage", aliases=['leave_message', 'leavemsg'])
     @commands.has_guild_permissions(manage_guild=True)
-    async def welcome_message(self, ctx, *, msg: str = ""):
+    async def welcome_message(self, ctx, *, msg: str = None):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
         Data.server_data[str(ctx.guild.id)]["leave_msg"] = msg
-        if len(msg.strip()) == 0:
+        if msg is None:
             await ctx.send("This server's leave message has been disabled")
         else:
             await ctx.send(f"This server's leave message has been set to ```{msg}```")

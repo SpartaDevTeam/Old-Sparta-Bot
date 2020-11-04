@@ -1222,10 +1222,10 @@
         "channels": [],
         "welcome_msg": "",
         "leave_msg": null,
-        "welcome_channel": null,
+        "welcome_channel": "756041861625544725",
         "leave_channel": null,
         "join_role": 757457742527987713,
-        "pay_respects": false,
+        "pay_respects": true,
         "afks": [],
         "prefix": "s!"
     },
@@ -1762,6 +1762,34 @@
         "prefix": "s!"
     },
     "767959089279926303": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "374071874222686211": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "737947568679682138": {
         "active": false,
         "users": [],
         "urls": [],

@@ -81,7 +81,7 @@ async def on_member_join(member):
         server_wlcm_msg = server_wlcm_msg.replace(
             "[mention]", f"{member.mention}")
 
-    # Welcome Chanel
+    # Welcome Channel
     wel_channel = None
 
     if data["welcome_channel"] is None:
@@ -122,7 +122,7 @@ async def on_member_remove(member):
             await channel.send(server_leave_msg)
             break
 
-    # Welcome Chanel
+    # Leave Channel
     lv_channel = None
 
     if data["leave_channel"] is None:

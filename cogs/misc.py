@@ -59,7 +59,7 @@ class Miscellaneous(commands.Cog):
         misc_embed.add_field(name=f"`{PREFIX}support`",
                              value="Get an invite to the Sparta Bot Support Server")
         misc_embed.add_field(name=f"`{PREFIX}vote`",
-                             value="Get an links to Top.gg page and BFD page.")
+                             value="Get an links to Top.gg page and DBL page.")
         misc_embed.add_field(name=f"`{PREFIX}reminder <time> <reminder>`",
                              value="It will remind you via dms. Use s,m,h,d for timings.")
         misc_embed.add_field(name=f"`{PREFIX}afk <reason>`",
@@ -198,7 +198,7 @@ class Miscellaneous(commands.Cog):
         embed.add_field(name="Vote every 24 hours", value="[dbl](https://botsfordiscord.com/bot/731763013417435247)", inline=True)
         embed.add_field(name="Join Support Server", value="[Click here](https://discord.gg/qAs3Zr2cnU)", inline=True)
 
-        ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command(name="clear")
     @commands.has_guild_permissions(manage_messages=True)
