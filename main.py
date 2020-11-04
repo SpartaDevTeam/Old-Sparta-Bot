@@ -14,9 +14,16 @@ from cogs.serversettings import ServerSettings
 from cogs.mod import Moderator
 from cogs.automod import AutoMod
 
+# Minigame/Fun Cogs
+from cogs.fun import Fun
+from cogs.hangman import Hangman
+
 from otherscipts.helpers import update_presence
 from otherscipts.data import Data
 
+from dotenv import load_dotenv
+
+load_dotenv()
 TOKEN = os.getenv('SPARTA_TOKEN')
 
 intents = discord.Intents.default()
@@ -47,6 +54,8 @@ bot.add_cog(Miscellaneous(bot, THEME_COLOR))
 bot.add_cog(ServerSettings(bot, THEME_COLOR))
 bot.add_cog(Moderator(bot, THEME_COLOR))
 bot.add_cog(AutoMod(bot, THEME_COLOR))
+bot.add_cog(Fun(bot, THEME_COLOR))
+bot.add_cog(Hangman(bot, THEME_COLOR))
 
 previous_msg_sender_id = None
 
