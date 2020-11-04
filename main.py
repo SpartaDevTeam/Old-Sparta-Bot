@@ -91,10 +91,21 @@ async def on_member_join(member):
         server_wlcm_msg = server_wlcm_msg.replace(
             "[mention]", f"{member.mention}")
 
-    for channel in channels:
-        if str(channel).find("welcome") != -1:
-            await channel.send(server_wlcm_msg)
-            break
+    # Welcome Channel
+    wel_channel = None
+
+    if data["welcome_channel"] is None:
+        for channel in channels:
+            if str(channel).find("welcome") != -1:
+                wel_channel = channel
+                break
+    else:
+        wel_channel = guild.get_channel(int(data["welcome_channel"]))
+
+    try:
+        await wel_channel.send(server_wlcm_msg)
+    except AttributeError:
+        print("DEBUG: No welcome channel has been set or found.")
 
 
 @bot.event
@@ -113,13 +124,23 @@ async def on_member_remove(member):
         server_leave_msg = f"Goodbye, **{str(member)}**, thank you for staying at **{guild.name}** Server"
     else:
         server_leave_msg = data["leave_msg"]
-        server_leave_msg = server_leave_msg.replace(
-            "[member]", f"{member}")
+        server_leave_msg = server_leave_msg.replace("[member]", f"{member}")
 
-    for channel in channels:
-        if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
-            await channel.send(server_leave_msg)
-            break
+    # Leave Channel
+    lv_channel = None
+
+    if data["leave_channel"] is None:
+        for channel in channels:
+            if str(channel).find("bye") != -1 or str(channel).find("leave") != -1:
+                lv_channel = channel
+                break
+    else:
+        lv_channel = guild.get_channel(int(data["leave_channel"]))
+
+    try:
+        await lv_channel.send(server_leave_msg)
+    except AttributeError:
+        print("DEBUG: No leave channel has been set or found.")
 
 
 @bot.event
