@@ -17,6 +17,7 @@ from cogs.automod import AutoMod
 # Minigame/Fun Cogs
 from cogs.fun import Fun
 from cogs.hangman import Hangman
+from cogs.rps import RockPaperScissors
 
 from otherscipts.helpers import update_presence
 from otherscipts.data import Data
@@ -56,6 +57,7 @@ bot.add_cog(Moderator(bot, THEME_COLOR))
 bot.add_cog(AutoMod(bot, THEME_COLOR))
 bot.add_cog(Fun(bot, THEME_COLOR))
 bot.add_cog(Hangman(bot, THEME_COLOR))
+bot.add_cog(RockPaperScissors(bot, THEME_COLOR))
 
 previous_msg_sender_id = None
 
