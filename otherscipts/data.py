@@ -25,6 +25,8 @@ class Data:
             "channels": [],
             "welcome_msg": None,
             "leave_msg": None,
+            "welcome_channel": None,
+            "leave_channel": None,
             "join_role": None,
             "pay_respects": False,
             "afks": [],
