@@ -33,6 +33,24 @@ class ServerSettings(commands.Cog):
         else:
             await ctx.send(f"This server's leave message has been set to ```{msg}```")
 
+    @commands.command(name="welcomechannel", aliases=['welchannel', 'welchnl'])
+    @commands.has_guild_permissions(manage_guild=True)
+    async def welcome_channel(self, ctx, *, channel: discord.TextChannel):
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
+
+        Data.server_data[str(ctx.guild.id)]["welcome_channel"] = str(channel.id)
+        await ctx.send(f"This server's welcome channel has been set to {channel.mention}")
+
+    @commands.command(name="leavechannel", aliases=['leavechnl'])
+    @commands.has_guild_permissions(manage_guild=True)
+    async def leave_channel(self, ctx, *, channel: discord.TextChannel):
+        if str(ctx.guild.id) not in Data.server_data:
+            Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
+
+        Data.server_data[str(ctx.guild.id)]["leave_channel"] = str(channel.id)
+        await ctx.send(f"This server's leave channel has been set to {channel.mention}")
+
     @commands.command(name="joinrole")
     @commands.has_guild_permissions(manage_guild=True)
     async def join_role(self, ctx, *, role: discord.Role):
