@@ -83,24 +83,36 @@ class Game:
                 for x, _ in enumerate(pchoices):
                     p = self.players[x]
                     if p.choice is None:
-                        msg += f"{p.obj.mention} didn't choose anything, so they loose a point.\n"
+                        msg += f"{p.obj.mention} didn't choose anything, "\
+                            "so they loose a point.\n"
                     else:
                         msg += f"{p.obj.mention} chose {choices[p.choice]}\n"
             elif winner_num is None:
-                msg = f"Both {self.players[0].obj.mention} and {self.players[1].obj.mention} chose {choices[self.players[0].choice]}"
+                msg = f"Both {self.players[0].obj.mention} and "\
+                    f"{self.players[1].obj.mention} chose "\
+                    f"{choices[self.players[0].choice]}"
             else:
                 winner = self.players[winner_num]
                 loser = self.players[winner_num-1]
                 loser.lives -= 1
-                msg = f"{winner.obj.mention} chose {choices[winner.choice]} and beat {loser.obj.mention} who chose {choices[loser.choice]}."
+                msg = f"{winner.obj.mention} chose {choices[winner.choice]} "\
+                    f"and beat {loser.obj.mention} who chose "\
+                    f"{choices[loser.choice]}."
             for x, p in enumerate(self.players):
                 if p.lives == 0:
                     winner = self.players[x-1]
-                    msg += f"\n{winner.obj.mention} completely destroyed {p.obj.mention}!"
+                    msg += f"\n{winner.obj.mention} completely "\
+                        f"destroyed {p.obj.mention}!"
                     game_over = True
 
-            embed = discord.Embed(title='Rock Paper Scissors', color=self.color, description=msg)
-            embed.add_field(name='Lives', value=f"{self.players[0].obj}: {self.players[0].lives} Lives \n{self.players[1].obj}: {self.players[1].lives} Lives")
+            embed = discord.Embed(
+                title='Rock Paper Scissors', color=self.color, description=msg
+            )
+            embed.add_field(
+                name='Lives', value=f"{self.players[0].obj}: "
+                f"{self.players[0].lives} Lives \n{self.players[1].obj}: "
+                f"{self.players[1].lives} Lives"
+            )
             await self.ctx.send(embed=embed)
             for p in self.players:
                 await p.obj.send(embed=embed)
@@ -123,18 +135,26 @@ class RockPaperScissors(commands.Cog):
         if target.id == ctx.message.author.id:
             await ctx.send("You can't play yourself")
             return
-        await ctx.send(f"{target.mention}, {ctx.message.author.mention} is challenging you to a game of rock-paper-scissors!\
-            \nType \"accept\" to accept, or \"decline\" to decline.")
+        await ctx.send(
+            f"{target.mention}, {ctx.message.author.mention} "
+            "is challenging you to a game of rock-paper-scissors!"
+            "\nType \"accept\" to accept, or \"decline\" to decline."
+        )
+
         def check(message):
             if message.author.id != target.id:
                 return False
-            if message.content.lower() not in ['accept', 'yes', 'deny', 'no', 'decline']:
+            if message.content.lower() not in [
+                'accept', 'yes', 'deny', 'no', 'decline'
+            ]:
                 return False
             return True
         try:
             msg = await self.bot.wait_for('message', check=check, timeout=120)
         except asyncio.TimeoutError:
-            await ctx.send(f"{ctx.message.author.mention}, the challenge timed out!")
+            await ctx.send(
+                f"{ctx.message.author.mention}, the challenge timed out!"
+            )
             return
         if msg.content.lower() in ['deny', 'no', 'decline']:
             await ctx.send("Cancelled")
