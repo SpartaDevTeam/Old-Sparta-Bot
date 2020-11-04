@@ -198,6 +198,8 @@ class Miscellaneous(commands.Cog):
         embed.add_field(name="Vote every 24 hours", value="[dbl](https://botsfordiscord.com/bot/731763013417435247)", inline=True)
         embed.add_field(name="Join Support Server", value="[Click here](https://discord.gg/qAs3Zr2cnU)", inline=True)
 
+        ctx.send(embed=embed)
+
     @commands.command(name="clear")
     @commands.has_guild_permissions(manage_messages=True)
     async def clear(self, ctx, count: int = None):
