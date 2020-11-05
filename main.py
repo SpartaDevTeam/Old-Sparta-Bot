@@ -6,6 +6,8 @@ import asyncio
 import inspect
 import traceback
 import sys
+import ast
+
 from discord.ext import commands
 
 # Import Cogs
@@ -13,6 +15,11 @@ from cogs.misc import Miscellaneous
 from cogs.serversettings import ServerSettings
 from cogs.mod import Moderator
 from cogs.automod import AutoMod
+
+# Minigame/Fun Cogs
+from cogs.fun import Fun
+#from cogs.hangman import Hangman
+#from cogs.rps import RockPaperScissors
 
 from otherscipts.helpers import update_presence
 from otherscipts.data import Data
@@ -47,6 +54,9 @@ bot.add_cog(Miscellaneous(bot, THEME_COLOR))
 bot.add_cog(ServerSettings(bot, THEME_COLOR))
 bot.add_cog(Moderator(bot, THEME_COLOR))
 bot.add_cog(AutoMod(bot, THEME_COLOR))
+bot.add_cog(Fun(bot, THEME_COLOR))
+#bot.add_cog(Hangman(bot, THEME_COLOR))
+#bot.add_cog(RockPaperScissors(bot, THEME_COLOR))
 
 previous_msg_sender_id = None
 
@@ -181,28 +191,73 @@ async def on_command_error(ctx, error):
 
 
 # LABEL: Programming Commands
-@bot.command(name='eval', pass_context=True)
-async def eval_(ctx, *, code):
-    if ctx.author.id == 733532987794128897 or ctx.author.id == 400857098121904149:
-        formatted_code = code.strip("```").strip("py").strip("python")
-        res = eval(formatted_code)
+def insert_returns(body):
+    # insert return stmt if the last expression is a expression statement
+    if isinstance(body[-1], ast.Expr):
+        body[-1] = ast.Return(body[-1].value)
+        ast.fix_missing_locations(body[-1])
 
-        if inspect.isawaitable(res):
-            await res
-        else:
-            res
+    # for if statements, we insert returns into the body and the orelse
+    if isinstance(body[-1], ast.If):
+        insert_returns(body[-1].body)
+        insert_returns(body[-1].orelse)
 
-        embed = discord.Embed(
-            title="Code Evaluation Complete!", color=THEME_COLOR)
-        embed.set_footer(
-            text=f"Requested by {ctx.author}",
-            icon_url=ctx.author.avatar_url
-        )
-        embed.add_field(name="Code:", value=f"```py\n{formatted_code}```")
+    # for with blocks, again we insert returns into the body
+    if isinstance(body[-1], ast.With):
+        insert_returns(body[-1].body)
 
-        await ctx.send(embed=embed)
-    else:
-        await ctx.send("You are not authorized to run this command.")
+
+@bot.command(name='eval')
+async def eval_fn(ctx, *, cmd):
+    """Evaluates input.
+    Input is interpreted as newline seperated statements.
+    If the last statement is an expression, that is the return value.
+    Usable globals:
+      - `bot`: the bot instance
+      - `discord`: the discord module
+      - `commands`: the discord.ext.commands module
+      - `ctx`: the invokation context
+      - `__import__`: the builtin `__import__` function
+    Such that `>eval 1 + 1` gives `2` as the result.
+    The following invokation will cause the bot to send the text '9'
+    to the channel of invokation and return '3' as the result of evaluating
+    >eval ```
+    a = 1 + 2
+    b = a * 2
+    await ctx.send(a + b)
+    a
+    ```
+    """
+    if ctx.message.author.id not in [400857098121904149, 733532987794128897]:
+        await ctx.send("You are not authorized to run this command")
+        return
+
+    fn_name = "_eval_expr"
+
+    cmd = cmd.strip("` ")
+
+    # add a layer of indentation
+    cmd = "\n".join(f"    {i}" for i in cmd.splitlines())
+
+    # wrap in async def body
+    body = f"async def {fn_name}():\n{cmd}"
+
+    parsed = ast.parse(body)
+    body = parsed.body[0].body
+
+    insert_returns(body)
+
+    env = {
+        'bot': ctx.bot,
+        'discord': discord,
+        'commands': commands,
+        'ctx': ctx,
+        '__import__': __import__
+    }
+    exec(compile(parsed, filename="<ast>", mode="exec"), env)
+
+    result = (await eval(f"{fn_name}()", env))
+    await ctx.send(result)
 
 
 # LABEL: Fun Commands

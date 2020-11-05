@@ -142,6 +142,10 @@ class Miscellaneous(commands.Cog):
                             value="Display a users avatar")
         fun_embed.add_field(name=f"`{PREFIX}choose`",
                             value="Chooses an option for you, divide options using a comma(,)")
+        fun_embed.add_field(name=f"`{PREFIX}8ball`", value='Magic crystal ball')
+        fun_embed.add_field(name=f"`{PREFIX}emojify`", value='Turn all the letters in a sentence into emojis')
+        #fun_embed.add_field(name=f"`{PREFIX}hangman`", value="Start a game of hangman")
+        #fun_embed.add_field(name=f"`{PREFIX}rps`", value='Play a game of rock-paper-scissors')
 
         self.all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
 
