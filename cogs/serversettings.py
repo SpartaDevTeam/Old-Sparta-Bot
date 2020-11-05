@@ -110,10 +110,15 @@ class ServerSettings(commands.Cog):
             value=member.joined_at.strftime("%a, %d %b %Y %I:%M %p"),
             inline=False
         )
+
+        roles = " ".join([role.mention for role in member.roles if role != ctx.guild.default_role])
+
+        if len(roles.strip()) == 0:
+            roles = "This user does not have any roles"
+
         embed.add_field(
             name=f"{len(member.roles)-1} Roles",
-            value=" ".join(
-                [role.mention for role in member.roles if role != ctx.guild.default_role]),
+            value=roles,
             inline=False
         )
         badges = ""
