@@ -567,6 +567,10 @@
             {
                 "user": "626444860467183635",
                 "reason": "hskskdksl"
+            },
+            {
+                "user": "702385226407608341",
+                "reason": "i suck"
             }
         ],
         "prefix": "s!"
@@ -1811,6 +1815,62 @@
         "welcome_msg": null,
         "leave_msg": null,
         "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "756418380742918194": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "754899944892268685": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "773098175782191124": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "725336160112738385": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": "Welcome [mention]!",
+        "leave_msg": null,
+        "welcome_channel": "725336160112738388",
         "leave_channel": null,
         "join_role": null,
         "pay_respects": false,
