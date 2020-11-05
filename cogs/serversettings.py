@@ -23,7 +23,7 @@ class ServerSettings(commands.Cog):
 
     @commands.command(name="leavemessage", aliases=['leave_message', 'leavemsg'])
     @commands.has_guild_permissions(manage_guild=True)
-    async def welcome_message(self, ctx, *, msg: str = None):
+    async def leave_message(self, ctx, *, msg: str = None):
         if str(ctx.guild.id) not in Data.server_data:
             Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
 
