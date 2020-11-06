@@ -1,6 +1,8 @@
 import asyncio
 import discord
+from discord import utils
 from discord.ext import commands
+from typing import Union
 
 from otherscipts.helpers import create_mute_role
 
@@ -139,58 +141,147 @@ class Moderator(commands.Cog):
 
     @commands.command(name="ban")
     @commands.has_guild_permissions(ban_members=True)
-    async def ban(self, ctx, user: discord.Member = None, *, reason=None):
-        if user is None:
-            await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
-            await ctx.send("You cannot ban this user because their role is higher than or equal to yours.")
+    async def ban(self, ctx, user: Union[discord.Member, int], *, reason=None):
+        if not isinstance(user, int):
+            if ctx.author.top_role.position <= user.top_role.position \
+                    and ctx.guild.owner_id != ctx.author.id:
+                await ctx.send(
+                    "You cannot ban this user because their role "
+                    "is higher than or equal to yours."
+                )
+                return
+        if isinstance(user, int):
+            user_str = f"<@{user}>"
+            user = discord.Object(id=user)
         else:
-            await ctx.guild.ban(user, reason=reason)
-            if reason:
-                await ctx.send(f"User **{user}** has been banned for reason: **{reason}**.")
-            else:
-                await ctx.send(f"User **{user}** has been banned.")
-            await user.send(f"You have been **banned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+            user_str = user
+        try:
+            await user.send(
+                f"You have been **banned** from **{ctx.guild}** server "
+                f"due to the following reason:\n**{reason}**"
+            )
+        except Exception:
+            pass
+        await ctx.guild.ban(user, reason=reason)
+        if reason:
+            await ctx.send(
+                f"User **{user_str}** has been banned for reason: "
+                f"**{reason}**."
+            )
+        else:
+            await ctx.send(f"User **{user_str}** has been banned.")
 
     @commands.command(name="tempban")
     @commands.has_guild_permissions(ban_members=True)
-    async def tempban(self, ctx, user: discord.Member = None, days: int = 1):
-        if user is None:
-            await ctx.send("Insufficient arguments.")
-        elif ctx.author.top_role.position <= user.top_role.position and ctx.guild.owner.id != ctx.author.id:
-            await ctx.send("You cannot temporarily ban this user because their role is higher than or equal to yours.")
+    async def tempban(self, ctx, user: Union[discord.Member, int], days: int = 1):
+        if not isinstance(user, int):
+            if ctx.author.top_role.position <= user.top_role.position \
+                    and ctx.guild.owner.id != ctx.author.id:
+                await ctx.send(
+                    "You cannot temporarily ban this user because their "
+                    "role is higher than or equal to yours."
+                )
+                return
+        if isinstance(user, int):
+            user_str = f"<@{user}>"
+            user = discord.Object(id=user)
         else:
-            await ctx.guild.ban(user)
-            await ctx.send(f"User **{user}** has been temporarily banned for **{days} day(s)**")
-            await user.send(f"You have been **temporarily banned** from **{ctx.guild}** server for **{days} day(s)**")
-            await asyncio.sleep(days * 86400)  # convert days to seconds
-            await ctx.guild.unban(user)
-            await ctx.send(f"**{user}** has been unbanned after a {days} day Temp Ban.")
+            user_str = user
+        try:
+            await user.send(
+                f"You have been **temporarily banned** from "
+                f"**{ctx.guild}** server for **{days} day(s)**"
+            )
+        except Exception:
+            pass
+        await ctx.guild.ban(user)
+        await ctx.send(
+            f"User **{user_str}** has been temporarily "
+            f"banned for **{days} day(s)**"
+        )
+        # NOTE(circuit): using asyncio.sleep for unban is a VERY BAD IDEA
+        # NOTE: I would highly recomment removing temban until
+        # NOTE: you can use the database to unban, so unbanning
+        # NOTE: still works after the bot restarts
+        await asyncio.sleep(days * 86400)  # convert days to seconds
+        await ctx.guild.unban(user)
+        await ctx.send(
+            f"**{user_str}** has been unbanned after a {days} day Temp Ban."
+        )
 
     @commands.command(name="unban")
     @commands.has_guild_permissions(ban_members=True)
-    async def unban(self, ctx, username: str = None, *, reason=None):
-        if username is None:
-            await ctx.send("Insufficient arguments.")
+    @commands.guild_only()
+    async def unban(
+        self, ctx, user: Union[discord.User, int, str],
+        *, reason=None
+    ):
+        if isinstance(user, int):
+            user_str = f"<@{user}>"
+            user = discord.Object(id=user)
+        else:
+            user_str = user
+        
+        if isinstance(user, str):
+            guild_bans = await ctx.guild.bans()
+            try:
+                name, tag = user.split('#')
+            except:
+                await ctx.send(
+                    "Please format the username like this: "
+                    "Username#0000"
+                )
+                return
+            banned_user = utils.get(
+                guild_bans, user__name=name,
+                user__discriminator=tag
+            )
+            if banned_user is None:
+                await ctx.send("I could not find that user in the bans.")
+                return
+            await ctx.guild.unban(banned_user.user)
+            try:
+                await banned_user.send(
+                    f"You have been unbanned with reason: {reason}"
+                )
+            except Exception:
+                pass
 
         else:
-            banned_users = await ctx.guild.bans()
-            member_name, member_discriminator = username.split('#')
-
-            for ban_entry in banned_users:
-                user = ban_entry.user
-
-                if (user.name, user.discriminator) == (member_name, member_discriminator):
-                    await ctx.guild.unban(user)
-
+            await ctx.guild.unban(user)
             try:
-                if reason:
-                    await ctx.send(f"User **{username}** has been unbanned for reason: **{reason}**.")
-                else:
-                    await ctx.send(f"User **{username}** has been unbanned.")
-                await user.send(f"You have been **unbanned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
-            except NameError:
-                await ctx.send(f"{username} is has not been banned in this server.")
+                await user.send(
+                    f"You have been unbanned with reason: {reason}"
+                )
+            except Exception:
+                pass
+
+        await ctx.send(f"Unbanned **{user_str}**")
+
+#    @commands.command(name="unban")
+#    @commands.has_guild_permissions(ban_members=True)
+#    async def unban(self, ctx, username: str = None, *, reason=None):
+#        if username is None:
+#            await ctx.send("Insufficient arguments.")
+#
+#        else:
+#            banned_users = await ctx.guild.bans()
+#            member_name, member_discriminator = username.split('#')
+#
+#            for ban_entry in banned_users:
+#                user = ban_entry.user
+#
+#                if (user.name, user.discriminator) == (member_name, member_discriminator):
+#                    await ctx.guild.unban(user)
+#
+#            try:
+#                if reason:
+#                    await ctx.send(f"User **{username}** has been unbanned for reason: **{reason}**.")
+#                else:
+#                    await ctx.send(f"User **{username}** has been unbanned.")
+#                await user.send(f"You have been **unbanned** from **{ctx.guild}** server due to the following reason:\n**{reason}**")
+#            except NameError:
+#                await ctx.send(f"{username} is has not been banned in this server.")
 
     @commands.command(name="kick")
     @commands.has_guild_permissions(kick_members=True)
