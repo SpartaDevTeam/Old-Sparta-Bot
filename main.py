@@ -24,10 +24,6 @@ from cogs.fun import Fun
 from otherscipts.helpers import update_presence
 from otherscipts.data import Data
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
 TOKEN = os.getenv('SPARTA_TOKEN')
 
 intents = discord.Intents.default()
