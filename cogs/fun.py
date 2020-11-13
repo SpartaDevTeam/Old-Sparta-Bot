@@ -78,6 +78,10 @@ class Fun(commands.Cog):
             '7': ':seven:',
             '8': ':eight:',
             '9': ':nine:',
+            '!': ':exclamation:',
+            '#': ':hash:',
+            '?': ':question:',
+            '*': ':asterisk:'
         }
         sentence = sentence.lower()
         new_sentence = ''
