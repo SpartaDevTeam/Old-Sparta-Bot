@@ -70,11 +70,11 @@ async def on_ready():
 @bot.event
 async def on_guild_join(guild):
     log_channel = bot.get_channel(773580297954394162)
-    await log_channel.send(f"Joined {guild.name}\nServer ID - {guild.id}\nOwner - {guild.owner.mention}")
+    await log_channel.send(f"Joined - {guild.name}\nServer ID - {guild.id}\nOwner - {guild.owner.mention}")
 @bot.event
 async def on_guild_remove(guild):
     log_channel = bot.get_channel(773580297954394162)
-    await log_channel.send(f"Left {guild.name}\nServer ID - {guild.id}\nOwner - {guild.owner.mention}")
+    await log_channel.send(f"Left - {guild.name}\nServer ID - {guild.id}\nOwner - {guild.owner.mention}")
 
 @bot.event
 async def on_member_join(member):
