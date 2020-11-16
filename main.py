@@ -306,11 +306,11 @@ async def avatar(ctx, user: discord.Member = None):
 @bot.command(name="say")
 async def say(ctx, *, sentence: str):
     if len(ctx.message.mentions) + len(ctx.message.role_mentions) > 0:
-        await ctx.send("You cannot mention people or roles using this ciommand.")
+        await ctx.send("You cannot mention people or roles using this command.")
         return
 
     if "@everyone" in ctx.message.content or "@here" in ctx.message.content:
-        await ctx.send("You cannot mention people or roles using this ciommand.")
+        await ctx.send("You cannot mention people or roles using this command.")
         return
 
     await ctx.send(sentence)
