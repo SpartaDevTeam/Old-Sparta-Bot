@@ -186,10 +186,11 @@ class Miscellaneous(commands.Cog):
 
     @commands.command(name="github")
     async def github(self, ctx):
-        repo_url = "https://github.com/MysteryCoder456/Sparta-Bot"
+        repo_url = "https://github.com/SpartaDevTeam/Old-Sparta-Bot"
         embed = discord.Embed(
             title="Click here to go to the GitHub Repository!", url=repo_url, color=self.theme_color)
         await ctx.send(content=None, embed=embed)
+        await ctx.send("We are currently working on rewritting Sparta Bot, this link lead you to the old GitHub Repo")
 
     @commands.command(name="support")
     async def support(self, ctx):

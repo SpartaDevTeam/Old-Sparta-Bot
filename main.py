@@ -303,6 +303,15 @@ async def avatar(ctx, user: discord.Member = None):
     await ctx.send(embed=aembed)
 
 
+@bot.command(name="say")
+async def say(ctx, *, sentence: str):
+    if len(ctx.message.mentions) + len(ctx.message.role_mentions) > 0:
+        await ctx.send("You cannot mention people or roles using this ciommand.")
+        return
+
+    await ctx.send(sentence)
+
+
 # LABEL: Debugging Commands
 @bot.command(name="data")
 async def data(ctx):
