@@ -146,7 +146,7 @@ class Miscellaneous(commands.Cog):
         fun_embed.add_field(name=f"`{PREFIX}emojify`", value='Turn all the letters in a sentence into emojis')
         #fun_embed.add_field(name=f"`{PREFIX}hangman`", value="Start a game of hangman")
         #fun_embed.add_field(name=f"`{PREFIX}rps`", value='Play a game of rock-paper-scissors')
-	fun_embed.add_field(name=f"`{PREFIX}say`", value='Make Sparta Bot speak for you!')
+        fun_embed.add_field(name=f"`{PREFIX}say`", value='Make Sparta Bot speak for you!')
 
         self.all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
 
