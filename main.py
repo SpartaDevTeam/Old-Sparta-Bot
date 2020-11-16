@@ -309,6 +309,10 @@ async def say(ctx, *, sentence: str):
         await ctx.send("You cannot mention people or roles using this ciommand.")
         return
 
+    if "@everyone" in ctx.message.content or "@here" in ctx.message.content:
+        await ctx.send("You cannot mention people or roles using this ciommand.")
+	return
+
     await ctx.send(sentence)
 
 
