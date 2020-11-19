@@ -120,8 +120,8 @@ async def remove_welcome(ctx, *, channel):
     if str(ctx.guild.id) not in Data.server_data:
         Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
     
-        Data.server_data[str(ctx.guild.id)]["welcome_channel"] = channel
-        await ctx.send("This server's welcome channel has been removed")
+    Data.server_data[str(ctx.guild.id)]["welcome_channel"] = channel
+    await ctx.send("This server's welcome channel has been removed")
 
 @bot.event
 async def on_member_remove(member):
