@@ -320,6 +320,10 @@ async def avatar(ctx, user: discord.Member = None):
     aembed.set_image(url=f"{user.avatar_url}")
     await ctx.send(embed=aembed)
 
+@bot.command(name='ascii')
+async def ascii(ctx,*,msg:str):
+    txt = pyfiglet.figlet_format(msg, font='big')
+    await ctx.send(f"```{txt}```")
 
 @bot.command(name="say")
 async def say(ctx, *, sentence: str):
