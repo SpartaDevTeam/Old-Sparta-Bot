@@ -115,11 +115,13 @@ async def on_member_join(member):
 
 #Remove welcome channel
 @bot.command(name="remove_welcome", aliases=['rwel', 'remwel'])
-async def remove_welcome( ctx, *, channel):
+@commands.has_guild_permissions(manage_guild=True)
+async def remove_welcome(ctx, *, channel):
     if str(ctx.guild.id) not in Data.server_data:
         Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
     
-        Data.server_data[str(ctx.guild.id)]["welcome_channel"] = channel\
+        Data.server_data[str(ctx.guild.id)]["welcome_channel"] = channel
+        await ctx.send("This server's welcome channel has been removed")
 
 @bot.event
 async def on_member_remove(member):
@@ -158,13 +160,13 @@ async def on_member_remove(member):
 
 #Remove leave
 @bot.command(name="remove_leave", aliases=['rleave', 'remleave'])
+@commands.has_guild_permissions(manage_guild=True)
 async def remove_welcome( ctx, *, channel):
     if str(ctx.guild.id) not in Data.server_data:
         Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
     
-        Data.server_data[str(ctx.guild.id)]["leave_channel"] = channel
-        await ctx.send("This server's leave channel has been removed")
-        await ctx.send("This server's welcome channel has been removed")
+    Data.server_data[str(ctx.guild.id)]["leave_channel"] = channel
+    await ctx.send("This server's leave channel has been Removed")
 
 @bot.event
 async def on_command_error(ctx, error):
