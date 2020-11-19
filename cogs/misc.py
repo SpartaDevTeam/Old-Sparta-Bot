@@ -76,9 +76,9 @@ class Miscellaneous(commands.Cog):
         server_settings_embed.add_field(
             name=f"`{PREFIX}leavechannel <channel>`", value="Change the default channel to show Leave Message.")
         server_settings_embed.add_field(
-            name=f'`{PREFIX}remove_welcome`',value='Removes welcome')
+            name=f'`{PREFIX}remove_welcome null`',value='Removes welcome')
         server_settings_embed.add_field(
-            name=f'`{PREFIX}remove_leave`',value='Removes leave')
+            name=f'`{PREFIX}remove_leave null`',value='Removes leave')
         server_settings_embed.add_field(
             name=f"`{PREFIX}joinrole <role>`", value="Gives this role to all new members who join the server")
         server_settings_embed.add_field(
