@@ -1,7 +1,7 @@
 import random
 import discord
 from discord.ext import commands
-
+import pyfiglet
 
 class Fun(commands.Cog):
     def __init__(self, bot, color):
@@ -92,3 +92,52 @@ class Fun(commands.Cog):
                 new_sentence += char
             new_sentence += ' '
         await ctx.send(new_sentence)
+
+    @commands.command(name="coinflip")
+    async def coinflip(self,ctx):
+        choices = ["Heads", "Tails"]
+        rancoin = random.choice(choices)
+        await ctx.send(rancoin)
+
+    @commands.command(name="roll")
+    async def roll(self,ctx):
+        choices = [1, 2, 3, 4, 5, 6]
+        ranroll = random.choice(choices)
+        await ctx.send(ranroll)
+
+
+    @commands.command(name="choose", aliases=['ch'])
+    async def choose(self, ctx, *, choices: str):
+        choicelist = choices.split(",")
+        await ctx.send("I choose " + random.choice(choicelist).strip())
+
+
+    @commands.command(name="avatar", aliases=['av'])
+    async def avatar(self,ctx, user: discord.Member = None):
+        if user is None:
+            user = ctx.author
+
+        aembed = discord.Embed(
+            color=self.color,
+            title=f"{user}"
+        )
+
+        aembed.set_image(url=f"{user.avatar_url}")
+        await ctx.send(embed=aembed)
+
+    @commands.command(name='ascii')
+    async def ascii(self,ctx,*,msg:str):
+        txt = pyfiglet.figlet_format(msg, font='big')
+        await ctx.send(f"```{txt}```")
+
+    @commands.command(name="say")
+    async def say(self,ctx, *, sentence: str):
+        if len(ctx.message.mentions) + len(ctx.message.role_mentions) > 0:
+            await ctx.send("You cannot mention people or roles using this command.")
+            return
+
+        if "@everyone" in ctx.message.content or "@here" in ctx.message.content:
+            await ctx.send("You cannot mention people or roles using this command.")
+            return
+
+        await ctx.send(sentence)
