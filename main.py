@@ -7,6 +7,7 @@ import inspect
 import traceback
 import sys
 import ast
+import pyfiglet
 
 from discord.ext import commands
 
@@ -115,6 +116,13 @@ async def on_member_join(member):
     except AttributeError:
         print("DEBUG: No welcome channel has been set or found.")
 
+#Remove welcome channel
+@bot.command(name="remove_welcome", aliases=['rwel', 'remwel'])
+async def remove_welcome( ctx, *, channel):
+    if str(ctx.guild.id) not in Data.server_data:
+        Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
+    
+        Data.server_data[str(ctx.guild.id)]["welcome_channel"] = channel\
 
 @bot.event
 async def on_member_remove(member):
@@ -150,6 +158,16 @@ async def on_member_remove(member):
     except AttributeError:
         print("DEBUG: No leave channel has been set or found.")
 
+
+#Remove leave
+@bot.command(name="remove_leave", aliases=['rleave', 'remleave'])
+async def remove_welcome( ctx, *, channel):
+    if str(ctx.guild.id) not in Data.server_data:
+        Data.server_data[str(ctx.guild.id)] = Data.create_new_data()
+    
+        Data.server_data[str(ctx.guild.id)]["leave_channel"] = channel
+        await ctx.send("This server's leave channel has been removed")
+        await ctx.send("This server's welcome channel has been removed")
 
 @bot.event
 async def on_command_error(ctx, error):
