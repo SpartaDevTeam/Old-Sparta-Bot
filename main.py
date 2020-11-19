@@ -310,7 +310,7 @@ async def on_message(message: discord.Message):
 
     data = Data.server_data[str(guild.id)]
 
-    if len(message.mentions) != 0 and message.mentions[0] == bot.user:
+    if message.content.replace('!', '') == bot.user.mention:
         pre = data["prefix"]
         await channel.send(f"The prefix in this server is `{pre}`")
 
