@@ -1,2 +1,6 @@
 discord.py
 pyfiglet
+urbandictionary
+googletrans
+google
+Wikipedia-API
