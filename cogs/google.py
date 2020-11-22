@@ -15,10 +15,8 @@ class Google(commands.Cog):
         self.bot = bot
         self.theme_color = theme_color
 
-
-
     @commands.command(name='translate')
-    async def _translate(self, ctx, text, *, langs=""):
+    async def _translate(self, ctx, langs="", *, text):
         """: Translate things you don't understand
         """
 

@@ -13,6 +13,7 @@ from cogs.misc import Miscellaneous
 from cogs.serversettings import ServerSettings
 from cogs.mod import Moderator
 from cogs.automod import AutoMod
+from cogs.google import Google
 
 # Minigame/Fun Cogs
 from cogs.fun import Fun
@@ -53,6 +54,7 @@ bot.add_cog(ServerSettings(bot, THEME_COLOR))
 bot.add_cog(Moderator(bot, THEME_COLOR))
 bot.add_cog(AutoMod(bot, THEME_COLOR))
 bot.add_cog(Fun(bot, THEME_COLOR))
+bot.add_cog(Google(bot, THEME_COLOR))
 #bot.add_cog(Hangman(bot, THEME_COLOR))
 #bot.add_cog(RockPaperScissors(bot, THEME_COLOR))
 
