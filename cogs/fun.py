@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import pyfiglet
 
+
 class Fun(commands.Cog):
     def __init__(self, bot, color):
         self.bot = bot
@@ -94,26 +95,24 @@ class Fun(commands.Cog):
         await ctx.send(new_sentence)
 
     @commands.command(name="coinflip")
-    async def coinflip(self,ctx):
+    async def coinflip(self, ctx):
         choices = ["Heads", "Tails"]
         rancoin = random.choice(choices)
         await ctx.send(rancoin)
 
     @commands.command(name="roll")
-    async def roll(self,ctx):
+    async def roll(self, ctx):
         choices = [1, 2, 3, 4, 5, 6]
         ranroll = random.choice(choices)
         await ctx.send(ranroll)
-
 
     @commands.command(name="choose", aliases=['ch'])
     async def choose(self, ctx, *, choices: str):
         choicelist = choices.split(",")
         await ctx.send("I choose " + random.choice(choicelist).strip())
 
-
     @commands.command(name="avatar", aliases=['av'])
-    async def avatar(self,ctx, user: discord.Member = None):
+    async def avatar(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
 
@@ -126,12 +125,12 @@ class Fun(commands.Cog):
         await ctx.send(embed=aembed)
 
     @commands.command(name='ascii')
-    async def ascii(self,ctx,*,msg:str):
+    async def ascii(self, ctx, *, msg: str):
         txt = pyfiglet.figlet_format(msg, font='big')
         await ctx.send(f"```{txt}```")
 
     @commands.command(name="say")
-    async def say(self,ctx, *, sentence: str):
+    async def say(self, ctx, *, sentence: str):
         if len(ctx.message.mentions) + len(ctx.message.role_mentions) > 0:
             await ctx.send("You cannot mention people or roles using this command.")
             return
@@ -141,3 +140,14 @@ class Fun(commands.Cog):
             return
 
         await ctx.send(sentence)
+
+    @commands.command(say="pog")
+    async def pog(self, ctx):
+        pog_gifs = [
+            "https://tenor.com/view/pogchamp-pog-pogey-poggers-twitch-gif-14340727",
+            "https://tenor.com/view/pog-fish-fish-mouth-open-gif-17487624",
+            "https://tenor.com/view/pogchamp-pepe-dance-pepechamp-emote-gif-9358907",
+            "https://tenor.com/view/pog-tasty-pog-tasty-licking-looks-yummy-gif-16895495"
+        ]
+
+        await ctx.send(random.choice(pog_gifs))
