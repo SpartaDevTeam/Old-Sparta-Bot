@@ -152,6 +152,7 @@ class Miscellaneous(commands.Cog):
         #fun_embed.add_field(name=f"`{PREFIX}rps`", value='Play a game of rock-paper-scissors')
         fun_embed.add_field(name=f"`{PREFIX}say`", value='Make Sparta Bot speak for you!')
         fun_embed.add_field(name=f'`{PREFIX}ascii`',value='Turns text into 7-bit binary numbers')
+        fun_embed.add_field(name=f"`{PREFIX}pog`", value="Express yourself even better with POG gifs!")
 
         self.all_help_embeds = [misc_embed, server_settings_embed, mod_embed, auto_embed, programming_embed, fun_embed]
 
