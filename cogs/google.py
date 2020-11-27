@@ -15,10 +15,9 @@ class Google(commands.Cog):
         self.bot = bot
         self.theme_color = theme_color
 
+    """
     @commands.command(name='translate')
     async def _translate(self, ctx, langs="", *, text):
-        """: Translate things you don't understand
-        """
 
         def convert(s: str) -> dict:
             a = s.lower().split()
@@ -124,7 +123,8 @@ class Google(commands.Cog):
         search_results = re.findall('href=\\"\\/watch\\?v=(.{11})',
                                     html_content.read().decode())
         await ctx.send('http://www.youtube.com/watch?v=' + search_results[0])
-
+    """
+    
     @commands.command(name='wiki')
     async def google_search(self, ctx, *args):
         wiki_wiki = wikipediaapi.Wikipedia('en')
