@@ -563,16 +563,7 @@
         "leave_channel": null,
         "join_role": 733253560640471040,
         "pay_respects": true,
-        "afks": [
-            {
-                "user": "626444860467183635",
-                "reason": "hskskdksl"
-            },
-            {
-                "user": "702385226407608341",
-                "reason": "i suck"
-            }
-        ],
+        "afks": [],
         "prefix": "s!"
     },
     "727887472100376648": {
@@ -2385,7 +2376,9 @@
         "active": false,
         "users": [],
         "urls": [],
-        "channels": [],
+        "channels": [
+            "780808996432248896"
+        ],
         "welcome_msg": null,
         "leave_msg": null,
         "welcome_channel": null,
