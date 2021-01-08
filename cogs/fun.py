@@ -141,14 +141,10 @@ class Fun(commands.Cog):
 
         await ctx.send(sentence)
 
-    @commands.command(say="pog")
+    @commands.command(name="pog")
     async def pog(self, ctx):
         pog_gifs = [
-            "https://tenor.com/view/pogchamp-pog-pogey-poggers-twitch-gif-14340727",
             "https://tenor.com/view/pog-fish-fish-mouth-open-gif-17487624",
-            "https://tenor.com/view/pogchamp-pepe-dance-pepechamp-emote-gif-9358907",
-            "https://tenor.com/view/pog-tasty-pog-tasty-licking-looks-yummy-gif-16895495",
-            "https://tenor.com/view/pogchamp-loop-point-infinite-gif-8179196",
             "https://tenor.com/view/fish-pog-fish-poggers-fish-pog-champ-poggers-gif-16548474",
             "https://tenor.com/view/cat-happy-pog-cute-smile-gif-17223821",
             "https://tenor.com/view/vsauce-vsauce-pog-poggers-vsauce-poggers-pog-gif-18430372"
