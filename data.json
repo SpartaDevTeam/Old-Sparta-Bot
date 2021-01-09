@@ -25,8 +25,21 @@
         "welcome_channel": null,
         "leave_channel": null,
         "join_role": null,
-        "pay_respects": false,
-        "afks": [],
+        "pay_respects": true,
+        "afks": [
+            {
+                "user": "276348667315617793",
+                "reason": "<@276348667315617793>"
+            },
+            {
+                "user": "641643785519890432",
+                "reason": "sad"
+            },
+            {
+                "user": "635019218991054848",
+                "reason": "L codemans <@!635019218991054848>"
+            }
+        ],
         "prefix": "s!"
     },
     "750216415826673775": {
@@ -1265,7 +1278,12 @@
         "leave_channel": null,
         "join_role": 760391815453999125,
         "pay_respects": true,
-        "afks": [],
+        "afks": [
+            {
+                "user": "755463853285834914",
+                "reason": "AFK"
+            }
+        ],
         "prefix": "s!"
     },
     "759313094681559040": {
@@ -2881,6 +2899,202 @@
         "prefix": "s!"
     },
     "782960014074707988": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "797019569037639693": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": 797020901416763392,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "587386617954828288": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "782899316150894592": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "780714031580971018": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "796592685230194708": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "795891037653827594": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "796019538159468594": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "784292973503447041": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "786123707214594059": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "796671459782295556": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "749101514118660157": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "788053555521126420": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "795113744539451392": {
+        "active": false,
+        "users": [],
+        "urls": [],
+        "channels": [],
+        "welcome_msg": null,
+        "leave_msg": null,
+        "welcome_channel": null,
+        "leave_channel": null,
+        "join_role": null,
+        "pay_respects": false,
+        "afks": [],
+        "prefix": "s!"
+    },
+    "795149607436288021": {
         "active": false,
         "users": [],
         "urls": [],

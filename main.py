@@ -300,6 +300,9 @@ async def data(ctx):
 async def on_message(message: discord.Message):
     global previous_msg_sender_id
 
+    if message.author.bot:
+        return
+
     author: discord.Member = message.author
     channel: discord.TextChannel = message.channel
     guild: discord.Guild = message.guild
