@@ -1,4 +1,6 @@
 # Sparta Bot is a bot named after Sparta Gaming Discord server
+## !!! Warnging !!!: This repository is now archived...
+
 It is made by Rehatbir Singh and Jay Surana. You can type s!help to get the command help menu.
 
 ## Features
